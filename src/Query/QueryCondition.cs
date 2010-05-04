@@ -512,5 +512,67 @@ namespace Kiss.Query
         }
 
         #endregion
+
+        public class Conditions
+        {
+            string logic_oper = "AND";
+
+            public Conditions()
+            {
+
+            }
+
+            public Conditions(string logic_oper)
+            {
+                this.logic_oper = logic_oper;
+            }
+
+            List<string> clauses = new List<string>();
+
+            public void Add(string columnName, int? value)
+            {
+                Add(columnName, value, value == null);
+            }
+
+            public void Add(string columnName, int value)
+            {
+                Add(columnName, value, value <= 0);
+            }
+
+            public void Add(string columnName, object value)
+            {
+                Add(columnName, value, value == null);
+            }
+
+            public void Add(string columnName, object value, bool igore)
+            {
+                Add(columnName, value, igore, "=");
+            }
+
+            public void Add(string columnName, object value, bool ignore, string oper)
+            {
+                if (!ignore)
+                {
+                    string clause = string.Empty;
+                    if (value == null)
+                        clause = string.Format("{0} is null", columnName);
+                    else
+                    {
+                        if (value is bool)
+                            clause = string.Format("{0}{1}{2}", columnName, oper, (bool)value ? 1 : 0);
+                        else
+                            clause = string.Format("{0}{1}'{2}'", columnName, oper, value);
+                    }
+
+                    if (!string.IsNullOrEmpty(clause))
+                        clauses.Add(clause);
+                }
+            }
+
+            public override string ToString()
+            {
+                return StringUtil.CollectionToDelimitedString(clauses, string.Format(" {0} ", logic_oper), string.Empty);
+            }
+        }
     }
 }
