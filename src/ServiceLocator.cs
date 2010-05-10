@@ -115,7 +115,7 @@ namespace Kiss
         /// <summary>
         /// windsor container
         /// </summary>
-        public IWindsorContainer Container { get { return container; } }
+        public IWindsorContainer Container { get { return container; } set { container = value; } }
 
         /// <summary>
         /// instance

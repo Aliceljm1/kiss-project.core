@@ -67,9 +67,11 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AppDomainTypeFinder.cs" />
+    <Compile Include="Caching\CacheInitializer.cs" />
     <Compile Include="Collection\HashSet.cs" />
     <Compile Include="Collection\ISet.cs" />
     <Compile Include="Logging\DummyLogger.cs" />
+    <Compile Include="Logging\Log.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="Plugin\AutoInitAttribute.cs" />
     <Compile Include="Plugin\IPlugin.cs" />
@@ -82,19 +84,23 @@
     <Compile Include="Plugin\Plugins.cs" />
     <Compile Include="IStoppable.cs" />
     <Compile Include="Plugin\PluginSetting.cs" />
+    <Compile Include="Query\IQueryPlugin.cs" />
+    <Compile Include="Query\QueryInitializer.cs" />
+    <Compile Include="Repository\QueryObject.cs" />
+    <Compile Include="Repository\RepositoryInitalizer.cs" />
     <Compile Include="Security\IUserService.cs" />
     <Compile Include="Security\Principal.cs" />
     <Compile Include="Tuple.cs" />
     <Compile Include="Utils\CrossDomain.cs" />
     <Compile Include="IAutoStart.cs" />
-    <Compile Include="IObjManager.cs" />
+    <Compile Include="Repository\IRepository.cs" />
     <Compile Include="ITemplateEngine.cs" />
     <Compile Include="ITypeFinder.cs" />
     <Compile Include="Logging\AbstractLoggerFactory.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Logging\ILoggerFactory.cs" />
     <Compile Include="Logging\LogManager.cs" />
-    <Compile Include="ObjGetter.cs" />
+    <Compile Include="Repository\ObjGetter.cs" />
     <Compile Include="Caching\CacheConfig.cs" />
     <Compile Include="Caching\CacheProvider.cs" />
     <Compile Include="Caching\ICachable.cs" />
@@ -106,8 +112,8 @@
     <Compile Include="Config\Configuration.cs" />
     <Compile Include="Config\ConfigHandler.cs" />
     <Compile Include="KissException.cs" />
-    <Compile Include="IQueryObject.cs" />
-    <Compile Include="Obj.cs" />
+    <Compile Include="Repository\IQueryObject.cs" />
+    <Compile Include="Repository\Obj.cs" />
     <Compile Include="ProviderHelper.cs" />
     <Compile Include="Resource.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -120,7 +126,7 @@
     <Compile Include="Query\QueryFactory.cs" />
     <Compile Include="ServiceLocator.cs" />
     <Compile Include="SingleEntryGate.cs" />
-    <Compile Include="ExtendedAttributes.cs" />
+    <Compile Include="Repository\ExtendedAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\AssertUtils.cs" />
     <Compile Include="Utils\PropertiesParser.cs" />

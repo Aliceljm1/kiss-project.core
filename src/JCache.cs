@@ -32,11 +32,10 @@ namespace Kiss
         /// </summary>
         /// <param name="key"></param>
         /// <param name="obj"></param>
-        public static void Insert ( string key, object obj )
+        public static void Insert(string key, object obj)
         {
-            CacheConfig config = CacheConfig.Instance;
-            if ( config.Enabled )
-                Insert ( key, obj, config.ValidFor );
+            if (CacheConfig.Enabled)
+                Insert(key, obj, CacheConfig.ValidFor);
         }
 
         /// <summary>
@@ -45,11 +44,10 @@ namespace Kiss
         /// <param name="key"></param>
         /// <param name="obj"></param>
         /// <param name="validFor"></param>
-        public static void Insert ( string key, object obj, TimeSpan validFor )
+        public static void Insert(string key, object obj, TimeSpan validFor)
         {
-            CacheConfig config = CacheConfig.Instance;
-            if ( config.Enabled )
-                CacheProvider.Instance.Insert ( GetCacheKey ( key ), obj, validFor );
+            if (CacheConfig.Enabled)
+                CacheConfig.Provider.Insert(GetCacheKey(key), obj, validFor);
         }
 
         /// <summary>
@@ -57,12 +55,10 @@ namespace Kiss
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static object Get ( string key )
-        {
-            CacheConfig config = CacheConfig.Instance;
-
-            if ( config.Enabled )
-                return CacheProvider.Instance.Get ( GetCacheKey ( key ) );
+        public static object Get(string key)
+        {           
+            if (CacheConfig.Enabled)
+                return CacheConfig.Provider.Get(GetCacheKey(key));
 
             return null;
         }
@@ -72,12 +68,10 @@ namespace Kiss
         /// </summary>
         /// <param name="keys"></param>
         /// <returns></returns>
-        public static IDictionary<string, object> Get ( IEnumerable<string> keys )
+        public static IDictionary<string, object> Get(IEnumerable<string> keys)
         {
-            CacheConfig config = CacheConfig.Instance;
-
-            if ( config.Enabled )
-                return CacheProvider.Instance.Get ( StringUtil.ToStringArray<string> ( new List<string> ( keys ).ToArray ( ), delegate ( string key ) { return GetCacheKey ( key ); } ) );
+            if (CacheConfig.Enabled)
+                return CacheConfig.Provider.Get(StringUtil.ToStringArray<string>(new List<string>(keys).ToArray(), delegate(string key) { return GetCacheKey(key); }));
 
             return null;
         }
@@ -88,31 +82,29 @@ namespace Kiss
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static T Get<T> ( string key )
+        public static T Get<T>(string key)
         {
-            CacheConfig config = CacheConfig.Instance;
 
-            if ( config.Enabled )
-                return ( T ) Get ( key );
+            if (CacheConfig.Enabled)
+                return (T)Get(key);
 
-            return default ( T );
+            return default(T);
         }
 
         /// <summary>
         /// 移除缓存中的对象
         /// </summary>
         /// <param name="key"></param>
-        public static void Remove ( string key )
+        public static void Remove(string key)
         {
-            CacheConfig config = CacheConfig.Instance;
 
-            if ( config.Enabled )
-                CacheProvider.Instance.Remove ( GetCacheKey ( key ) );
+            if (CacheConfig.Enabled)
+                CacheConfig.Provider.Remove(GetCacheKey(key));
         }
 
-        private static string GetCacheKey ( string key )
+        private static string GetCacheKey(string key)
         {
-            return string.Format ( "{0}.{1}", CacheConfig.Instance.Namespace, key );
+            return string.Format("{0}.{1}", CacheConfig.Namespace, key);
         }
     }
 }

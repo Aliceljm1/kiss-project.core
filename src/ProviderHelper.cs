@@ -1,17 +1,4 @@
-﻿#region File Comment
-//+-------------------------------------------------------------------+
-//+ FileName: 	    ProviderHelper.cs
-//+ File Created:   20090729
-//+-------------------------------------------------------------------+
-//+ Purpose:        用于创建Provider
-//+-------------------------------------------------------------------+
-//+ History:
-//+-------------------------------------------------------------------+
-//+ 20090729        ZHLI Comment Created
-//+-------------------------------------------------------------------+
-#endregion
-
-using System;
+﻿using System;
 using System.Configuration.Provider;
 using System.Web;
 using Kiss.Config;
@@ -23,7 +10,6 @@ namespace Kiss
     /// </summary>
     public static class ProviderHelper
     {
-
         /// <summary>
         /// 创建Provider
         /// </summary>

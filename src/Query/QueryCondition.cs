@@ -20,11 +20,6 @@ namespace Kiss.Query
         {
         }
 
-        public QueryCondition(bool templated)
-        {
-            Templated = templated;
-        }
-
         public QueryCondition(string connstr_name)
         {
             SetConnectionStringName(connstr_name);
@@ -33,35 +28,24 @@ namespace Kiss.Query
         #region props
 
         /// <summary>
-        /// template where clause
+        /// query id
         /// </summary>
-        public bool Templated { get; set; }
+        public string Id { get; private set; }
 
-        /// <summary>
-        /// 关键字
-        /// </summary>
         public string Keyword { get; set; }
 
-        /// <summary>
-        /// 分页
-        /// </summary>
         public int PageIndex { get; set; }
 
         private int _pageSize = 20;
 
-        /// <summary>
-        /// 分页大小
-        /// </summary>
         public int PageSize { get { return _pageSize; } set { _pageSize = value; } }
 
-        /// <summary>
-        /// 是否分页
-        /// </summary>
         public virtual bool Paging { get { return PageSize > 0; } }
 
-        /// <summary>
-        /// 记录总数
-        /// </summary>
+        public int PageCount { get { return TotalCount / PageSize; } }
+
+        public int PageIndex1 { get { return PageIndex + 1; } }
+
         public int TotalCount { get; set; }
 
         /// <summary>
@@ -190,7 +174,7 @@ namespace Kiss.Query
 
         #region virtual / abstract
 
-        protected virtual string GetTableName() { return string.Format("[{0}]", GetType().Name.Replace("Query", string.Empty).Replace("QC", string.Empty)); }
+        protected virtual string GetTableName() { return null; }
         protected virtual string GetTableField() { return "Id"; }
         protected virtual bool GetAppendWhereKeyword() { return true; }
 
@@ -209,11 +193,12 @@ namespace Kiss.Query
             StringBuilder where = new StringBuilder();
             AppendWhere(where);
 
-            if (Templated)
+            Plugin.PluginSetting setting = Plugin.PluginSettings.Get<QueryInitializer>();
+
+            if (setting.Enable)
             {
                 Dictionary<string, object> di = new Dictionary<string, object>();
                 di.Add("this", this);
-
 
                 using (StringWriter writer = new StringWriter())
                 {
@@ -261,7 +246,7 @@ namespace Kiss.Query
         {
             get
             {
-                return CacheConfig.Instance.ValidFor;
+                return CacheConfig.ValidFor;
             }
         }
 
@@ -328,7 +313,7 @@ namespace Kiss.Query
         {
             IQuery provider = QueryFactory.Create(ProviderName);
 
-            if (!CacheConfig.Instance.Enabled)
+            if (!CacheConfig.Enabled)
                 return provider.GetRelationIds<T>(this);
 
             string key = GetCacheKey();
@@ -360,7 +345,7 @@ namespace Kiss.Query
         {
             IQuery provider = QueryFactory.Create(ProviderName);
 
-            if (!CacheConfig.Instance.Enabled)
+            if (!CacheConfig.Enabled)
                 return provider.Count(this);
 
             string key = GetCountCacheKey();

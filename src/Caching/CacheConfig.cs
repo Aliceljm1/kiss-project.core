@@ -1,51 +1,39 @@
 ﻿using System;
-using System.Xml;
-using Kiss.Config;
+using Kiss.Plugin;
+using Kiss.Utils;
 
 namespace Kiss.Caching
 {
     /// <summary>
     /// cache config
     /// </summary>
-    [ConfigNode("caching", Desc = "cache")]
-    public class CacheConfig : ConfigWithProviders
+    public static class CacheConfig
     {
-        /// <summary>
-        /// get cache config instance
-        /// </summary>
-        public static CacheConfig Instance
-        {
-            get { return GetConfig<CacheConfig>(); }
-        }
+        private static readonly PluginSetting setting = PluginSettings.Get<CacheInitializer>();
 
         /// <summary>
         /// cache valid days
         /// </summary>
-        [ConfigProp("cacheDay", ConfigPropAttribute.DataType.Int, DefaultValue = 1, Desc = "cache valid days")]
-        public int CacheDay { get; private set; }
+        public static int CacheDay { get { return setting["cacheDay"].ToInt(1); } }
 
-        [ConfigProp("enabled", ConfigPropAttribute.DataType.Boolean, DefaultValue = true)]
-        public bool Enabled { get; private set; }
+        public static bool Enabled { get { return setting.Enable && StringUtil.HasText(setting["type"]); } }
 
         /// <summary>
         /// cache key's namespace
         /// </summary>
-        [ConfigProp("namespace", DefaultValue = "kiss")]
-        public string Namespace { get; private set; }
+        public static string Namespace { get { return setting["namespace"]; } }
 
         /// <summary>
         /// cache valid times
         /// </summary>
-        public TimeSpan ValidFor { get; private set; }
+        public static TimeSpan ValidFor { get { return TimeSpan.FromDays(CacheDay); } }
 
-        protected override void LoadConfigsFromConfigurationXml(XmlNode node)
+        public static ICacheProvider Provider
         {
-            base.LoadConfigsFromConfigurationXml(node);
-
-            if (CacheDay < 0 || CacheDay >= 30)
-                CacheDay = 1;
-
-            ValidFor = TimeSpan.FromDays(CacheDay);
+            get
+            {
+                return ServiceLocator.Instance.Resolve<ICacheProvider>();
+            }
         }
     }
 }
