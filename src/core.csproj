@@ -84,8 +84,6 @@
     <Compile Include="Plugin\Plugins.cs" />
     <Compile Include="IStoppable.cs" />
     <Compile Include="Plugin\PluginSetting.cs" />
-    <Compile Include="Query\IQueryPlugin.cs" />
-    <Compile Include="Query\QueryInitializer.cs" />
     <Compile Include="Repository\QueryObject.cs" />
     <Compile Include="Repository\RepositoryInitalizer.cs" />
     <Compile Include="Security\IUserService.cs" />

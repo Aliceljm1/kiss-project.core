@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.IO;
 using System.Text;
 using Kiss.Caching;
 using Kiss.Config;
@@ -16,6 +15,8 @@ namespace Kiss.Query
     /// </summary>
     public class QueryCondition : ExtendedAttributes, ICachable
     {
+        #region ctor
+
         public QueryCondition()
         {
         }
@@ -24,6 +25,8 @@ namespace Kiss.Query
         {
             SetConnectionStringName(connstr_name);
         }
+
+        #endregion
 
         #region props
 
@@ -89,7 +92,11 @@ namespace Kiss.Query
             get
             {
                 if (where == null)
-                    where = GetWhere();
+                {
+                    StringBuilder sb = new StringBuilder();
+                    AppendWhere(sb);
+                    where = sb.ToString();
+                }
 
                 return where;
             }
@@ -143,8 +150,9 @@ namespace Kiss.Query
         }
 
         private bool? appendWhereKeyword;
+
         /// <summary>
-        /// sql语句附加where clause
+        /// if append "where" clause to sql 
         /// </summary>
         public bool AppendWhereKeyword
         {
@@ -174,46 +182,22 @@ namespace Kiss.Query
 
         #region virtual / abstract
 
+        /// <summary>
+        /// this method is called before query condition is translated to sql statement.
+        /// </summary>
+        public virtual void BeforeQuery()
+        {
+        }
+
         protected virtual string GetTableName() { return null; }
         protected virtual string GetTableField() { return "Id"; }
         protected virtual bool GetAppendWhereKeyword() { return true; }
 
         /// <summary>
-        /// 加载查询条件
+        /// load query conditions(normally from querystring)
         /// </summary>
         public virtual void LoadCondidtion()
         {
-        }
-
-        /// <summary>
-        /// where 语句
-        /// </summary>
-        protected virtual string GetWhere()
-        {
-            StringBuilder where = new StringBuilder();
-            AppendWhere(where);
-
-            Plugin.PluginSetting setting = Plugin.PluginSettings.Get<QueryInitializer>();
-
-            if (setting.Enable)
-            {
-                Dictionary<string, object> di = new Dictionary<string, object>();
-                di.Add("this", this);
-
-                using (StringWriter writer = new StringWriter())
-                {
-                    ServiceLocator.Instance.Resolve<ITemplateEngine>().Process(di,
-                               string.Empty,
-                               writer,
-                               where.ToString());
-
-                    return writer.GetStringBuilder().ToString();
-                }
-            }
-            else
-            {
-                return where.ToString();
-            }
         }
 
         protected virtual void AppendWhere(StringBuilder where) { }
