@@ -5,7 +5,7 @@ namespace Kiss.Security
     public interface IUserService
     {
         bool IsInRole(IIdentity identity, string role);
-        bool HasPermission(IIdentity identity, string permission);
+        bool HasPermission(IIdentity identity, params string[] permissions);
         void AddPermissionModule(string module_name, string title, string action);
         void RemovePermissionModule(string module_name, string action_name);
     }
