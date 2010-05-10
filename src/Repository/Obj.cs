@@ -8,7 +8,7 @@ namespace Kiss
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [Serializable]
-    public class Obj<T> : QueryObject
+    public abstract class Obj<T> : QueryObject
     {
         #region props
 
