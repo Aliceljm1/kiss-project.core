@@ -39,7 +39,7 @@ namespace Kiss
             if ( id == null || id.Equals ( default ( t ) ) )
                 return null;
 
-            if ( !CacheConfig.Instance.Enabled )
+            if ( !CacheConfig.Enabled )
                 return getBizObj ( id );
 
             string key = getCacheKey ( id );
@@ -68,7 +68,7 @@ namespace Kiss
             if ( ids == null || ids.Length == 0 )
                 return new List<T> ( 0 );
 
-            if ( !CacheConfig.Instance.Enabled )
+            if ( !CacheConfig.Enabled )
                 return getsBizObj ( ids );
 
             // get from cache
@@ -159,7 +159,7 @@ namespace Kiss
             if ( id == 0 )
                 return null;
 
-            if ( !CacheConfig.Instance.Enabled )
+            if ( !CacheConfig.Enabled )
                 return getBizObj ( id );
 
             string key = getCacheKey ( id );
@@ -188,7 +188,7 @@ namespace Kiss
             if ( ids == null || ids.Length == 0 )
                 return new List<T> ( 0 );
 
-            if ( !CacheConfig.Instance.Enabled )
+            if ( !CacheConfig.Enabled )
                 return getsBizObj ( ids );
 
             // get from cache
