@@ -33,7 +33,7 @@ namespace Kiss.Query
         /// <summary>
         /// query id
         /// </summary>
-        public string Id { get; private set; }
+        public string Id { get; set; }
 
         public string Keyword { get; set; }
 
@@ -180,14 +180,43 @@ namespace Kiss.Query
             _connectionStringSettings = ConfigBase.GetConnectionStringSettings(name);
         }
 
-        #region virtual / abstract
+        #region event
+
+        public class BeforeQueryEventArgs : EventArgs
+        {
+            public static readonly new BeforeQueryEventArgs Empty = new BeforeQueryEventArgs();
+
+            public string Method { get; set; }
+        }
 
         /// <summary>
-        /// this method is called before query condition is translated to sql statement.
+        /// this event is fired before query condition is translated to sql statement.
         /// </summary>
-        public virtual void BeforeQuery()
+        public static event EventHandler<BeforeQueryEventArgs> BeforeQuery;
+
+        protected virtual void OnBeforeQuery(BeforeQueryEventArgs e)
         {
+            EventHandler<BeforeQueryEventArgs> handler = BeforeQuery;
+
+            if (handler != null)
+            {
+                handler(this, e);
+            }
         }
+
+        protected bool beforeQueryEventFired { get; set; }
+        public virtual void FireBeforeQueryEvent(string method)
+        {
+            if (beforeQueryEventFired) return;
+
+            OnBeforeQuery(new BeforeQueryEventArgs() { Method = method });
+
+            beforeQueryEventFired = true;
+        }
+
+        #endregion
+
+        #region virtual / abstract
 
         protected virtual string GetTableName() { return null; }
         protected virtual string GetTableField() { return "Id"; }
