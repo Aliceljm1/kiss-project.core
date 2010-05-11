@@ -45,7 +45,7 @@ namespace Kiss.Query
 
         public virtual bool Paging { get { return PageSize > 0; } }
 
-        public int PageCount { get { return TotalCount / PageSize; } }
+        public int PageCount { get { return (int)Math.Ceiling(TotalCount * 1.0 / PageSize); } }
 
         public int PageIndex1 { get { return PageIndex + 1; } }
 
@@ -103,7 +103,26 @@ namespace Kiss.Query
             set { where = value; }
         }
 
-        private string orderby = null;
+        private List<string> _allowedOrderbyColumns = new List<string>();
+        /// <summary>
+        /// allowed order by column names
+        /// </summary>
+        public List<string> AllowedOrderbyColumns { get { return _allowedOrderbyColumns; } }
+
+        /// <summary>
+        /// comma delimited allowed order by column name
+        /// </summary>
+        public string orderbys { get { return StringUtil.CollectionToCommaDelimitedString(AllowedOrderbyColumns); } }
+
+        /// <summary>
+        /// add a column name to allowed order by column list
+        /// </summary>
+        /// <param name="columnNames"></param>
+        public void AddOrderbyColumns(params string[] columnNames)
+        {
+            AllowedOrderbyColumns.AddRange(columnNames);
+        }
+
         /// <summary>
         /// order by clause
         /// </summary>
@@ -111,11 +130,15 @@ namespace Kiss.Query
         {
             get
             {
-                if (orderby == null)
-                    orderby = GetOrderBy();
-                return orderby;
+                List<string> list = new List<string>();
+                foreach (var item in OrderbyItems)
+                {
+                    if (!AllowedOrderbyColumns.Contains(item.First))
+                        continue;
+                    list.Add(string.Format("[{0}] {1}", item.First, item.Second ? "ASC" : "DESC"));
+                }
+                return StringUtil.CollectionToCommaDelimitedString(list);
             }
-            set { orderby = value; }
         }
 
         private string tableName;
@@ -168,6 +191,9 @@ namespace Kiss.Query
                 appendWhereKeyword = value;
             }
         }
+
+        private List<Pair<string, bool>> _orderbyItems = new List<Pair<string, bool>>();
+        public List<Pair<string, bool>> OrderbyItems { get { return _orderbyItems; } }
 
         #endregion
 
@@ -230,8 +256,6 @@ namespace Kiss.Query
         }
 
         protected virtual void AppendWhere(StringBuilder where) { }
-
-        protected virtual string GetOrderBy() { return string.Empty; }
 
         #endregion
 
