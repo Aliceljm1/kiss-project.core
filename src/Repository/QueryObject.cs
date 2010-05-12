@@ -64,6 +64,8 @@ namespace Kiss
                 return QueryObject.GetRepository<T, t>();
             }
         }
+
+        public static ILinqQuery<T> Query { get { return Repository.Query; } }
     }
 
     public abstract class QueryObject<T> : IQueryObject where T : IQueryObject
@@ -90,6 +92,8 @@ namespace Kiss
                 return QueryObject.GetRepository<T>();
             }
         }
+
+        public static ILinqQuery<T> Query { get { return Repository.Query; } }
     }
 
     public abstract class QueryObject : IQueryObject

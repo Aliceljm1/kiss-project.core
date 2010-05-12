@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using Kiss.Query;
 
 namespace Kiss
@@ -37,6 +38,8 @@ namespace Kiss
         new List<T> Gets(QueryCondition q);
 
         T Save(T obj);
+
+        ILinqQuery<T> Query { get; }
     }
 
     public interface IRepository
@@ -44,5 +47,16 @@ namespace Kiss
         object Gets(QueryCondition q);
 
         int Count(QueryCondition q);
+    }
+
+    public interface ILinqQuery<T> : IOrderedQueryable<T>, IQueryProvider
+    {
+        void Add(T item);
+        void AddRange(IEnumerable<T> items);
+        void AddRange(IEnumerable<T> items, bool inMemorySort);
+        void Remove(T value);
+        void SubmitChanges();
+        void SubmitChanges(bool batch);
+        bool EnableQueryEvent { get; set; }
     }
 }
