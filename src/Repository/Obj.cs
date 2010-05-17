@@ -98,7 +98,7 @@ namespace Kiss
     /// obj support extend properties
     /// </summary>
     [Serializable]
-    public abstract class ExtendObj : Obj
+    public abstract class ExtendObj<t> : Obj<t>
     {
         public string PropertyName { get; set; }
         public string PropertyValue { get; set; }
@@ -147,7 +147,7 @@ namespace Kiss
     /// </summary>
     [Serializable]
     [OriginalEntityName("gDictSchema")]
-    public class DictSchema : ExtendObj, IComparable<DictSchema>
+    public class DictSchema : ExtendQueryObject<DictSchema, int>, IComparable<DictSchema>
     {
         public int SiteId { get; set; }
         public int ParentId { get; set; }

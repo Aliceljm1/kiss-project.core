@@ -6,6 +6,70 @@ using Kiss.Utils;
 
 namespace Kiss
 {
+    [Serializable]
+    public abstract class ExtendQueryObject<T, t> : ExtendObj<t>, IQueryObject
+        where T : ExtendObj<t>
+    {
+        public static T Get(t id)
+        {
+            return Repository.Get(id);
+        }
+
+        /// <summary>
+        /// get obj list
+        /// </summary>
+        public static List<T> Gets(t[] ids)
+        {
+            return Repository.Gets(ids);
+        }
+
+        public static T Save(string param, ConvertObj<T> converter)
+        {
+            return Repository.Save(param, converter);
+        }
+
+        public static T Save(NameValueCollection param, ConvertObj<T> converter)
+        {
+            return Repository.Save(param, converter);
+        }
+
+        public static List<T> Gets(string commaDelimitedIds)
+        {
+            return Repository.Gets(commaDelimitedIds);
+        }
+
+        public static List<T> Gets(QueryCondition q)
+        {
+            return Repository.Gets(q);
+        }
+
+        public static int Count(QueryCondition q)
+        {
+            return Repository.Count(q);
+        }
+
+        public static T Save(T obj)
+        {
+            return Repository.Save(obj);
+        }
+
+        public static void DeleteById(params t[] ids)
+        {
+            Repository.DeleteById(ids);
+        }
+
+        public static IRepository<T, t> Repository
+        {
+            get
+            {
+                return QueryObject.GetRepository<T, t>();
+            }
+        }
+
+        public static ILinqQuery<T> Query { get { return Repository.Query; } }
+    }
+
+    [Serializable]
     public abstract class QueryObject<T, t> : Obj<t>, IQueryObject
         where T : Obj<t>
     {
@@ -68,6 +132,7 @@ namespace Kiss
         public static ILinqQuery<T> Query { get { return Repository.Query; } }
     }
 
+    [Serializable]
     public abstract class QueryObject<T> : IQueryObject where T : IQueryObject
     {
         public static List<T> Gets(QueryCondition q)
@@ -96,6 +161,7 @@ namespace Kiss
         public static ILinqQuery<T> Query { get { return Repository.Query; } }
     }
 
+    [Serializable]
     public abstract class QueryObject : IQueryObject
     {
         public static T Get<T, t>(t id) where T : Obj<t>
