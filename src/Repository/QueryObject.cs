@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using Kiss.Query;
 using Kiss.Utils;
+using System.Configuration;
 
 namespace Kiss
 {
@@ -67,6 +68,8 @@ namespace Kiss
         }
 
         public static ILinqQuery<T> Query { get { return Repository.Query; } }
+
+        public static ConnectionStringSettings ConnectionStringSettings { get { return Repository.ConnectionStringSettings; } set { Repository.ConnectionStringSettings = value; } }
     }
 
     [Serializable]
@@ -130,6 +133,8 @@ namespace Kiss
         }
 
         public static ILinqQuery<T> Query { get { return Repository.Query; } }
+
+        public static ConnectionStringSettings ConnectionStringSettings { get { return Repository.ConnectionStringSettings; } set { Repository.ConnectionStringSettings = value; } }
     }
 
     [Serializable]
@@ -159,6 +164,8 @@ namespace Kiss
         }
 
         public static ILinqQuery<T> Query { get { return Repository.Query; } }
+
+        public static ConnectionStringSettings ConnectionStringSettings { get { return Repository.ConnectionStringSettings; } set { Repository.ConnectionStringSettings = value; } }
     }
 
     [Serializable]

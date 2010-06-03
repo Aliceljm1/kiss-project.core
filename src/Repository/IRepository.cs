@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Configuration;
 using System.Linq;
 using Kiss.Query;
 
@@ -47,6 +48,8 @@ namespace Kiss
         object Gets(QueryCondition q);
 
         int Count(QueryCondition q);
+
+        ConnectionStringSettings ConnectionStringSettings { get; set; }
     }
 
     public interface ILinqQuery<T> : IOrderedQueryable<T>, IQueryProvider

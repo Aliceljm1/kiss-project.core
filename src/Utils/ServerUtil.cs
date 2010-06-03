@@ -1,14 +1,4 @@
-﻿#region File Comment
-//+-------------------------------------------------------------------+
-//+ File Created:   2009-10-10
-//+-------------------------------------------------------------------+
-//+ History:
-//+-------------------------------------------------------------------+
-//+ 2009-10-10		zhli Comment Created
-//+-------------------------------------------------------------------+
-#endregion
-
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -483,23 +473,26 @@ namespace Kiss.Utils
 
         public static void AddCache(int cahceMinutes)
         {
-            HttpResponse Response = HttpContext.Current.Response;
+            AddCache(HttpContext.Current.Response, cahceMinutes);
+        }
 
+        public static void AddCache(HttpResponse response, int cahceMinutes)
+        {
             if (cahceMinutes > 0)
             {
                 TimeSpan cacheDuration = TimeSpan.FromMinutes(cahceMinutes);
-                Response.Cache.SetCacheability(HttpCacheability.Public);
-                Response.Cache.SetExpires(DateTime.Now.AddMinutes(cahceMinutes));
-                Response.Cache.SetMaxAge(cacheDuration);
-                Response.Expires = cahceMinutes;
-                Response.Cache.SetLastModified(DateTime.Now.AddMinutes(-cahceMinutes));
-                Response.Cache.AppendCacheExtension("must-revalidate, proxy-revalidate");
+                response.Cache.SetCacheability(HttpCacheability.Public);
+                response.Cache.SetExpires(DateTime.Now.AddMinutes(cahceMinutes));
+                response.Cache.SetMaxAge(cacheDuration);
+                response.Expires = cahceMinutes;
+                response.Cache.SetLastModified(DateTime.Now.AddMinutes(-cahceMinutes));
+                response.Cache.AppendCacheExtension("must-revalidate, proxy-revalidate");
             }
             else
             {
-                Response.CacheControl = "no-cache";
-                Response.AddHeader("Pragma", "no-cache");
-                Response.Expires = -1;
+                response.CacheControl = "no-cache";
+                response.AddHeader("Pragma", "no-cache");
+                response.Expires = -1;
             }
         }
 

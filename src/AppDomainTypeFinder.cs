@@ -1,17 +1,4 @@
-﻿#region File Comment
-//+-------------------------------------------------------------------+
-//+ FileName: 	    AppDomainTypeFinder.cs
-//+ File Created:   20090821
-//+-------------------------------------------------------------------+
-//+ Purpose:        
-//+-------------------------------------------------------------------+
-//+ History:
-//+-------------------------------------------------------------------+
-//+ 20090821        ZHLI Comment Created
-//+-------------------------------------------------------------------+
-#endregion
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -99,7 +86,7 @@ namespace Kiss
         }
 
         /// <summary>Gets tne assemblies related to the current implementation.</summary>
-        /// <returns>A list of assemblies that should be loaded by the N2 factory.</returns>
+        /// <returns>A list of assemblies that should be loaded by the factory.</returns>
         public virtual IList<Assembly> GetAssemblies()
         {
             List<string> addedAssemblyNames = new List<string>();
