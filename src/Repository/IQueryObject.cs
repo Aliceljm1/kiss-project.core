@@ -3,7 +3,7 @@
 namespace Kiss
 {
     /// <summary>
-    /// 标记类为可查询类
+    /// 标记类为可查询
     /// </summary>
     public interface IQueryObject
     {
@@ -12,74 +12,54 @@ namespace Kiss
     /// <summary>
     /// 标记属性为唯一值
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property)]
-    public class UniqueIdentifierAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
+    public class PKAttribute : Attribute
     {
+        public PKAttribute()
+        {
+            AutoIncrement = true;
+        }
+
+        /// <summary>
+        /// 自增长，默认为true
+        /// </summary>
+        public bool AutoIncrement { get; set; }
     }
 
     /// <summary>
     /// 标记忽略该属性
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
     public class IgnoreAttribute : Attribute
     {
     }
 
     /// <summary>
-    /// Use this to mark if entity name is different than class name.
+    /// Use this to mark if table/field name is different than class/property name.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class)]
-    public class OriginalEntityNameAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property)]
+    public class OriginalNameAttribute : Attribute
     {
         /// <summary>
         /// ctor
         /// </summary>
-        /// <param name="entityName"></param>
-        public OriginalEntityNameAttribute(string entityName)
+        /// <param name="name"></param>
+        public OriginalNameAttribute(string name)
         {
-            this.entityName = entityName;
+            this.name = name;
         }
 
-        private readonly string entityName = string.Empty;
+        private readonly string name = string.Empty;
 
         /// <summary>
-        /// maps to the name of the original enity name.
+        /// maps to the name of the original name.
         /// </summary>
-        public string EntityName
+        public string Name
         {
             get
             {
-                return entityName;
+                return name;
             }
-        }
-    }
-
-    /// <summary>
-    /// use this to mark if field name is different than property name
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Property)]
-    public class OriginalFieldNameAttribute : Attribute
-    {
-        /// <summary>
-        /// field name in database
-        /// </summary>
-        public string FieldName
-        {
-            get
-            {
-                return fieldName;
-            }
-        }
-
-        private readonly string fieldName = string.Empty;
-
-        /// <summary>
-        /// ctor
-        /// </summary>
-        /// <param name="fieldName"></param>
-        public OriginalFieldNameAttribute(string fieldName)
-        {
-            this.fieldName = fieldName;
         }
     }
 }

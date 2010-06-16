@@ -3,7 +3,7 @@
 namespace Kiss.Logging
 {
     [Serializable]
-    [OriginalEntityName("gLog")]
+    [OriginalName("gLog")]
     public class Log : QueryObject<Log, int>
     {
         public string SiteKey { get; set; }

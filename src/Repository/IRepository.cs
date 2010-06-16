@@ -41,6 +41,8 @@ namespace Kiss
         T Save(T obj);
 
         ILinqQuery<T> Query { get; }
+
+        List<T> GetsAll();
     }
 
     public interface IRepository
@@ -55,6 +57,7 @@ namespace Kiss
     public interface ILinqQuery<T> : IOrderedQueryable<T>, IQueryProvider
     {
         void Add(T item);
+        void Add(T item, bool isNew);
         void AddRange(IEnumerable<T> items);
         void AddRange(IEnumerable<T> items, bool inMemorySort);
         void Remove(T value);

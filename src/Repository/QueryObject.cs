@@ -1,77 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Configuration;
 using Kiss.Query;
 using Kiss.Utils;
-using System.Configuration;
 
 namespace Kiss
 {
-    [Serializable]
-    public abstract class ExtendQueryObject<T, t> : ExtendObj<t>, IQueryObject
-        where T : ExtendObj<t>
-    {
-        public static T Get(t id)
-        {
-            return Repository.Get(id);
-        }
-
-        /// <summary>
-        /// get obj list
-        /// </summary>
-        public static List<T> Gets(t[] ids)
-        {
-            return Repository.Gets(ids);
-        }
-
-        public static T Save(string param, ConvertObj<T> converter)
-        {
-            return Repository.Save(param, converter);
-        }
-
-        public static T Save(NameValueCollection param, ConvertObj<T> converter)
-        {
-            return Repository.Save(param, converter);
-        }
-
-        public static List<T> Gets(string commaDelimitedIds)
-        {
-            return Repository.Gets(commaDelimitedIds);
-        }
-
-        public static List<T> Gets(QueryCondition q)
-        {
-            return Repository.Gets(q);
-        }
-
-        public static int Count(QueryCondition q)
-        {
-            return Repository.Count(q);
-        }
-
-        public static T Save(T obj)
-        {
-            return Repository.Save(obj);
-        }
-
-        public static void DeleteById(params t[] ids)
-        {
-            Repository.DeleteById(ids);
-        }
-
-        public static IRepository<T, t> Repository
-        {
-            get
-            {
-                return QueryObject.GetRepository<T, t>();
-            }
-        }
-
-        public static ILinqQuery<T> Query { get { return Repository.Query; } }
-
-        public static ConnectionStringSettings ConnectionStringSettings { get { return Repository.ConnectionStringSettings; } set { Repository.ConnectionStringSettings = value; } }
-    }
-
     [Serializable]
     public abstract class QueryObject<T, t> : Obj<t>, IQueryObject
         where T : Obj<t>
@@ -109,6 +44,11 @@ namespace Kiss
             return Repository.Gets(q);
         }
 
+        public static List<T> GetsAll()
+        {
+            return Repository.GetsAll();
+        }
+
         public static int Count(QueryCondition q)
         {
             return Repository.Count(q);
@@ -122,6 +62,11 @@ namespace Kiss
         public static void DeleteById(params t[] ids)
         {
             Repository.DeleteById(ids);
+        }
+
+        public static string GetTableName()
+        {
+            return QueryObject.GetTableName<T>();
         }
 
         public static IRepository<T, t> Repository
@@ -138,11 +83,16 @@ namespace Kiss
     }
 
     [Serializable]
-    public abstract class QueryObject<T> : IQueryObject where T : IQueryObject
+    public abstract class QueryObject<T> : QueryObject, IQueryObject where T : IQueryObject
     {
         public static List<T> Gets(QueryCondition q)
         {
             return Repository.Gets(q);
+        }
+
+        public static List<T> GetsAll()
+        {
+            return Repository.GetsAll();
         }
 
         public static int Count(QueryCondition q)
@@ -153,6 +103,11 @@ namespace Kiss
         public static T Save(T obj)
         {
             return Repository.Save(obj);
+        }
+
+        public static string GetTableName()
+        {
+            return QueryObject.GetTableName<T>();
         }
 
         public static IRepository<T> Repository
@@ -171,55 +126,12 @@ namespace Kiss
     [Serializable]
     public abstract class QueryObject : IQueryObject
     {
-        public static T Get<T, t>(t id) where T : Obj<t>
-        {
-            return GetRepository<T, t>().Get(id);
-        }
-
-        /// <summary>
-        /// get obj list
-        /// </summary>
-        public static List<T> Gets<T, t>(t[] ids) where T : Obj<t>
-        {
-            return GetRepository<T, t>().Gets(ids);
-        }
-
-        public static T Save<T, t>(string param, ConvertObj<T> converter) where T : Obj<t>
-        {
-            return GetRepository<T, t>().Save(param, converter);
-        }
-
-        public static T Save<T, t>(NameValueCollection param, ConvertObj<T> converter) where T : Obj<t>
-        {
-            return GetRepository<T, t>().Save(param, converter);
-        }
-
-        public static List<T> Gets<T, t>(string commaDelimitedIds) where T : Obj<t>
-        {
-            return GetRepository<T, t>().Gets(commaDelimitedIds);
-        }
-
-        public static List<T> Gets<T>(QueryCondition qc) where T : IQueryObject
-        {
-            return GetRepository<T>().Gets(qc);
-        }
-
-        public static int Count<T>(QueryCondition q) where T : IQueryObject
-        {
-            return GetRepository<T>().Count(q);
-        }
-
-        public static T Save<T>(T obj) where T : IQueryObject
-        {
-            return GetRepository<T>().Save(obj);
-        }
-
-        public static IRepository<T, t> GetRepository<T, t>() where T : Obj<t>
+        internal static IRepository<T, t> GetRepository<T, t>() where T : Obj<t>
         {
             return ServiceLocator.Instance.Resolve<IRepository<T, t>>();
         }
 
-        public static IRepository<T> GetRepository<T>() where T : IQueryObject
+        internal static IRepository<T> GetRepository<T>() where T : IQueryObject
         {
             return ServiceLocator.Instance.Resolve<IRepository<T>>();
         }
@@ -309,17 +221,17 @@ namespace Kiss
         /// <returns></returns>
         public static string GetTableName(Type type)
         {
-            object[] attr = type.GetCustomAttributes(typeof(OriginalEntityNameAttribute), true);
+            object[] attr = type.GetCustomAttributes(typeof(OriginalNameAttribute), true);
             if (attr != null && attr.Length > 0)
             {
-                OriginalEntityNameAttribute originalEntityNameAtt = attr[0] as OriginalEntityNameAttribute;
-                return originalEntityNameAtt.EntityName;
+                OriginalNameAttribute originalEntityNameAtt = attr[0] as OriginalNameAttribute;
+                return originalEntityNameAtt.Name;
             }
 
             return type.Name;
         }
 
-        public static string GetTableName<T>() where T : IQueryObject
+        internal static string GetTableName<T>() where T : IQueryObject
         {
             return GetTableName(typeof(T));
         }

@@ -3,6 +3,7 @@ KISS core
 核心的一些接口
 
 版本历史：
+
 v2.6.2
 支持对模型类设置连接字符串
 从Logging Component迁移了LogInitializer
@@ -10,3 +11,11 @@ ServerUtil的小改动（部分方法增加了HttpResponse参数）
 
 v2.6.3
 迁移到vs2010
+IRepository<T>接口增加GetsAll()方法，QueryObject增加了相应的便利方法
+实体类继承于QueryObject<T>或QueryObject<T>，由于c#不支持多重继承，所以业务实体类无法使用继承的特性。这个问题影响不是很大，业务模型采用组合的方式代替继承可以解决这个问题。如果业务模型必须使用继承，可以调用QueryObject的静态方法实现同样的功能，只是写法上不太简洁直观。
+QueryCondition类增加了AddOrderby方法，用于通过程序添加排序信息；同时删除了AddOrderbyColumns方法
+修复了QueryCondition的count缓存key的一个bug
+修改Obj的Id为virtual, 修改了linq相关标签的名称
+支持.net framework 2.0, 但是必须引用System.Core.dll
+RepositoryInitializer支持线程安全的Repository（待测试）
+由于.net framework对泛型的反射在不同版本下有不一致的表现，实体类不再支持继承

@@ -170,7 +170,16 @@ namespace Kiss
         {
             if (container == null)
                 return;
+
             container.AddComponent(key, serviceType, classType);
+        }
+
+        public void AddComponent(string key, Type serviceType, Type classType, LifestyleType lifestyleType)
+        {
+            if (container == null)
+                return;
+
+            container.AddComponentLifeStyle(key, serviceType, classType, lifestyleType);
         }
 
         /// <summary>Adds a component instance to the container.</summary>

@@ -8,21 +8,14 @@ namespace Kiss
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [Serializable]
-    public abstract class Obj<T> : QueryObject
+    public abstract class Obj<t> : QueryObject
     {
         #region props
 
         /// <summary>
         /// Id
         /// </summary>
-        [UniqueIdentifier]
-        public T Id { get; set; }
-
-        /// <summary>
-        /// 是否是新创建对象
-        /// </summary>
-        [Ignore]
-        public bool IsNew { get { return object.Equals(Id, default(T)); } }
+        public virtual t Id { get; set; }
 
         #endregion
 
@@ -60,7 +53,7 @@ namespace Kiss
         /// <summary>
         /// Checks to see if two business objects are the same.
         /// </summary>
-        public static bool operator ==(Obj<T> first, Obj<T> second)
+        public static bool operator ==(Obj<t> first, Obj<t> second)
         {
             if (Object.ReferenceEquals(first, second))
             {
@@ -78,7 +71,7 @@ namespace Kiss
         /// <summary>
         /// Checks to see if two business objects are different.
         /// </summary>
-        public static bool operator !=(Obj<T> first, Obj<T> second)
+        public static bool operator !=(Obj<t> first, Obj<t> second)
         {
             return !(first == second);
         }
@@ -87,68 +80,15 @@ namespace Kiss
     }
 
     /// <summary>
-    /// 业务实体基类，主键是<see cref="int"/>类型
-    /// </summary>
-    [Serializable]
-    public abstract class Obj : Obj<int>
-    {
-    }
-
-    /// <summary>
-    /// obj support extend properties
-    /// </summary>
-    [Serializable]
-    public abstract class ExtendObj<t> : Obj<t>
-    {
-        public string PropertyName { get; set; }
-        public string PropertyValue { get; set; }
-
-        private ExtendedAttributes _extAttrs;
-        [Ignore]
-        public ExtendedAttributes ExtAttrs
-        {
-            get
-            {
-                if (_extAttrs == null)
-                {
-                    _extAttrs = new ExtendedAttributes();
-                    _extAttrs.SetData(PropertyName, PropertyValue);
-                }
-                return _extAttrs;
-            }
-        }
-
-        [Ignore]
-        public string this[string key]
-        {
-            get
-            {
-                if (ExtAttrs.ExtendedAttributesCount == 0)
-                    ExtAttrs.SetData(PropertyName, PropertyValue);
-                return ExtAttrs.GetExtendedAttribute(key);
-            }
-            set
-            {
-                ExtAttrs.SetExtendedAttribute(key, value);
-            }
-        }
-
-        public void SerializeExtAttrs()
-        {
-            SerializerData sd = ExtAttrs.GetSerializerData();
-
-            PropertyName = sd.Keys;
-            PropertyValue = sd.Values;
-        }
-    }
-
-    /// <summary>
     /// dict schema
     /// </summary>
     [Serializable]
-    [OriginalEntityName("gDictSchema")]
-    public class DictSchema : ExtendQueryObject<DictSchema, int>, IComparable<DictSchema>
+    [OriginalName("gDictSchema")]
+    public class DictSchema : QueryObject<DictSchema, int>, IComparable<DictSchema>
     {
+        [PK]
+        public override int Id { get { return base.Id; } set { base.Id = value; } }
+
         public int SiteId { get; set; }
         public int ParentId { get; set; }
         public int Depth { get; set; }
@@ -210,6 +150,47 @@ namespace Kiss
             }
 
             return result;
+        }
+
+        public string PropertyName { get; set; }
+        public string PropertyValue { get; set; }
+
+        private ExtendedAttributes _extAttrs;
+        [Ignore]
+        public ExtendedAttributes ExtAttrs
+        {
+            get
+            {
+                if (_extAttrs == null)
+                {
+                    _extAttrs = new ExtendedAttributes();
+                    _extAttrs.SetData(PropertyName, PropertyValue);
+                }
+                return _extAttrs;
+            }
+        }
+
+        [Ignore]
+        public string this[string key]
+        {
+            get
+            {
+                if (ExtAttrs.ExtendedAttributesCount == 0)
+                    ExtAttrs.SetData(PropertyName, PropertyValue);
+                return ExtAttrs.GetExtendedAttribute(key);
+            }
+            set
+            {
+                ExtAttrs.SetExtendedAttribute(key, value);
+            }
+        }
+
+        public void SerializeExtAttrs()
+        {
+            SerializerData sd = ExtAttrs.GetSerializerData();
+
+            PropertyName = sd.Keys;
+            PropertyValue = sd.Values;
         }
     }
 }

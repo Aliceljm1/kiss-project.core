@@ -115,15 +115,6 @@ namespace Kiss.Query
         public string orderbys { get { return StringUtil.CollectionToCommaDelimitedString(AllowedOrderbyColumns); } }
 
         /// <summary>
-        /// add a column name to allowed order by column list
-        /// </summary>
-        /// <param name="columnNames"></param>
-        public void AddOrderbyColumns(params string[] columnNames)
-        {
-            AllowedOrderbyColumns.AddRange(columnNames);
-        }
-
-        /// <summary>
         /// order by clause
         /// </summary>
         public string OrderByClause
@@ -195,6 +186,28 @@ namespace Kiss.Query
         private List<Pair<string, bool>> _orderbyItems = new List<Pair<string, bool>>();
         public List<Pair<string, bool>> OrderbyItems { get { return _orderbyItems; } }
 
+        /// <summary>
+        /// add sort column( desc )
+        /// </summary>
+        /// <param name="column">column name</param>
+        public void AddOrderby(string column)
+        {
+            AddOrderby(column, false);
+        }
+
+        /// <summary>
+        /// add sort column
+        /// </summary>
+        /// <param name="column">column name</param>
+        /// <param name="asc">asc</param>
+        public void AddOrderby(string column, bool asc)
+        {
+            if (!AllowedOrderbyColumns.Contains(column))
+                AllowedOrderbyColumns.Add(column);
+
+            OrderbyItems.Add(new Pair<string, bool>(column, asc));
+        }
+
         #endregion
 
         /// <summary>
@@ -264,7 +277,7 @@ namespace Kiss.Query
         /// <summary>
         /// 缓存key
         /// </summary>
-        public virtual string CacheKey { get { return string.Format("{0}.query:{1}", GetType().Name, SecurityUtil.MD5_Hash(WhereClause)); } }
+        public virtual string CacheKey { get { return string.Format("{0}.query:{1}", TableName, SecurityUtil.MD5_Hash(WhereClause)); } }
 
         /// <summary>
         /// 父级缓存key
@@ -274,7 +287,7 @@ namespace Kiss.Query
         /// <summary>
         /// 数目缓存key
         /// </summary>
-        public virtual string CountCacheKey { get { return string.Format("{0}.count:{1}", GetType().Name, SecurityUtil.MD5_Hash(WhereClause)); } }
+        public virtual string CountCacheKey { get { return string.Format("{0}.count:{1}", TableName, SecurityUtil.MD5_Hash(WhereClause)); } }
 
         /// <summary>
         /// 缓存时间
