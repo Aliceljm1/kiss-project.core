@@ -32,6 +32,5 @@ v2.6.4
 
 v2.6.5
 增加了Repository的providers配置
-todo：
-Repository增加实体类连接字符串配置（支持模糊匹配）
+todo:
 文档注释
