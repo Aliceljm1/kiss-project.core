@@ -1,5 +1,4 @@
-﻿
-namespace Kiss
+﻿namespace Kiss
 {
     public class Tuple<T1, T2, T3>
     {

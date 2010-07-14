@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web;
+using System.Text;
 
 namespace Kiss.Plugin
 {
@@ -33,6 +34,8 @@ namespace Kiss.Plugin
         /// <summary>Invokes the initialize method on the supplied plugins.</summary>
         public void InitializePlugins(IEnumerable<IPluginDefinition> plugins)
         {
+            StringBuilder log = new StringBuilder();
+
             ServiceLocator sl = ServiceLocator.Instance;
 
             PluginSettings settings = PluginConfig.Instance.Settings;
@@ -53,6 +56,9 @@ namespace Kiss.Plugin
                     count++;
                     if (setting.Enable)
                         enable_count++;
+
+                    log.AppendFormat("{0}:{1} ", setting.Name, setting.Enable);
+                    log.AppendLine();
                 }
                 catch (Exception ex)
                 {
@@ -71,7 +77,9 @@ namespace Kiss.Plugin
                 throw new PluginInitException(message, exceptions.ToArray());
             }
 
-            LogManager.GetLogger<PluginBootstrapper>().Info("plugins initialized. {1} of {0} is enable.", count, enable_count);
+            log.AppendFormat("plugins initialized. {1} of {0} is enable.", count, enable_count);
+
+            LogManager.GetLogger<PluginBootstrapper>().Info(log.ToString());
         }
     }
 }

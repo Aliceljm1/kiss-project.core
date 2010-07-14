@@ -1,13 +1,3 @@
-#region File Comment
-//+-------------------------------------------------------------------+
-//+ File Created:   2009-11-21
-//+-------------------------------------------------------------------+
-//+ History:
-//+-------------------------------------------------------------------+
-//+ 2009-11-21		zhli Comment Created
-//+-------------------------------------------------------------------+
-#endregion
-
 using System;
 using System.Text;
 
@@ -38,7 +28,7 @@ namespace Kiss.Utils
                     sb.Append("Source    :");
                     sb.AppendLine(ex.Source);
                     sb.Append("StackTrace:");
-                    sb.AppendLine(ex.StackTrace.Trim());
+                    sb.AppendLine(ex.StackTrace);
                 }
 
                 ex = ex.InnerException;

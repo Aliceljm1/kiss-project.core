@@ -40,7 +40,7 @@ namespace Kiss
 
         T Save(T obj);
 
-        ILinqQuery<T> Query { get; }
+        IKissQueryable<T> Query { get; }
 
         List<T> GetsAll();
     }
@@ -54,13 +54,14 @@ namespace Kiss
         ConnectionStringSettings ConnectionStringSettings { get; set; }
     }
 
-    public interface ILinqQuery<T> : IOrderedQueryable<T>, IQueryProvider
+    public interface IKissQueryable<T> : IQueryable<T>, IOrderedQueryable<T>, IQueryProvider
     {
         void Add(T item);
         void Add(T item, bool isNew);
         void AddRange(IEnumerable<T> items);
         void AddRange(IEnumerable<T> items, bool inMemorySort);
         void Remove(T value);
+        void Remove(IEnumerable<T> items);
         void SubmitChanges();
         void SubmitChanges(bool batch);
         bool EnableQueryEvent { get; set; }

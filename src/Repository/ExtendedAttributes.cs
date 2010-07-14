@@ -1,17 +1,4 @@
-﻿#region File Comment
-//+-------------------------------------------------------------------+
-//+ FileName:		ExtendedAttributes.cs
-//+ File Created:   2008/03/19
-//+-------------------------------------------------------------------+
-//+ Purpose:        ExtendedAttributes定义了扩展属性的存储方式
-//+-------------------------------------------------------------------+
-//+ History:
-//+-------------------------------------------------------------------+
-//+ 2008/03/19		zhli Comment Created
-//+-------------------------------------------------------------------+
-#endregion
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Reflection;

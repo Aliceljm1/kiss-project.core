@@ -77,7 +77,7 @@ namespace Kiss
             }
         }
 
-        public static ILinqQuery<T> Query { get { return Repository.Query; } }
+        public static IKissQueryable<T> Query { get { return Repository.Query; } }
 
         public static ConnectionStringSettings ConnectionStringSettings { get { return Repository.ConnectionStringSettings; } set { Repository.ConnectionStringSettings = value; } }
     }
@@ -118,7 +118,7 @@ namespace Kiss
             }
         }
 
-        public static ILinqQuery<T> Query { get { return Repository.Query; } }
+        public static IKissQueryable<T> Query { get { return Repository.Query; } }
 
         public static ConnectionStringSettings ConnectionStringSettings { get { return Repository.ConnectionStringSettings; } set { Repository.ConnectionStringSettings = value; } }
     }

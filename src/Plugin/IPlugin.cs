@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using Kiss.Security;
 
 namespace Kiss.Plugin

@@ -1,13 +1,12 @@
-﻿
-using System.Threading;
+﻿using System.Threading;
 
-namespace Kiss {
-
+namespace Kiss
+{
     /// <summary>
     /// used to synchronize access to a single-use consumable resource
     /// </summary>
-    public sealed class SingleEntryGate {
-
+    public sealed class SingleEntryGate
+    {
         private const int NOT_ENTERED = 0;
         private const int ENTERED = 1;
 
@@ -17,9 +16,10 @@ namespace Kiss {
         /// returns true if this is the first call to TryEnter(), false otherwise
         /// </summary>
         /// <returns></returns>
-        public bool TryEnter() {
-            int oldStatus = Interlocked.Exchange( ref _status, ENTERED );
-            return ( oldStatus == NOT_ENTERED );
+        public bool TryEnter()
+        {
+            int oldStatus = Interlocked.Exchange(ref _status, ENTERED);
+            return (oldStatus == NOT_ENTERED);
         }
     }
 }

@@ -18,6 +18,19 @@ namespace Kiss.Caching
 
         public static bool Enabled { get { return setting.Enable && StringUtil.HasText(setting["type"]); } }
 
+        private static readonly string[] ignores = StringUtil.Split(setting["ignores"], ",", true, true);
+
+        public static bool IsEnabled(string cacheKey)
+        {
+            foreach (var item in ignores)
+            {
+                if (cacheKey.StartsWith(item, StringComparison.InvariantCultureIgnoreCase))
+                    return false;
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// cache key's namespace
         /// </summary>

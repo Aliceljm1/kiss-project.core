@@ -1,21 +1,4 @@
-﻿#region File Comment
-//+-------------------------------------------------------------------+
-//+ FileName: 	    JCache.cs
-//+ File Created:   20090729
-//+-------------------------------------------------------------------+
-//+ Purpose:        JCache定义
-//+-------------------------------------------------------------------+
-//+ History:
-//+-------------------------------------------------------------------+
-//+ 20090729        ZHLI Comment Created
-//+-------------------------------------------------------------------+
-//+ 20090903        ZHLI 增加了对是否启用缓存的判断
-//+-------------------------------------------------------------------+
-//+ 20090904        ZHLI fix a bug of Get<T> method
-//+-------------------------------------------------------------------+
-#endregion
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Kiss.Caching;
 using Kiss.Utils;
@@ -34,7 +17,7 @@ namespace Kiss
         /// <param name="obj"></param>
         public static void Insert(string key, object obj)
         {
-            if (CacheConfig.Enabled)
+            if (CacheConfig.Enabled && CacheConfig.IsEnabled(key))
                 Insert(key, obj, CacheConfig.ValidFor);
         }
 
@@ -46,7 +29,7 @@ namespace Kiss
         /// <param name="validFor"></param>
         public static void Insert(string key, object obj, TimeSpan validFor)
         {
-            if (CacheConfig.Enabled)
+            if (CacheConfig.Enabled && CacheConfig.IsEnabled(key))
                 CacheConfig.Provider.Insert(GetCacheKey(key), obj, validFor);
         }
 
@@ -56,8 +39,8 @@ namespace Kiss
         /// <param name="key"></param>
         /// <returns></returns>
         public static object Get(string key)
-        {           
-            if (CacheConfig.Enabled)
+        {
+            if (CacheConfig.Enabled && CacheConfig.IsEnabled(key))
                 return CacheConfig.Provider.Get(GetCacheKey(key));
 
             return null;
@@ -84,7 +67,6 @@ namespace Kiss
         /// <returns></returns>
         public static T Get<T>(string key)
         {
-
             if (CacheConfig.Enabled)
                 return (T)Get(key);
 
@@ -97,9 +79,13 @@ namespace Kiss
         /// <param name="key"></param>
         public static void Remove(string key)
         {
-
-            if (CacheConfig.Enabled)
+            if (CacheConfig.Enabled && CacheConfig.IsEnabled(key))
                 CacheConfig.Provider.Remove(GetCacheKey(key));
+        }
+
+        public static string GetRootCacheKey(string model)
+        {
+            return string.Format("{0}.root", model);
         }
 
         private static string GetCacheKey(string key)

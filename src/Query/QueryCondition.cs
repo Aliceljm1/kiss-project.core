@@ -45,7 +45,7 @@ namespace Kiss.Query
 
         public virtual bool Paging { get { return PageSize > 0; } }
 
-        public int PageCount { get { return (int)Math.Ceiling(TotalCount * 1.0 / PageSize); } }
+        public int PageCount { get { if (Paging) return (int)Math.Ceiling(TotalCount * 1.0 / PageSize); return 0; } }
 
         public int PageIndex1 { get { return PageIndex + 1; } }
 
@@ -126,7 +126,7 @@ namespace Kiss.Query
                 {
                     if (!AllowedOrderbyColumns.Contains(item.First))
                         continue;
-                    list.Add(string.Format("[{0}] {1}", item.First, item.Second ? "ASC" : "DESC"));
+                    list.Add(string.Format("{0} {1}", item.First, item.Second ? "ASC" : "DESC"));
                 }
                 return StringUtil.CollectionToCommaDelimitedString(list);
             }
@@ -243,14 +243,24 @@ namespace Kiss.Query
             }
         }
 
-        protected bool beforeQueryEventFired { get; set; }
+        /// <summary>
+        /// 是否允许多次抛出事件
+        /// </summary>
+        public bool EnableFireEventMulti { get; set; }
+
+        public int EventFiredTimes { get; set; }
         public virtual void FireBeforeQueryEvent(string method)
         {
-            if (beforeQueryEventFired) return;
+            if (EventFiredTimes == 1 && !EnableFireEventMulti) return;
+
+            lock (this)
+            {
+                if (EventFiredTimes == 1 && !EnableFireEventMulti) return;
+
+                EventFiredTimes = 1;
+            }
 
             OnBeforeQuery(new BeforeQueryEventArgs() { Method = method });
-
-            beforeQueryEventFired = true;
         }
 
         #endregion
@@ -258,7 +268,7 @@ namespace Kiss.Query
         #region virtual / abstract
 
         protected virtual string GetTableName() { return null; }
-        protected virtual string GetTableField() { return "Id"; }
+        protected virtual string GetTableField() { return "*"; }
         protected virtual bool GetAppendWhereKeyword() { return true; }
 
         /// <summary>

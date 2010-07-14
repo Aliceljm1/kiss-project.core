@@ -19,3 +19,15 @@ QueryCondition类增加了AddOrderby方法，用于通过程序添加排序信息；同时删除了AddOrd
 支持.net framework 2.0, 但是必须引用System.Core.dll
 RepositoryInitializer支持线程安全的Repository（待测试）
 由于.net framework对泛型的反射在不同版本下有不一致的表现，实体类不再支持继承
+增加对AppDomainTypeFinder的异常处理
+QueryCondition增加了EnableFireEventMulti属性
+QueryCondition默认TableField修改为*,修复PageCount的bug
+缓存系统支持对某些模型设置是否启用缓存
+去除了QueryCondition排序列的“[]”
+
+v2.6.4
+记录插件加载日志
+修改ILinqQuery<T>接口为ILinqQueryable<T>
+todo：
+Repository增加实体类连接字符串配置（支持模糊匹配）
+文档注释

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 using Kiss.Utils;
 
@@ -78,7 +79,33 @@ namespace Kiss
                 }
                 catch (ReflectionTypeLoadException ex)
                 {
-                    throw new KissException("Error getting types from assembly " + a.FullName, ex);
+                    StringBuilder msg = new StringBuilder("Error getting types from assembly ");
+                    msg.Append(a.FullName);
+
+                    if (ex.LoaderExceptions != null && ex.LoaderExceptions.Length > 0)
+                    {
+                        msg.AppendLine();
+                        msg.AppendLine("LoaderExceptions:");
+                        foreach (Exception e in ex.LoaderExceptions)
+                        {
+                            msg.AppendLine(ExceptionUtil.WriteException(e));
+                        }
+                    }
+
+                    if (ex.Types != null && ex.Types.Length > 0)
+                    {
+                        msg.AppendLine();
+                        msg.AppendLine("Types:");
+                        foreach (var item in ex.Types)
+                        {
+                            if (item == null) continue;
+                            msg.AppendLine(item.Name);
+                        }
+                    }
+
+                    msg.AppendLine(ExceptionUtil.WriteException(ex));
+
+                    throw new KissException(msg.ToString());
                 }
             }
 
