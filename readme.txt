@@ -28,6 +28,9 @@ QueryCondition默认TableField修改为*,修复PageCount的bug
 v2.6.4
 记录插件加载日志
 修改ILinqQuery<T>接口为ILinqQueryable<T>
+不在支持.net framework 2.0，支持的最低版本是3.5
+
+v2.6.5
 todo：
 Repository增加实体类连接字符串配置（支持模糊匹配）
 文档注释
