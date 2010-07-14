@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml;
 
 namespace Kiss.Plugin
 {
@@ -13,6 +14,7 @@ namespace Kiss.Plugin
         public string Title { get; set; }
         public string Description { get; set; }
         public bool Enable { get; set; }
+        public XmlNode Node { get; set; }
     }
 
     public class PluginSettings : List<PluginSetting>

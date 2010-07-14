@@ -19,10 +19,12 @@ namespace Kiss.Plugin
                 string name = XmlUtil.GetStringAttribute(n, "name", string.Empty);
                 if (string.IsNullOrEmpty(name))
                     continue;
+
                 PluginSetting s = new PluginSetting()
                 {
                     Name = name,
-                    Enable = XmlUtil.GetBoolAttribute(n, "enable", true)
+                    Enable = XmlUtil.GetBoolAttribute(n, "enable", true),
+                    Node = n
                 };
 
                 foreach (XmlAttribute attr in n.Attributes)

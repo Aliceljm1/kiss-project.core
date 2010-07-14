@@ -31,6 +31,7 @@ v2.6.4
 不在支持.net framework 2.0，支持的最低版本是3.5
 
 v2.6.5
+增加了Repository的providers配置
 todo：
 Repository增加实体类连接字符串配置（支持模糊匹配）
 文档注释
