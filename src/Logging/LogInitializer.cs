@@ -4,7 +4,7 @@ using Kiss.Plugin;
 namespace Kiss.Logging
 {
     [AutoInit(Title = "Log", Priority = 99)]
-    public class LogInitializer : IPluginInitializer
+    class LogInitializer : IPluginInitializer
     {
         public void Init(ServiceLocator sl, PluginSetting setting)
         {

@@ -5,7 +5,7 @@ using Kiss.Utils;
 namespace Kiss.Caching
 {
     /// <summary>
-    /// cache config
+    /// 缓存配置
     /// </summary>
     public static class CacheConfig
     {
@@ -16,10 +16,18 @@ namespace Kiss.Caching
         /// </summary>
         public static int CacheDay { get { return setting["cacheDay"].ToInt(1); } }
 
+        /// <summary>
+        /// 是否启用
+        /// </summary>
         public static bool Enabled { get { return setting.Enable && StringUtil.HasText(setting["type"]); } }
 
         private static readonly string[] ignores = StringUtil.Split(setting["ignores"], ",", true, true);
 
+        /// <summary>
+        /// 判断指定的缓存key是否启用
+        /// </summary>
+        /// <param name="cacheKey"></param>
+        /// <returns></returns>
         public static bool IsEnabled(string cacheKey)
         {
             foreach (var item in ignores)
@@ -41,6 +49,9 @@ namespace Kiss.Caching
         /// </summary>
         public static TimeSpan ValidFor { get { return TimeSpan.FromDays(CacheDay); } }
 
+        /// <summary>
+        /// 缓存provider
+        /// </summary>
         public static ICacheProvider Provider
         {
             get

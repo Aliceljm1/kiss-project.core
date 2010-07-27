@@ -8,7 +8,7 @@ namespace Kiss.Caching
     /// cache initializer. use this class to create cache provider
     /// </summary>
     [AutoInit(Title = "cache", Priority = 10)]
-    public class CacheInitializer : IPluginInitializer
+    class CacheInitializer : IPluginInitializer
     {
         #region IPluginInitializer Members
 

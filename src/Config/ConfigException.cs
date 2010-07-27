@@ -3,7 +3,7 @@
 namespace Kiss.Config
 {
     /// <summary>
-    /// 配置异常
+    /// 配置异常类
     /// </summary>
     [Serializable]
     public class ConfigException : KissException

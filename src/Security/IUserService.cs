@@ -3,6 +3,9 @@ using System.Security.Principal;
 
 namespace Kiss.Security
 {
+    /// <summary>
+    /// 用户服务的接口
+    /// </summary>
     public interface IUserService
     {
         bool IsInRole(IIdentity identity, string role);

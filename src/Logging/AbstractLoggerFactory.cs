@@ -4,6 +4,9 @@ using Kiss.Utils;
 
 namespace Kiss.Logging
 {
+    /// <summary>
+    /// 抽象日志factory
+    /// </summary>
     [Serializable]
     public abstract class AbstractLoggerFactory : MarshalByRefObject, ILoggerFactory
     {
