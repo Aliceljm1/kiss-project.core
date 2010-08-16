@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections;
 using System.Collections.Specialized;
@@ -10,8 +9,7 @@ namespace Kiss.Utils
 {
     /// <summary>
     /// This is an utility class used to parse the properties.
-    /// </summary>
-    /// <author> James House</author>
+    /// </summary>    
     public class PropertiesParser
     {
         internal NameValueCollection props = null;

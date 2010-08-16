@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Configuration;
 using System.IO;
 using System.Web;
@@ -34,13 +33,22 @@ namespace Kiss
         /// </summary>
         public void Init()
         {
-            Init(null);
+            Init(null, false);
         }
 
         /// <summary>
         /// init, must called to setup windsor container
         /// </summary>
+        /// <param name="action"></param>
         public void Init(Action action)
+        {
+            Init(action, true);
+        }
+
+        /// <summary>
+        /// init, must called to setup windsor container
+        /// </summary>
+        public void Init(Action action, bool enablePlugins)
         {
             if (!gate.TryEnter())
                 return;
@@ -56,6 +64,14 @@ namespace Kiss
                     action.Invoke();
 
                 StartComponents();
+
+                if (enablePlugins)
+                {
+                    PluginBootstrapper pluginBootstrapper = new PluginBootstrapper();
+                    AddComponentInstance(pluginBootstrapper);
+
+                    pluginBootstrapper.InitializePlugins(pluginBootstrapper.GetPluginDefinitions());
+                }
             }
             catch (Exception ex)
             {
@@ -67,11 +83,6 @@ namespace Kiss
         {
             StartComponents(container.Kernel);
             container.Kernel.ComponentCreated += KernelComponentCreated;
-
-            PluginBootstrapper pluginBootstrapper = new PluginBootstrapper();
-            AddComponentInstance(pluginBootstrapper);
-
-            pluginBootstrapper.InitializePlugins(pluginBootstrapper.GetPluginDefinitions());
         }
 
         private void StartComponents(IKernel kernel)
@@ -172,7 +183,7 @@ namespace Kiss
                 return;
 
             container.AddComponent(key, serviceType, classType);
-        }
+        } 
 
         public void AddComponent(string key, Type serviceType, Type classType, LifestyleType lifestyleType)
         {

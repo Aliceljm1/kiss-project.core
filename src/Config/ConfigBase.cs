@@ -210,14 +210,18 @@ namespace Kiss.Config
                 if (config != null)
                 {
                     config.LoadValuesFromConfigurationXml(node);
-                    if (HttpContext.Current == null)
+
+                    if (useCache)
                     {
-                        HttpRuntime.Cache.Insert(key,
-                            config,
-                            Configuration.GetCacheDependency(node.Name));
+                        if (HttpContext.Current == null)
+                        {
+                            HttpRuntime.Cache.Insert(key,
+                                config,
+                                Configuration.GetCacheDependency(node.Name));
+                        }
+                        else
+                            HttpRuntime.Cache.Insert(key, config, null, DateTime.MaxValue, Cache.NoSlidingExpiration);
                     }
-                    else
-                        HttpRuntime.Cache.Insert(key, config, null, DateTime.MaxValue, Cache.NoSlidingExpiration);
                 }
             }
 

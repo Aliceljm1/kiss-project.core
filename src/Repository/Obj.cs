@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace Kiss
@@ -192,5 +193,179 @@ namespace Kiss
             PropertyName = sd.Keys;
             PropertyValue = sd.Values;
         }
+
+        #region Api
+
+        public static DictSchema GetRoot(int siteId, string type)
+        {
+            return (from q in Query
+                    where q.SiteId == siteId && q.Type == type && q.Depth == 0
+                    select q).SingleOrDefault();
+        }
+
+        public static void DeleteByRoot(int siteId, string type)
+        {
+            List<DictSchema> list = (from q in Query
+                                     where q.SiteId == siteId && q.Type == type && q.Depth > 0
+                                     select q).ToList();
+
+            foreach (var schema in list)
+            {
+                Query.Remove(schema);
+            }
+
+            Query.SubmitChanges(true);
+        }
+
+        public static void Copy(int fromSiteId, int toSiteId)
+        {
+            List<DictSchema> oldList = GetsBySiteId(fromSiteId);
+            foreach (DictSchema d0 in oldList)
+            {
+                d0.Id = 0;
+                d0.SiteId = toSiteId;
+                Query.Add(d0);
+                Query.SubmitChanges();
+
+                List<DictSchema> list = GetsByType(fromSiteId, d0.Type);
+
+                foreach (DictSchema d1 in list)
+                {
+                    d1.ParentId = d0.Id;
+                    copyRecu(d1, toSiteId);
+                }
+            }
+        }
+
+        private static void copyRecu(DictSchema schema, int tositeId)
+        {
+            schema.Id = 0;
+            schema.SiteId = tositeId;
+
+            Query.Add(schema);
+            Query.SubmitChanges();
+
+            if (schema.HasChild && schema.Children != null && schema.Children.Count > 0)
+            {
+                foreach (DictSchema s in schema.Children)
+                {
+                    s.ParentId = schema.Id;
+                    copyRecu(s, tositeId);
+                }
+            }
+        }
+
+        public static List<DictSchema> GetsBySiteId(int siteId)
+        {
+            return (from q in Query
+                    where q.SiteId == siteId && q.ParentId == 0
+                    select q).ToList();
+        }
+
+        public static DictSchema GetByName(int siteId, string type, string name)
+        {
+            return (from q in Query
+                    where q.SiteId == siteId && q.Type == type && q.Name == name
+                    select q).FirstOrDefault();
+        }
+
+        public static List<DictSchema> GetsByType(int siteId, string type)
+        {
+            List<DictSchema> list = (from q in Query
+                                     where q.SiteId == siteId && q.Type == type && q.Depth > 0
+                                     orderby q.Depth ascending, q.SortOrder ascending
+                                     select q).ToList();
+
+            // re group            
+            List<DictSchema> result = list.FindAll(delegate(DictSchema s)
+            {
+                return s.Depth == 1;
+            });
+
+            foreach (DictSchema s in result)
+            {
+                regroup(s, list);
+            }
+
+            return result;
+        }
+
+        private static void regroup(DictSchema s, List<DictSchema> list)
+        {
+            if (s.HasChild)
+            {
+                s.Children = list.FindAll(delegate(DictSchema schema)
+                {
+                    return schema.ParentId == s.Id;
+                });
+
+                foreach (DictSchema schema in s.Children)
+                {
+                    schema.Parent = s;
+                    regroup(schema, list);
+                }
+            }
+        }
+
+        public static List<DictSchema> GetsByParentId(int id)
+        {
+            return (from q in Query
+                    where q.ParentId == id
+                    orderby q.SortOrder ascending
+                    select q).ToList();
+        }
+
+        //protected override void OnDelete(params DictSchema[] objs)
+        //{
+        //    base.OnDelete(objs);
+
+        //    foreach (DictSchema s in objs)
+        //    {
+        //        delRecu(s);
+        //    }
+        //}
+
+        private static void delRecu(DictSchema s)
+        {
+            if (!s.HasChild)
+                return;
+
+            foreach (DictSchema sub in GetsByParentId(s.Id))
+            {
+                Query.Remove(sub);
+                Query.SubmitChanges();
+            }
+        }
+
+        #endregion
+
+        #region event
+
+        public class FilterEventArgs : EventArgs
+        {
+            public static readonly new FilterEventArgs Empty = new FilterEventArgs();
+
+            public List<DictSchema> SchemaList { get; set; }
+
+            public string Type { get; set; }
+        }
+
+        public static event EventHandler<FilterEventArgs> Filter;
+
+        public static void OnFilter(string type, List<DictSchema> list)
+        {
+            FilterEventArgs e = new FilterEventArgs();
+            e.SchemaList = list;
+            e.Type = type;
+
+            EventHandler<FilterEventArgs> handler = Filter;
+
+            if (handler != null)
+            {
+                handler(null, e);
+            }
+        }
+
+        #endregion
     }
 }

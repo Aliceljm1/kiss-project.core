@@ -14,7 +14,5 @@ namespace Kiss.Utils
             string str_out = BitConverter.ToString(bytes_out).Replace("-", "");
             return str_out;
         }
-
-        public static string DES_Encrypt(string key, string str)
     }
 }
