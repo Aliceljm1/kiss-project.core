@@ -33,20 +33,23 @@ namespace Kiss
                 }
             }
 
-            // providers
-            foreach (XmlNode provider in setting.Node.SelectNodes("providers/add"))
+            if (setting.Node != null)
             {
-                bool enabled = XmlUtil.GetBoolAttribute(provider, "enable", true);
+                // providers
+                foreach (XmlNode provider in setting.Node.SelectNodes("providers/add"))
+                {
+                    bool enabled = XmlUtil.GetBoolAttribute(provider, "enable", true);
 
-                if (!enabled) continue;
-                string name = XmlUtil.GetStringAttribute(provider, "name", string.Empty);
-                if (string.IsNullOrEmpty(name))
-                    continue;
+                    if (!enabled) continue;
+                    string name = XmlUtil.GetStringAttribute(provider, "name", string.Empty);
+                    if (string.IsNullOrEmpty(name))
+                        continue;
 
-                Type type = Type.GetType(XmlUtil.GetStringAttribute(provider, "type", string.Empty), true, false);
-                if (type == null) continue;
+                    Type type = Type.GetType(XmlUtil.GetStringAttribute(provider, "type", string.Empty), true, false);
+                    if (type == null) continue;
 
-                sl.AddComponent(name, type);
+                    sl.AddComponent(name, type);
+                }
             }
         }
 

@@ -46,14 +46,18 @@ namespace Kiss.Utils
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="equations"></param>
         /// <returns></returns>
         public static NameValueCollection CommaDelimitedEquation2NVCollection(string equations)
         {
-            return DelimitedEquation2NVCollection(Comma, equations);
+            return DelimitedEquation2NVCollection(Comma, equations, true);
         }
 
         public static NameValueCollection DelimitedEquation2NVCollection(string delimiter, string equations)
+        {
+            return DelimitedEquation2NVCollection(delimiter, equations, true);
+        }
+
+        public static NameValueCollection DelimitedEquation2NVCollection(string delimiter, string equations, bool urlDecode)
         {
             string[] s = Split(equations, delimiter, true, true);
 
@@ -65,7 +69,7 @@ namespace Kiss.Utils
                 if (expression.Length != 2)
                     continue;
 
-                equationCol.Add(expression[0], ServerUtil.UrlDecode(expression[1]));
+                equationCol.Add(expression[0], urlDecode ? ServerUtil.UrlDecode(expression[1]) : expression[1]);
             }
 
             return equationCol;
