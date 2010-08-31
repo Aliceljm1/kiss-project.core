@@ -49,7 +49,7 @@ namespace Kiss
     {
         object Gets(QueryCondition q);
 
-        int Count(QueryCondition q);
+        int Count(QueryCondition q);        
 
         ConnectionStringSettings ConnectionStringSettings { get; set; }
     }
