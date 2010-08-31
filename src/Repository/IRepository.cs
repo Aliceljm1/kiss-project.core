@@ -42,6 +42,8 @@ namespace Kiss
 
         IKissQueryable<T> Query { get; }
 
+        IKissQueryable<T> CreateQuery();
+
         List<T> GetsAll();
     }
 
@@ -49,7 +51,7 @@ namespace Kiss
     {
         object Gets(QueryCondition q);
 
-        int Count(QueryCondition q);        
+        int Count(QueryCondition q);
 
         ConnectionStringSettings ConnectionStringSettings { get; set; }
     }

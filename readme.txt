@@ -34,5 +34,6 @@ v2.6.5
 增加了Repository的providers配置
 修改QueryCondition的PageSize默认值为-1，表示没有设置，0表示不分页
 文档注释
+IRepository<T>接口增加了IKissQueryable<T> CreateQuery()方法
 
 	使用ndoc生成文档
