@@ -327,7 +327,7 @@ namespace Kiss.Utils
             if (RelativePath.StartsWith("~"))
             {
                 if (HttpContext.Current != null)
-                    return HttpContext.Current.Request.ApplicationPath + RelativePath.Substring(1);
+                    return StringUtil.CombinUrl(HttpContext.Current.Request.ApplicationPath, RelativePath.Substring(1));
                 else
                     // *** Assume current directory is the base directory
                     return RelativePath.Substring(1);

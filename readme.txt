@@ -35,5 +35,6 @@ v2.6.5
 修改QueryCondition的PageSize默认值为-1，表示没有设置，0表示不分页
 文档注释
 IRepository<T>接口增加了IKissQueryable<T> CreateQuery()方法
+修复ServerUtil类的ResolveUrl方法的bug
 
 	使用ndoc生成文档
