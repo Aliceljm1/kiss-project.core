@@ -16,7 +16,18 @@ namespace Kiss
     /// </summary>
     public sealed class ServiceLocator
     {
-        private IWindsorContainer container;
+        private IWindsorContainer _container;
+        private IWindsorContainer container
+        {
+            get
+            {
+                if (_container == null)
+                    throw new KissException("ServiceLocator is not initialized! please call ServiceLocator.Instance.Init() method when app startup.");
+
+                return _container;
+            }
+        }
+
         private readonly SingleEntryGate gate = new SingleEntryGate();
 
         static ServiceLocator()
@@ -56,9 +67,9 @@ namespace Kiss
             try
             {
                 if (!CastleConfigFileExist)
-                    container = new WindsorContainer();
+                    _container = new WindsorContainer();
                 else
-                    container = new WindsorContainer(CastleConfigFile);
+                    _container = new WindsorContainer(CastleConfigFile);
 
                 if (action != null)
                     action.Invoke();
@@ -124,11 +135,6 @@ namespace Kiss
         }
 
         /// <summary>
-        /// windsor container
-        /// </summary>
-        public IWindsorContainer Container { get { return container; } set { container = value; } }
-
-        /// <summary>
         /// instance
         /// </summary>
         public static ServiceLocator Instance { get { return Singleton<ServiceLocator>.Instance; } }
@@ -138,17 +144,11 @@ namespace Kiss
         /// <summary>Resolves a service configured in the factory.</summary>
         public T Resolve<T>() where T : class
         {
-            if (container == null)
-                return null;
-
             return container.Resolve<T>();
         }
 
         public object Resolve(Type serviceType)
         {
-            if (container == null)
-                return null;
-
             return container.Resolve(serviceType);
         }
 
@@ -157,9 +157,6 @@ namespace Kiss
         /// <returns>An instance of the resolved service.</returns>        
         public object Resolve(string key)
         {
-            if (container == null)
-                return null;
-
             return container.Resolve(key);
         }
 
@@ -168,8 +165,6 @@ namespace Kiss
         /// <param name="classType">The type of component to register.</param>
         public void AddComponent(string key, Type classType)
         {
-            if (container == null)
-                return;
             container.AddComponent(key, classType);
         }
 
@@ -179,17 +174,11 @@ namespace Kiss
         /// <param name="classType">The type of component to register.</param>
         public void AddComponent(string key, Type serviceType, Type classType)
         {
-            if (container == null)
-                return;
-
             container.AddComponent(key, serviceType, classType);
-        } 
+        }
 
         public void AddComponent(string key, Type serviceType, Type classType, LifestyleType lifestyleType)
         {
-            if (container == null)
-                return;
-
             container.AddComponentLifeStyle(key, serviceType, classType, lifestyleType);
         }
 
@@ -199,8 +188,6 @@ namespace Kiss
         /// <param name="instance">The service instance to add.</param>
         public void AddComponentInstance(string key, Type serviceType, object instance)
         {
-            if (container == null)
-                return;
             container.Kernel.AddComponentInstance(key, serviceType, instance);
         }
 
@@ -210,9 +197,6 @@ namespace Kiss
         /// <returns></returns>
         public T AddComponentInstance<T>(T instance) where T : class
         {
-            if (container == null)
-                return null;
-
             if (instance != null)
             {
                 AddComponentInstance(typeof(T).Name, typeof(T), instance);
@@ -221,16 +205,6 @@ namespace Kiss
         }
 
         #endregion
-
-        ///// <summary>
-        ///// get current type's config object
-        ///// </summary>
-        ///// <param name="type"></param>
-        ///// <returns></returns>
-        //public ConfigBase GetConfig(Type type)
-        //{
-        //    return Resolve<ConfigResolver>().Resolve(type);
-        //}
 
         private string castleConfigFile;
         private string CastleConfigFile
