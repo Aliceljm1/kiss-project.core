@@ -130,6 +130,17 @@
     <Compile Include="Repository\ExtendedAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\AssertUtils.cs" />
+    <Compile Include="Utils\Imaging\AnimatedGifDecoder.cs" />
+    <Compile Include="Utils\Imaging\BaseImage.cs" />
+    <Compile Include="Utils\Imaging\ExifProperty.cs" />
+    <Compile Include="Utils\Imaging\ExifReader.cs" />
+    <Compile Include="Utils\Imaging\GifFrame.cs" />
+    <Compile Include="Utils\Imaging\IImage.cs" />
+    <Compile Include="Utils\Imaging\IImageTransform.cs" />
+    <Compile Include="Utils\Imaging\ImageUtil.cs" />
+    <Compile Include="Utils\Imaging\ImpScaleTransform.cs" />
+    <Compile Include="Utils\Imaging\ImpSquareScaleTransform.cs" />
+    <Compile Include="Utils\Imaging\WatermarkPosition.cs" />
     <Compile Include="Utils\PropertiesParser.cs" />
     <Compile Include="Utils\SecurityUtil.cs" />
     <Compile Include="Utils\TypeResolver\CachedTypeResolver.cs" />

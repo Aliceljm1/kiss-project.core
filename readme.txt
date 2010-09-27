@@ -38,4 +38,7 @@ IRepository<T>接口增加了IKissQueryable<T> CreateQuery()方法
 修复ServerUtil类的ResolveUrl方法的bug
 ServiceLocator非初始化时调用抛出异常信息
 
+v2.6.6
+增加了图像处理的工具类
+
 	使用ndoc生成文档
