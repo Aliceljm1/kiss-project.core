@@ -53,6 +53,8 @@ namespace Kiss
 
         int Count(QueryCondition q);
 
+        void Delete(QueryCondition q);
+
         ConnectionStringSettings ConnectionStringSettings { get; set; }
     }
 

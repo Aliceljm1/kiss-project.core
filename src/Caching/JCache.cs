@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using Kiss.Caching;
 using Kiss.Utils;
 
@@ -8,8 +9,12 @@ namespace Kiss
     /// <summary>
     /// 缓存操作的入口
     /// </summary>
-    public static class JCache
+    public sealed class JCache
     {
+        private JCache()
+        {
+        }
+
         /// <summary>
         /// 将对象插入缓存
         /// </summary>
@@ -86,6 +91,32 @@ namespace Kiss
         public static string GetRootCacheKey(string model)
         {
             return string.Format("{0}.root", model);
+        }
+
+        public static void RemoveHierarchyCache(string root_key)
+        {
+            if (StringUtil.IsNullOrEmpty(root_key))
+                return;
+
+            StringBuilder log = new StringBuilder();
+
+            log.AppendFormat("Hierarchy cache cleared! Root cache key : {0}", root_key);
+            log.AppendLine();
+
+            // remove sub cache
+            List<string> sub_keys = JCache.Get<List<string>>(root_key) ?? new List<string>();
+
+            foreach (var key in sub_keys)
+            {
+                JCache.Remove(key);
+
+                log.AppendLine(key);
+            }
+
+            // remove root
+            JCache.Remove(root_key);
+
+            LogManager.GetLogger<JCache>().Debug(log.ToString());
         }
 
         private static string GetCacheKey(string key)

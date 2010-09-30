@@ -195,6 +195,46 @@ namespace Kiss
             }
         }
 
+        /// <summary>
+        /// pre query event
+        /// </summary>
+        public static event EventHandler<QueryEventArgs> PreQuery;
+
+        public static void OnPreQuery(QueryEventArgs e)
+        {
+            EventHandler<QueryEventArgs> handler = PreQuery;
+
+            if (handler != null)
+            {
+                handler(null, e);
+            }
+        }
+
+        public class QueryEventArgs : EventArgs
+        {
+            public static readonly new QueryEventArgs Empty = new QueryEventArgs();
+
+            public Type Type { get; set; }
+            public string TableName { get; set; }
+            public string Sql { get; set; }
+            public object Result { get; set; }
+        }
+
+        /// <summary>
+        /// after query event
+        /// </summary>
+        public static event EventHandler<QueryEventArgs> AfterQuery;
+
+        public static void OnAfterQuery(QueryEventArgs e)
+        {
+            EventHandler<QueryEventArgs> handler = AfterQuery;
+
+            if (handler != null)
+            {
+                handler(null, e);
+            }
+        }
+
         #endregion
 
         private string tableName;
@@ -294,6 +334,7 @@ namespace Kiss
     public class BatchEventArgs : EventArgs
     {
         public static readonly new BatchEventArgs Empty = new BatchEventArgs();
+        public string TableName { get; set; }
         public Type Type { get; set; }
     }
 

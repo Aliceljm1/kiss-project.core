@@ -40,5 +40,10 @@ ServiceLocator非初始化时调用抛出异常信息
 
 v2.6.6
 增加了图像处理的工具类
+类Principal增加PermissionDenied事件
+JCache增加RemoveHierarchyCache方法，用于移除二级缓存
+简化QueryCondition，移除了缓存相关代码
+移除了ICachable接口
+IRepository接口增加了Delete方法
 
 	使用ndoc生成文档

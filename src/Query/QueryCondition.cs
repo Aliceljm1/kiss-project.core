@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Text;
-using Kiss.Caching;
 using Kiss.Config;
 using Kiss.Utils;
 
@@ -13,7 +12,7 @@ namespace Kiss.Query
     /// <summary>
     /// 查询条件
     /// </summary>
-    public class QueryCondition : ExtendedAttributes, ICachable
+    public class QueryCondition : ExtendedAttributes
     {
         #region ctor
 
@@ -285,36 +284,6 @@ namespace Kiss.Query
 
         #endregion
 
-        #region ICachable Members
-
-        /// <summary>
-        /// 缓存key
-        /// </summary>
-        public virtual string CacheKey { get { return string.Format("{0}.query:{1}", TableName, SecurityUtil.MD5_Hash(WhereClause)); } }
-
-        /// <summary>
-        /// 父级缓存key
-        /// </summary>
-        public virtual string ParentCacheKey { get; set; }
-
-        /// <summary>
-        /// 数目缓存key
-        /// </summary>
-        public virtual string CountCacheKey { get { return string.Format("{0}.count:{1}", TableName, SecurityUtil.MD5_Hash(WhereClause)); } }
-
-        /// <summary>
-        /// 缓存时间
-        /// </summary>
-        public virtual TimeSpan CacheTime
-        {
-            get
-            {
-                return CacheConfig.ValidFor;
-            }
-        }
-
-        #endregion
-
         /// <summary>
         /// no paging query
         /// </summary>
@@ -376,23 +345,7 @@ namespace Kiss.Query
         {
             IQuery provider = QueryFactory.Create(ProviderName);
 
-            if (!CacheConfig.Enabled)
-                return provider.GetRelationIds<T>(this);
-
-            string key = GetCacheKey();
-            if (StringUtil.IsNullOrEmpty(key))
-                return provider.GetRelationIds<T>(this);
-
-            List<T> ids = JCache.Get<List<T>>(key);
-            if (ids == null)
-            {
-                ids = provider.GetRelationIds<T>(this);
-
-                if (ids != null)
-                    JCache.Insert(key, ids, CacheTime);
-            }
-
-            return ids;
+            return provider.GetRelationIds<T>(this);
         }
 
         public List<int> GetRelationIds()
@@ -408,22 +361,7 @@ namespace Kiss.Query
         {
             IQuery provider = QueryFactory.Create(ProviderName);
 
-            if (!CacheConfig.Enabled)
-                return provider.Count(this);
-
-            string key = GetCountCacheKey();
-            if (StringUtil.IsNullOrEmpty(key))
-                return provider.Count(this);
-
-            int? count = JCache.Get<int?>(key);
-            if (count == null || !count.HasValue)
-            {
-                count = provider.Count(this);
-
-                JCache.Insert(key, count, CacheTime);
-            }
-
-            return count.Value;
+            return provider.Count(this);
         }
 
         /// <summary>
@@ -492,74 +430,6 @@ namespace Kiss.Query
                 return null;
             }
         }
-
-        #region cache key
-
-        /// <summary>
-        /// 获取缓存Key
-        /// </summary>
-        /// <returns></returns>
-        string GetCacheKey()
-        {
-            string key = StringUtil.GetSafeCacheKey(CacheKey);
-            if (StringUtil.IsNullOrEmpty(key))
-                return string.Empty;
-
-            if (StringUtil.HasText(ParentCacheKey))
-                AddToParentCacheKey(StringUtil.GetSafeCacheKey(ParentCacheKey), key, CacheTime);
-
-            return key;
-        }
-
-        /// <summary>
-        /// 获取总数的缓存key
-        /// </summary>
-        /// <returns></returns>
-        string GetCountCacheKey()
-        {
-            string key = StringUtil.GetSafeCacheKey(CountCacheKey);
-            if (StringUtil.IsNullOrEmpty(key))
-                return string.Empty;
-
-            if (StringUtil.HasText(ParentCacheKey))
-                AddToParentCacheKey(StringUtil.GetSafeCacheKey(ParentCacheKey), key, CacheTime);
-
-            return key;
-        }
-
-        /// <summary>
-        /// 移除缓存
-        /// </summary>
-        void RemoveCache()
-        {
-            if (!StringUtil.HasText(ParentCacheKey))
-            {
-                JCache.Remove(StringUtil.GetSafeCacheKey(CountCacheKey));
-                JCache.Remove(StringUtil.GetSafeCacheKey(CacheKey));
-            }
-            else
-            {
-                string cacheKey = StringUtil.GetSafeCacheKey(ParentCacheKey);
-                List<string> keys = JCache.Get<List<string>>(cacheKey) ?? new List<string>();
-                foreach (string key in keys)
-                {
-                    JCache.Remove(key);
-                }
-                JCache.Remove(cacheKey);
-            }
-        }
-
-        void AddToParentCacheKey(string parentCacheKey, string cacheKey, TimeSpan cacheTime)
-        {
-            List<string> cachekeys = JCache.Get<List<string>>(parentCacheKey) ?? new List<string>();
-
-            if (!cachekeys.Contains(cacheKey))
-                cachekeys.Add(cacheKey);
-
-            JCache.Insert(parentCacheKey, cachekeys, cacheTime);
-        }
-
-        #endregion
 
         public class Conditions
         {

@@ -90,6 +90,7 @@
     <Compile Include="Repository\QueryObject.cs" />
     <Compile Include="Repository\RepositoryInitalizer.cs" />
     <Compile Include="Security\IUserService.cs" />
+    <Compile Include="Security\PermissionAttribute.cs" />
     <Compile Include="Security\Principal.cs" />
     <Compile Include="Tuple.cs" />
     <Compile Include="Utils\CrossDomain.cs" />
@@ -104,8 +105,7 @@
     <Compile Include="Repository\ObjGetter.cs" />
     <Compile Include="Caching\CacheConfig.cs" />
     <Compile Include="Caching\CacheProvider.cs" />
-    <Compile Include="Caching\ICachable.cs" />
-    <Compile Include="JCache.cs" />
+    <Compile Include="Caching\JCache.cs" />
     <Compile Include="Config\Attribute.cs" />
     <Compile Include="Config\ConfigException.cs" />
     <Compile Include="Config\ConfigBase.cs" />
