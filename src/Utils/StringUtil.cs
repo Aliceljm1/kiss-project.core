@@ -700,7 +700,7 @@ namespace Kiss.Utils
         public static string GetSafeQuery(string strSrc)
         {
             if (HasText(strSrc))
-                return Regex.Replace(strSrc.Trim(), @"[-|;|,|\/|\(|\\|\)|\[|\]|\}|\{|%|@|\*|!|\']", string.Empty, RegexOptions.IgnoreCase);
+                return Regex.Replace(strSrc.Trim(), @"[;|,|\/|\(|\\|\)|\[|\]|\}|\{|%|@|\*|!|\']", string.Empty, RegexOptions.IgnoreCase);
             return string.Empty;
         }
 
