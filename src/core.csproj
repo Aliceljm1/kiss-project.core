@@ -96,7 +96,7 @@
     <Compile Include="Utils\CrossDomain.cs" />
     <Compile Include="IAutoStart.cs" />
     <Compile Include="Repository\IRepository.cs" />
-    <Compile Include="ITemplateEngine.cs" />
+    <Compile Include="TemplateEngine.cs" />
     <Compile Include="ITypeFinder.cs" />
     <Compile Include="Logging\AbstractLoggerFactory.cs" />
     <Compile Include="Logging\ILogger.cs" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.IO;
+using Kiss.Plugin;
 
 namespace Kiss
 {
@@ -48,5 +49,31 @@ namespace Kiss
         /// <param name="templateName"></param>
         /// <returns></returns>
         bool HasTemplate(String templateName);
+    }
+
+    /// <summary>
+    /// template engine initializer
+    /// </summary>
+    [AutoInit(Title = "template engine")]
+    public class TemplateEngineInitializer : IPluginInitializer
+    {
+        const string KEY = "Kiss.templateEngine";
+
+        #region IPluginInitializer Members
+
+        public void Init(ServiceLocator sl, PluginSetting setting)
+        {
+            if (!setting.Enable) return;
+
+            string type = setting["type"];
+            if (string.IsNullOrEmpty(type))
+                type = "Kiss.Components.TemplateEngine.NVelocityTemplateEngine,Kiss.Components.TemplateEngine";
+
+            Type t = Type.GetType(type, true, true);
+
+            sl.AddComponent(KEY, typeof(ITemplateEngine), t);
+        }
+
+        #endregion
     }
 }

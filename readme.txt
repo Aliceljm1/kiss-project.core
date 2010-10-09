@@ -46,5 +46,6 @@ JCache增加RemoveHierarchyCache方法，用于移除二级缓存
 移除了ICachable接口
 IRepository接口增加了Delete方法
 查询允许使用“-”字符
+添加了TemplateEngineInitializer，用于加载模板引擎插件
 
 	使用ndoc生成文档
