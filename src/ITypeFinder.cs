@@ -15,19 +15,19 @@ namespace Kiss
         /// </summary>
         /// <param name="requestedType">The type to find.</param>
         /// <returns>A list of types found in the app domain.</returns>
-        IList<Type> Find ( Type requestedType );
+        IList<Type> Find(Type requestedType);
 
         /// <summary>
         /// Gets tne assemblies related to the current implementation.
         /// </summary>
         /// <returns>A list of assemblies that should be loaded.</returns>
-        IList<Assembly> GetAssemblies ( );
+        IList<Assembly> GetAssemblies();
 
         /// <summary>
         /// find assembly of a certain name
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        Assembly FindAssembly( string name );
+        Assembly FindAssembly(string name);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Web;
@@ -88,6 +89,20 @@ namespace Kiss
             {
                 throw new KissException("ServiceLocator init failed!", ex);
             }
+        }
+
+        /// <summary>Finds types assignable from of a certain type</summary>
+        /// <param name="requestedType">The type to find</param>
+        /// <param name="excludeSelf">If or not exclude requestedType</param>
+        /// <returns>A list of types found</returns>
+        public IList<Type> Find(Type requestedType, bool excludeSelf)
+        {
+            IList<Type> list = Resolve<ITypeFinder>().Find(requestedType);
+
+            if (excludeSelf)
+                list.Remove(requestedType);
+
+            return list;
         }
 
         private void StartComponents()

@@ -11,6 +11,8 @@ namespace Kiss
     /// </summary>
     public sealed class JCache
     {
+        private static readonly ILogger _logger = LogManager.GetLogger<JCache>();
+
         private JCache()
         {
         }
@@ -98,25 +100,21 @@ namespace Kiss
             if (StringUtil.IsNullOrEmpty(root_key))
                 return;
 
-            StringBuilder log = new StringBuilder();
-
-            log.AppendFormat("Hierarchy cache cleared! Root cache key : {0}", root_key);
-            log.AppendLine();
-
             // remove sub cache
-            List<string> sub_keys = JCache.Get<List<string>>(root_key) ?? new List<string>();
+            List<string> sub_keys = JCache.Get<List<string>>(root_key);
 
-            foreach (var key in sub_keys)
+            if (sub_keys != null && sub_keys.Count > 0)
             {
-                JCache.Remove(key);
-
-                log.AppendLine(key);
+                foreach (var key in sub_keys)
+                {
+                    JCache.Remove(key);
+                }
             }
 
             // remove root
             JCache.Remove(root_key);
 
-            LogManager.GetLogger<JCache>().Debug(log.ToString());
+            _logger.Debug("Hierarchy cache cleared! root cache key: {0}", root_key);
         }
 
         private static string GetCacheKey(string key)

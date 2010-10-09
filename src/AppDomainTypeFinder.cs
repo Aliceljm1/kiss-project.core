@@ -59,7 +59,7 @@ namespace Kiss
             set { assemblyRestrictToLoadingPattern = value; }
         }
 
-        #endregion
+        #endregion        
 
         /// <summary>Finds types assignable from of a certain type in the app domain.</summary>
         /// <param name="requestedType">The type to find.</param>

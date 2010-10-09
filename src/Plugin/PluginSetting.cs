@@ -17,6 +17,9 @@ namespace Kiss.Plugin
         public XmlNode Node { get; set; }
     }
 
+    /// <summary>
+    /// settings of plugin
+    /// </summary>
     public class PluginSettings : List<PluginSetting>
     {
         internal PluginSettings()
@@ -36,14 +39,32 @@ namespace Kiss.Plugin
             return setting;
         }
 
+        /// <summary>
+        /// Find settings of the plugin
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static PluginSetting Get<T>() where T : IPluginInitializer
+        {
+            return Get(typeof(T));
+        }
+
+        /// <summary>
+        /// get plugin settings of specified plugin name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static PluginSetting GetByPluginName(string name)
+        {
+            return PluginConfig.Instance.Settings.FindByName(name);
+        }
+
+        static PluginSetting Get(Type type)
         {
             PluginBootstrapper boot = ServiceLocator.Instance.Resolve<PluginBootstrapper>();
 
-            Type t = typeof(T);
-
-            if (boot._pluginSettings.ContainsKey(t.Name))
-                return boot._pluginSettings[t.Name];
+            if (boot._pluginSettings.ContainsKey(type.Name))
+                return boot._pluginSettings[type.Name];
 
             return null;
         }

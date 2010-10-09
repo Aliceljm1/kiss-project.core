@@ -47,5 +47,8 @@ JCache增加RemoveHierarchyCache方法，用于移除二级缓存
 IRepository接口增加了Delete方法
 查询允许使用“-”字符
 添加了TemplateEngineInitializer，用于加载模板引擎插件
+增加了ResourceUtil类，用于加载资源
+增加DbProviderAttribute类，用于标识database provider
+ServiceLocator类添加public IList<Type> Find(Type requestedType, bool excludeSelf)方法
 
 	使用ndoc生成文档
