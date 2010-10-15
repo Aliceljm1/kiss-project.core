@@ -49,16 +49,7 @@ namespace Kiss
 
         public string GetExtendedAttribute( string name )
         {
-            string v = _extendedAttributes[ name ];
-
-            if( v == null )
-            {
-                return string.Empty;
-            }
-            else
-            {
-                return v;
-            }
+            return _extendedAttributes[ name ];
         }
 
         public void SetExtendedAttribute( string name, string value )

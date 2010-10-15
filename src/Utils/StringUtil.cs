@@ -75,14 +75,20 @@ namespace Kiss.Utils
             return equationCol;
         }
 
-        public static string NVCollection2CommaDelimitedEquation(NameValueCollection nv)
+        /// <summary>
+        /// convert namevaluecollection to query string
+        /// </summary>
+        /// <param name="nv"></param>
+        /// <param name="delimiter"></param>
+        /// <returns></returns>
+        public static string ToQueryString(this NameValueCollection nv)
         {
             StringBuilder sb = new StringBuilder(nv.Count);
 
             for (int i = 0; i < nv.Count; i++)
             {
                 if (i > 0)
-                    sb.Append(Comma);
+                    sb.Append("&");
 
                 string key = nv.GetKey(i);
                 string[] values = nv.GetValues(i);
@@ -700,7 +706,7 @@ namespace Kiss.Utils
         public static string GetSafeQuery(string strSrc)
         {
             if (HasText(strSrc))
-                return Regex.Replace(strSrc.Trim(), @"[;|,|\/|\(|\\|\)|\[|\]|\}|\{|%|@|\*|!|\']", string.Empty, RegexOptions.IgnoreCase);
+                return Regex.Replace(strSrc.Trim(), @"[;|\/|\(|\\|\)|\[|\]|\}|\{|%|@|\*|!|\']", string.Empty, RegexOptions.IgnoreCase);
             return string.Empty;
         }
 
