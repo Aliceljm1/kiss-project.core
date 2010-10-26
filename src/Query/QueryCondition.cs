@@ -124,7 +124,7 @@ namespace Kiss.Query
             get
             {
                 List<string> list = new List<string>();
-                foreach (var item in OrderbyItems)
+                foreach (var item in _orderbyItems)
                 {
                     if (!AllowedOrderbyColumns.Contains(item.First))
                         continue;
@@ -186,10 +186,9 @@ namespace Kiss.Query
         }
 
         private List<Pair<string, bool>> _orderbyItems = new List<Pair<string, bool>>();
-        public List<Pair<string, bool>> OrderbyItems { get { return _orderbyItems; } }
 
         /// <summary>
-        /// add sort column( desc )
+        /// add sort column( desc ) and set the column to sortable
         /// </summary>
         /// <param name="column">column name</param>
         public void AddOrderby(string column)
@@ -198,7 +197,7 @@ namespace Kiss.Query
         }
 
         /// <summary>
-        /// add sort column
+        /// add sort column and set the column to sortable
         /// </summary>
         /// <param name="column">column name</param>
         /// <param name="asc">asc</param>
@@ -207,7 +206,16 @@ namespace Kiss.Query
             if (!AllowedOrderbyColumns.Contains(column))
                 AllowedOrderbyColumns.Add(column);
 
-            OrderbyItems.Add(new Pair<string, bool>(column, asc));
+            AppendOrderby(column, asc);
+        }
+
+        /// <summary>
+        /// add sort column
+        /// </summary>
+        public void AppendOrderby(string column, bool asc)
+        {
+            if (!_orderbyItems.Exists(delegate(Pair<string, bool> p) { return string.Equals(p.First, column, StringComparison.InvariantCultureIgnoreCase); }))
+                _orderbyItems.Add(new Pair<string, bool>(column, asc));
         }
 
         #endregion

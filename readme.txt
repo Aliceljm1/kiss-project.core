@@ -50,5 +50,7 @@ IRepository接口增加了Delete方法
 增加了ResourceUtil类，用于加载资源
 增加DbProviderAttribute类，用于标识database provider
 ServiceLocator类添加public IList<Type> Find(Type requestedType, bool excludeSelf)方法
+PluginBootstrapper支持初始化插件中的插件
+移除QueryCondition类的OrderbyItems属性，添加AppendOrderby方法
 
 	使用ndoc生成文档

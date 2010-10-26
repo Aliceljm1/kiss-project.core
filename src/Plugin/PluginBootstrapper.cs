@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Web;
 using System.Text;
 
 namespace Kiss.Plugin
 {
     public class PluginBootstrapper
     {
+        internal PluginBootstrapper()
+        {
+        }
+
+        private List<string> initializedPlugins = new List<string>();
+
         internal Dictionary<string, PluginSetting> _pluginSettings = new Dictionary<string, PluginSetting>();
 
         /// <summary>Gets plugins in the current app domain using the type finder.</summary>
@@ -44,26 +49,13 @@ namespace Kiss.Plugin
             int count = 0, enable_count = 0;
             foreach (IPluginDefinition plugin in plugins)
             {
-                try
-                {
-                    PluginSetting setting = settings.FindByName(plugin.Name);
-                    setting.Title = plugin.Title;
-                    setting.Description = plugin.Description;
+                InitPlugin(log, sl, settings, exceptions, ref count, ref enable_count, plugin);
+            }
 
-                    _pluginSettings[plugin.Name] = setting;
-
-                    plugin.Init(sl, setting);
-                    count++;
-                    if (setting.Enable)
-                        enable_count++;
-
-                    log.AppendFormat("{0}:{1} ", setting.Name, setting.Enable);
-                    log.AppendLine();
-                }
-                catch (Exception ex)
-                {
-                    exceptions.Add(ex);
-                }
+            // init again for plugins in plugin
+            foreach (var plugin in GetPluginDefinitions())
+            {
+                InitPlugin(log, sl, settings, exceptions, ref count, ref enable_count, plugin);
             }
 
             if (exceptions.Count > 0)
@@ -80,6 +72,36 @@ namespace Kiss.Plugin
             log.AppendFormat("plugins initialized. {1} of {0} is enable.", count, enable_count);
 
             LogManager.GetLogger<PluginBootstrapper>().Info(log.ToString());
+        }
+
+        private void InitPlugin(StringBuilder log, ServiceLocator sl, PluginSettings settings, List<Exception> exceptions, ref int count, ref int enable_count, IPluginDefinition plugin)
+        {
+            if (string.IsNullOrEmpty(plugin.Name) || initializedPlugins.Contains(plugin.Name))
+                return;
+
+            try
+            {
+                PluginSetting setting = settings.FindByName(plugin.Name);
+                setting.Title = plugin.Title;
+                setting.Description = plugin.Description;
+
+                _pluginSettings[plugin.Name] = setting;
+
+                plugin.Init(sl, setting);
+
+                initializedPlugins.Add(plugin.Name);
+
+                count++;
+                if (setting.Enable)
+                    enable_count++;
+
+                log.AppendFormat("{0}:{1} ", setting.Name, setting.Enable);
+                log.AppendLine();
+            }
+            catch (Exception ex)
+            {
+                exceptions.Add(ex);
+            }
         }
     }
 }
