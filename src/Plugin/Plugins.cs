@@ -43,7 +43,7 @@ namespace Kiss.Plugin
                 {
                     if (plugin.Name == null)
                         throw new KissException("A plugin in the assembly '{0}' has no name. The plugin is likely defined on the assembly ([assembly:...]). Try assigning the plugin a unique name and recompiling.", assembly.FullName);
-                    
+
                     if (foundPlugins.Contains(plugin))
                         throw new KissException("A plugin of the type '{0}' named '{1}' is already defined, assembly: {2}", plugin.GetType().FullName, plugin.Name, assembly.FullName);
 
@@ -60,8 +60,20 @@ namespace Kiss.Plugin
             {
                 yield return attribute;
             }
-            foreach (Type t in a.GetTypes())
+
+            Type[] types;
+            try
             {
+                types = a.GetTypes();
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                types = ex.Types;
+            }
+
+            foreach (Type t in types)
+            {
+                if (t == null) continue;
                 foreach (IPlugin attribute in t.GetCustomAttributes(typeof(IPlugin), false))
                 {
                     if (attribute.Name == null)

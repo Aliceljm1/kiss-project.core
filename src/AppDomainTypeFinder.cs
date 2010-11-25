@@ -59,7 +59,7 @@ namespace Kiss
             set { assemblyRestrictToLoadingPattern = value; }
         }
 
-        #endregion        
+        #endregion
 
         /// <summary>Finds types assignable from of a certain type in the app domain.</summary>
         /// <param name="requestedType">The type to find.</param>
@@ -69,16 +69,16 @@ namespace Kiss
             List<Type> types = new List<Type>();
             foreach (Assembly a in GetAssemblies())
             {
+                Type[] list;
+
                 try
                 {
-                    foreach (Type t in a.GetTypes())
-                    {
-                        if (requestedType.IsAssignableFrom(t))
-                            types.Add(t);
-                    }
+                    list = a.GetTypes();
                 }
                 catch (ReflectionTypeLoadException ex)
                 {
+                    list = ex.Types;
+
                     StringBuilder msg = new StringBuilder("Error getting types from assembly ");
                     msg.Append(a.FullName);
 
@@ -105,8 +105,17 @@ namespace Kiss
 
                     msg.AppendLine(ExceptionUtil.WriteException(ex));
 
-                    throw new KissException(msg.ToString());
+                    LogManager.GetLogger<AppDomainTypeFinder>().Error(msg.ToString());
                 }
+
+                foreach (Type t in list)
+                {
+                    if (t == null) continue;
+
+                    if (requestedType.IsAssignableFrom(t))
+                        types.Add(t);
+                }
+
             }
 
             return types;

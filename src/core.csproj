@@ -73,8 +73,6 @@
     <Compile Include="Collection\HashSet.cs" />
     <Compile Include="Collection\ISet.cs" />
     <Compile Include="Logging\DummyLogger.cs" />
-    <Compile Include="Logging\Log.cs" />
-    <Compile Include="Logging\LogInitializer.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="Plugin\AutoInitAttribute.cs" />
     <Compile Include="Plugin\IPlugin.cs" />
@@ -97,7 +95,7 @@
     <Compile Include="Utils\CrossDomain.cs" />
     <Compile Include="IAutoStart.cs" />
     <Compile Include="Repository\IRepository.cs" />
-    <Compile Include="TemplateEngine.cs" />
+    <Compile Include="ITemplateEngine.cs" />
     <Compile Include="ITypeFinder.cs" />
     <Compile Include="Logging\AbstractLoggerFactory.cs" />
     <Compile Include="Logging\ILogger.cs" />
@@ -177,6 +175,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

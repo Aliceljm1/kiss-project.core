@@ -6,9 +6,11 @@ namespace Kiss.Plugin
 {
     public class PluginBootstrapper
     {
-        internal PluginBootstrapper()
+        private PluginBootstrapper()
         {
         }
+
+        public static readonly PluginBootstrapper Instance = new PluginBootstrapper();
 
         private List<string> initializedPlugins = new List<string>();
 

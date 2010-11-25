@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Configuration;
 using Kiss.Query;
 using Kiss.Utils;
+using System.Data;
 
 namespace Kiss
 {
@@ -16,12 +17,27 @@ namespace Kiss
             return Repository.Get(id);
         }
 
+        public static T Get(ILinqContext<T> context, t id)
+        {
+            return Repository.Get(context, id);
+        }
+
         /// <summary>
         /// get obj list
         /// </summary>
         public static List<T> Gets(t[] ids)
         {
             return Repository.Gets(ids);
+        }
+
+        public static List<T> Gets(ILinqContext<T> context, t[] ids)
+        {
+            return Repository.Gets(context, ids);
+        }
+
+        public static DataTable GetDataTable(QueryCondition q)
+        {
+            return Repository.GetDataTable(q);
         }
 
         public static T Save(string param, ConvertObj<T> converter)
@@ -39,6 +55,11 @@ namespace Kiss
             return Repository.Gets(commaDelimitedIds);
         }
 
+        public static List<T> Gets(ILinqContext<T> context, string commaDelimitedIds)
+        {
+            return Repository.Gets(context, commaDelimitedIds);
+        }
+
         public static List<T> Gets(QueryCondition q)
         {
             return Repository.Gets(q);
@@ -49,14 +70,14 @@ namespace Kiss
             return Repository.GetsAll();
         }
 
+        public static List<T> GetsAll(ILinqContext<T> context)
+        {
+            return Repository.GetsAll(context);
+        }
+
         public static int Count(QueryCondition q)
         {
             return Repository.Count(q);
-        }
-
-        public static T Save(T obj)
-        {
-            return Repository.Save(obj);
         }
 
         public static void DeleteById(params t[] ids)
@@ -77,7 +98,7 @@ namespace Kiss
             }
         }
 
-        public static IKissQueryable<T> Query { get { return Repository.Query; } }
+        public static ILinqContext<T> CreateContext(bool enableQueryEvent) { return Repository.CreateContext(enableQueryEvent); }
 
         public static ConnectionStringSettings ConnectionStringSettings { get { return Repository.ConnectionStringSettings; } set { Repository.ConnectionStringSettings = value; } }
     }
@@ -90,19 +111,24 @@ namespace Kiss
             return Repository.Gets(q);
         }
 
+        public static DataTable GetDataTable(QueryCondition q)
+        {
+            return Repository.GetDataTable(q);
+        }
+
         public static List<T> GetsAll()
         {
             return Repository.GetsAll();
         }
 
+        public static List<T> GetsAll(ILinqContext<T> context)
+        {
+            return Repository.GetsAll(context);
+        }
+
         public static int Count(QueryCondition q)
         {
             return Repository.Count(q);
-        }
-
-        public static T Save(T obj)
-        {
-            return Repository.Save(obj);
         }
 
         public static string GetTableName()
@@ -118,7 +144,7 @@ namespace Kiss
             }
         }
 
-        public static IKissQueryable<T> Query { get { return Repository.Query; } }
+        public static ILinqContext<T> CreateContext(bool enableQueryEvent) { return Repository.CreateContext(enableQueryEvent); }
 
         public static ConnectionStringSettings ConnectionStringSettings { get { return Repository.ConnectionStringSettings; } set { Repository.ConnectionStringSettings = value; } }
     }

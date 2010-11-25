@@ -9,7 +9,10 @@ namespace Kiss.Security
         //  http://go.microsoft.com/fwlink/?LinkId=85236
         readonly string permission;
 
-        // This is a positional argument
+        /// <summary>
+        /// ctor
+        /// </summary>
+        /// <param name="permission"></param>
         public PermissionAttribute(string permission)
         {
             this.permission = permission;

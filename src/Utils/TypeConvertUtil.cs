@@ -31,7 +31,7 @@ namespace Kiss.Utils
         public static object ConvertTo(object value, Type targetType)
         {
             // check for value = null, thx alex       
-            if (value == null)
+            if (value == null || string.IsNullOrEmpty(value.ToString()))
                 return null;
 
             // do we have a nullable type?
@@ -72,18 +72,13 @@ namespace Kiss.Utils
 
             Type t = old.GetType();
 
-            foreach (string key in nv.Keys)
+            foreach (var p in t.GetProperties())
             {
-                if (key.Equals("id", StringComparison.InvariantCultureIgnoreCase)) continue;
-
-                if (ignore_list.Contains(key.ToLower()))
+                if (!p.CanWrite || nv[p.Name] == null || ignore_list.Contains(p.Name.ToLower()))
                     continue;
 
-                PropertyInfo prop = t.GetProperty(key);
-                if (prop == null || !prop.CanWrite) continue;
-
-                prop.SetValue(old,
-                    ConvertTo(nv[key], prop.PropertyType),
+                p.SetValue(old,
+                    ConvertTo(nv[p.Name], p.PropertyType),
                     null);
             }
         }

@@ -79,9 +79,7 @@ namespace Kiss
 
                 if (enablePlugins)
                 {
-                    PluginBootstrapper pluginBootstrapper = new PluginBootstrapper();
-                    AddComponentInstance(pluginBootstrapper);
-
+                    PluginBootstrapper pluginBootstrapper = PluginBootstrapper.Instance;
                     pluginBootstrapper.InitializePlugins(pluginBootstrapper.GetPluginDefinitions());
                 }
             }

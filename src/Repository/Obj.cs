@@ -1,13 +1,25 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Kiss
 {
     /// <summary>
+    /// extendable item
+    /// </summary>
+    public interface IExtendable
+    {
+        string PropertyName { get; set; }
+        string PropertyValue { get; set; }
+
+        string this[string key] { get; set; }
+
+        void SerializeExtAttrs();
+    }
+
+    /// <summary>
     /// base model class
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     [Serializable]
     public abstract class Obj<t> : QueryObject
     {
@@ -85,7 +97,7 @@ namespace Kiss
     /// </summary>
     [Serializable]
     [OriginalName("gDictSchema")]
-    public class DictSchema : QueryObject<DictSchema, int>, IComparable<DictSchema>
+    public class DictSchema : QueryObject<DictSchema, int>, IComparable<DictSchema>, IExtendable
     {
         [PK]
         public override int Id { get { return base.Id; } set { base.Id = value; } }
@@ -198,80 +210,93 @@ namespace Kiss
 
         public static DictSchema GetRoot(int siteId, string type)
         {
-            return (from q in Query
+            return (from q in CreateContext(true)
                     where q.SiteId == siteId && q.Type == type && q.Depth == 0
                     select q).SingleOrDefault();
         }
 
         public static void DeleteByRoot(int siteId, string type)
         {
-            List<DictSchema> list = (from q in Query
+            ILinqContext<DictSchema> context = CreateContext(false);
+
+            List<DictSchema> list = (from q in context
                                      where q.SiteId == siteId && q.Type == type && q.Depth > 0
                                      select q).ToList();
 
             foreach (var schema in list)
             {
-                Query.Remove(schema);
+                context.Remove(schema);
             }
 
-            Query.SubmitChanges(true);
+            context.SubmitChanges(true);
         }
 
         public static void Copy(int fromSiteId, int toSiteId)
         {
-            List<DictSchema> oldList = GetsBySiteId(fromSiteId);
+            ILinqContext<DictSchema> context = CreateContext(false);
+
+            List<DictSchema> oldList = (from q in context
+                                        where q.SiteId == fromSiteId && q.ParentId == 0
+                                        select q).ToList();
+
             foreach (DictSchema d0 in oldList)
             {
                 d0.Id = 0;
                 d0.SiteId = toSiteId;
-                Query.Add(d0);
-                Query.SubmitChanges();
+                context.Add(d0);
 
-                List<DictSchema> list = GetsByType(fromSiteId, d0.Type);
+                ILinqContext<DictSchema> context2 = CreateContext(false);
+
+                List<DictSchema> list = (from q in context2
+                                         where q.SiteId == fromSiteId && q.Type == d0.Type && q.Depth > 0
+                                         select q).ToList();
 
                 foreach (DictSchema d1 in list)
                 {
                     d1.ParentId = d0.Id;
-                    copyRecu(d1, toSiteId);
+                    copyRecu(context2, d1, toSiteId);
                 }
+
+                context2.SubmitChanges(true);
             }
+
+            context.SubmitChanges();
         }
 
-        private static void copyRecu(DictSchema schema, int tositeId)
+        private static void copyRecu(ILinqContext<DictSchema> context, DictSchema schema, int tositeId)
         {
             schema.Id = 0;
             schema.SiteId = tositeId;
 
-            Query.Add(schema);
-            Query.SubmitChanges();
+            context.Add(schema);
 
             if (schema.HasChild && schema.Children != null && schema.Children.Count > 0)
             {
                 foreach (DictSchema s in schema.Children)
                 {
                     s.ParentId = schema.Id;
-                    copyRecu(s, tositeId);
+                    copyRecu(context, s, tositeId);
                 }
             }
         }
 
         public static List<DictSchema> GetsBySiteId(int siteId)
         {
-            return (from q in Query
+            return (from q in CreateContext(true)
                     where q.SiteId == siteId && q.ParentId == 0
                     select q).ToList();
         }
 
         public static DictSchema GetByName(int siteId, string type, string name)
         {
-            return (from q in Query
+            return (from q in CreateContext(true)
                     where q.SiteId == siteId && q.Type == type && q.Name == name
                     select q).FirstOrDefault();
         }
 
         public static List<DictSchema> GetsByType(int siteId, string type)
         {
-            List<DictSchema> list = (from q in Query
+            List<DictSchema> list = (from q in CreateContext(true)
                                      where q.SiteId == siteId && q.Type == type && q.Depth > 0
                                      orderby q.Depth ascending, q.SortOrder ascending
                                      select q).ToList();
@@ -309,7 +334,7 @@ namespace Kiss
 
         public static List<DictSchema> GetsByParentId(int id)
         {
-            return (from q in Query
+            return (from q in CreateContext(true)
                     where q.ParentId == id
                     orderby q.SortOrder ascending
                     select q).ToList();
@@ -330,11 +355,18 @@ namespace Kiss
             if (!s.HasChild)
                 return;
 
-            foreach (DictSchema sub in GetsByParentId(s.Id))
+            ILinqContext<DictSchema> context = CreateContext(false);
+
+            List<DictSchema> list = (from q in context
+                                     where q.ParentId == s.Id
+                                     select q).ToList();
+
+            foreach (DictSchema sub in list)
             {
-                Query.Remove(sub);
-                Query.SubmitChanges();
+                context.Remove(sub);
             }
+
+            context.SubmitChanges(true);
         }
 
         #endregion

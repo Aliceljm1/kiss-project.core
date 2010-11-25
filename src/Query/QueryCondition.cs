@@ -165,26 +165,6 @@ namespace Kiss.Query
             set { tableField = value; }
         }
 
-        private bool? appendWhereKeyword;
-
-        /// <summary>
-        /// if append "where" clause to sql 
-        /// </summary>
-        public bool AppendWhereKeyword
-        {
-            get
-            {
-                if (appendWhereKeyword == null)
-                    appendWhereKeyword = GetAppendWhereKeyword();
-
-                return appendWhereKeyword.Value;
-            }
-            set
-            {
-                appendWhereKeyword = value;
-            }
-        }
-
         private List<Pair<string, bool>> _orderbyItems = new List<Pair<string, bool>>();
 
         /// <summary>
@@ -279,7 +259,6 @@ namespace Kiss.Query
 
         protected virtual string GetTableName() { return null; }
         protected virtual string GetTableField() { return "*"; }
-        protected virtual bool GetAppendWhereKeyword() { return true; }
 
         /// <summary>
         /// load query conditions(normally from querystring)
@@ -399,30 +378,9 @@ namespace Kiss.Query
         /// <returns></returns>
         public DataTable GetDataTable()
         {
-            using (IDataReader rdr = GetReader())
-            {
-                DataTable schema = rdr.GetSchemaTable();
+            IQuery provider = QueryFactory.Create(ProviderName);
 
-                DataTable dt = new DataTable();
-
-                foreach (DataRow row in schema.Rows)
-                {
-                    string columnName = row.ItemArray[0].ToString();
-                    dt.Columns.Add(columnName);
-                }
-
-                while (rdr.Read())
-                {
-                    DataRow r = dt.NewRow();
-                    foreach (DataColumn column in dt.Columns)
-                    {
-                        r[column] = rdr[column.ColumnName];
-                    }
-                    dt.Rows.Add(r);
-                }
-
-                return dt;
-            }
+            return provider.GetDataTable(this);
         }
 
         public Hashtable GetHashtable()

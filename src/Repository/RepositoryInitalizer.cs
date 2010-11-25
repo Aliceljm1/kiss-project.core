@@ -24,12 +24,12 @@ namespace Kiss
                 if (StringUtil.HasText(type1))
                 {
                     Type t1 = Type.GetType(type1, true, true);
-                    sl.AddComponent("kiss.repository_1", typeof(IRepository<>), t1, Castle.Core.LifestyleType.PerWebRequest);
+                    sl.AddComponent("kiss.repository_1", typeof(IRepository<>), t1);
                 }
                 if (StringUtil.HasText(type2))
                 {
                     Type t2 = Type.GetType(type2, true, true);
-                    sl.AddComponent("kiss.repository_2", typeof(IRepository<,>), t2, Castle.Core.LifestyleType.PerWebRequest);
+                    sl.AddComponent("kiss.repository_2", typeof(IRepository<,>), t2);
                 }
             }
 

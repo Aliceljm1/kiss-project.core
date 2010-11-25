@@ -30,6 +30,8 @@ namespace Kiss.Query
         /// <returns></returns>
         IDataReader GetReader(QueryCondition q);
 
+        DataTable GetDataTable(QueryCondition q);
+
         /// <summary>
         /// delete data using query condition
         /// </summary>

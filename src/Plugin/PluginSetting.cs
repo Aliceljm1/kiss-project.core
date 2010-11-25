@@ -61,7 +61,7 @@ namespace Kiss.Plugin
 
         static PluginSetting Get(Type type)
         {
-            PluginBootstrapper boot = ServiceLocator.Instance.Resolve<PluginBootstrapper>();
+            PluginBootstrapper boot = PluginBootstrapper.Instance;
 
             if (boot._pluginSettings.ContainsKey(type.Name))
                 return boot._pluginSettings[type.Name];

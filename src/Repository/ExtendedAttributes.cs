@@ -37,30 +37,30 @@ namespace Kiss
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public virtual string this[ string key ]
+        public virtual string this[string key]
         {
-            get { return GetExtendedAttribute( key ); }
-            set { SetExtendedAttribute( key, value ); }
+            get { return GetExtendedAttribute(key); }
+            set { SetExtendedAttribute(key, value); }
         }
 
         #endregion
 
         #region Get / Set
 
-        public string GetExtendedAttribute( string name )
+        public string GetExtendedAttribute(string name)
         {
-            return _extendedAttributes[ name ];
+            return _extendedAttributes[name];
         }
 
-        public void SetExtendedAttribute( string name, string value )
+        public void SetExtendedAttribute(string name, string value)
         {
-            if( StringUtil.IsNullOrEmpty( value ) )
+            if (StringUtil.IsNullOrEmpty(value))
             {
-                _extendedAttributes.Remove( name );
+                _extendedAttributes.Remove(name);
             }
             else
             {
-                _extendedAttributes[ name ] = value;
+                _extendedAttributes[name] = value;
             }
         }
 
@@ -68,38 +68,38 @@ namespace Kiss
 
         #region GetValue
 
-        public object GetValue<T>( string name, T defaultValue )
+        public object GetValue<T>(string name, T defaultValue)
         {
-            string value = GetExtendedAttribute( name );
+            string value = GetExtendedAttribute(name);
 
-            if( StringUtil.IsNullOrEmpty( value ) )
+            if (StringUtil.IsNullOrEmpty(value))
             {
                 return defaultValue;
             }
 
-            string type = typeof( T ).Name;
+            string type = typeof(T).Name;
 
-            switch( type )
+            switch (type)
             {
                 case "Boolean":
                     bool b;
-                    if( bool.TryParse( value, out b ) )
+                    if (bool.TryParse(value, out b))
                     {
                         return b;
                     }
                     return defaultValue;
                 case "Int32":
                     int i;
-                    if( Int32.TryParse( value, out i ) )
+                    if (Int32.TryParse(value, out i))
                         return i;
                     return defaultValue;
                 case "DateTime":
                     DateTime dt;
-                    if( DateTime.TryParse( value, out dt ) )
+                    if (DateTime.TryParse(value, out dt))
                         return dt;
                     return defaultValue;
                 case "String":
-                    if( !StringUtil.IsNullOrEmpty( value ) )
+                    if (!StringUtil.IsNullOrEmpty(value))
                         return value;
                     return defaultValue;
                 default:
@@ -107,9 +107,9 @@ namespace Kiss
             }
         }
 
-        public bool HasValue( string name )
+        public bool HasValue(string name)
         {
-            return !StringUtil.IsNullOrEmpty( _extendedAttributes[ name ] );
+            return !StringUtil.IsNullOrEmpty(_extendedAttributes[name]);
         }
 
         #endregion
@@ -119,7 +119,7 @@ namespace Kiss
         public override object Copy()
         {
             ExtendedAttributes ea = this.CreateNewInstance() as ExtendedAttributes;
-            ea._extendedAttributes = new NameValueCollection( this._extendedAttributes );
+            ea._extendedAttributes = new NameValueCollection(this._extendedAttributes);
             return ea;
         }
 
@@ -134,49 +134,49 @@ namespace Kiss
             string keys = null;
             string values = null;
 
-            Serializer.ConvertFromNameValueCollection( this._extendedAttributes, ref keys, ref values );
+            Serializer.ConvertFromNameValueCollection(this._extendedAttributes, ref keys, ref values);
             data.Keys = keys;
             data.Values = values;
 
             return data;
         }
 
-        public void SetSerializerData( SerializerData data )
+        public void SetSerializerData(SerializerData data)
         {
-            if( this._extendedAttributes == null || this._extendedAttributes.Count == 0 )
+            if (this._extendedAttributes == null || this._extendedAttributes.Count == 0)
             {
-                this._extendedAttributes = Serializer.ConvertToNameValueCollection( data.Keys, data.Values );
+                this._extendedAttributes = Serializer.ConvertToNameValueCollection(data.Keys, data.Values);
             }
 
-            if( this._extendedAttributes == null )
+            if (this._extendedAttributes == null)
                 _extendedAttributes = new NameValueCollection();
         }
 
-        public void SetData( string keys, string values )
+        public void SetData(string keys, string values)
         {
             SerializerData d = new SerializerData();
             d.Keys = keys;
             d.Values = values;
 
-            SetSerializerData( d );
+            SetSerializerData(d);
         }
 
-        public void GetData( out string keys, out string values )
+        public void GetData(out string keys, out string values)
         {
             SerializerData d = GetSerializerData();
             keys = d.Keys;
             values = d.Values;
         }
 
-        public void SaveExtProp( NameValueCollection data )
+        public void SaveExtProp(NameValueCollection data)
         {
-            foreach( string key in data.Keys )
+            foreach (string key in data.Keys)
             {
-                SetExtendedAttribute( key, data[ key ] );
+                SetExtendedAttribute(key, data[key]);
             }
         }
 
-        #endregion      
+        #endregion
     }
 
     /// <summary>
@@ -195,14 +195,14 @@ namespace Kiss
 
         protected object CreateNewInstance()
         {
-            ConstructorInfo ci = _objects[ this.GetType() ] as ConstructorInfo;
-            if( ci == null )
+            ConstructorInfo ci = _objects[this.GetType()] as ConstructorInfo;
+            if (ci == null)
             {
-                ci = this.GetType().GetConstructor( new Type[ 0 ] );
-                _objects[ this.GetType() ] = ci;
+                ci = this.GetType().GetConstructor(new Type[0]);
+                _objects[this.GetType()] = ci;
             }
 
-            return ci.Invoke( null );
+            return ci.Invoke(null);
         }
 
         public virtual object Copy()

@@ -44,10 +44,18 @@ namespace Kiss.Security
 
         public bool IsInRole(string role)
         {
-            return ServiceLocator.Instance.Resolve<IUserService>().IsInRole(_user, role);
+            return ServiceLocator.Instance.Resolve<IUserService>().IsInRole(Identity, role);
         }
 
         #endregion
+
+        public IUser Info
+        {
+            get
+            {
+                return ServiceLocator.Instance.Resolve<IUserService>().GetUserInfo(Identity);
+            }
+        }
 
         #region events
 
@@ -64,6 +72,12 @@ namespace Kiss.Security
         }
 
         #endregion
+    }
+
+    public interface IUser
+    {
+        string UserName { get; }
+        string DisplayName { get; }
     }
 
     /// <summary>

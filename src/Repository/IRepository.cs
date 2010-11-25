@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
+using System.Data;
 using System.Linq;
 using Kiss.Query;
+using System;
 
 namespace Kiss
 {
@@ -19,16 +21,22 @@ namespace Kiss
         /// </summary>
         T Get(t id);
 
+        T Get(ILinqContext<T> context, t id);
+
         /// <summary>
         /// get obj list
         /// </summary>
         List<T> Gets(t[] ids);
+
+        List<T> Gets(ILinqContext<T> context, t[] ids);
 
         T Save(string param, ConvertObj<T> converter);
 
         T Save(NameValueCollection param, ConvertObj<T> converter);
 
         List<T> Gets(string commaDelimitedIds);
+
+        List<T> Gets(ILinqContext<T> context, string commaDelimitedIds);
 
         void DeleteById(params t[] ids);
     }
@@ -38,18 +46,18 @@ namespace Kiss
     {
         new List<T> Gets(QueryCondition q);
 
-        T Save(T obj);
-
-        IKissQueryable<T> Query { get; }
-
-        IKissQueryable<T> CreateQuery();
+        ILinqContext<T> CreateContext(bool enableQueryEvent);
 
         List<T> GetsAll();
+
+        List<T> GetsAll(ILinqContext<T> context);
     }
 
     public interface IRepository
     {
         object Gets(QueryCondition q);
+
+        DataTable GetDataTable(QueryCondition q);
 
         int Count(QueryCondition q);
 
@@ -58,7 +66,7 @@ namespace Kiss
         ConnectionStringSettings ConnectionStringSettings { get; set; }
     }
 
-    public interface IKissQueryable<T> : IQueryable<T>, IOrderedQueryable<T>, IQueryProvider
+    public interface ILinqContext<T> : IQueryable<T>, IOrderedQueryable<T>, IQueryProvider
     {
         void Add(T item);
         void Add(T item, bool isNew);

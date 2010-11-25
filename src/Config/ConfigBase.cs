@@ -26,6 +26,11 @@ namespace Kiss.Config
         /// </summary>
         public ConnectionStringSettings ConnectionStringSettings { get { return GetConnectionStringSettings(ConnStringName); } }
 
+        /// <summary>
+        /// default connection string settings
+        /// </summary>
+        public static ConnectionStringSettings DefaultConnectionStringSettings { get; set; }
+
         #endregion
 
         #region virtual

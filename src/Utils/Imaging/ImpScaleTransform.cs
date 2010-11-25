@@ -9,18 +9,6 @@ namespace Kiss.Utils.Imaging
     /// </summary>
     public class ImpScaleTransform : IImageTransform
     {
-
-        #region private fields
-
-        //保持长宽比
-        protected bool _keepRatio = false;
-
-        protected int _width;
-
-        protected int _height;
-
-        #endregion
-
         #region constructor
 
         /// <summary>
@@ -28,17 +16,18 @@ namespace Kiss.Utils.Imaging
         /// </summary>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public ImpScaleTransform(int width, int height):this(width,height,false)
+        public ImpScaleTransform(int width, int height)
+            : this(width, height, false)
         {
 
         }
 
         public ImpScaleTransform(int width, int height, bool keepRatio)
         {
-            _width = width;
-            _height = height;
-            _keepRatio = keepRatio;
-        }    
+            Width = width;
+            Height = height;
+            KeepRatio = keepRatio;
+        }
 
         #endregion
 
@@ -47,47 +36,17 @@ namespace Kiss.Utils.Imaging
         /// <summary>
         /// 是否保持长宽比
         /// </summary>
-        public bool KeepRatio
-        {
-            get
-            {
-                return _keepRatio;
-            }
-            set
-            {
-                _keepRatio = value;
-            }
-        }
+        public bool KeepRatio { get; set; }
 
         /// <summary>
         /// 缩放以后的宽度（单位：像素）
         /// </summary>
-        public int Width
-        {
-            get
-            {
-                return _width;
-            }
-            set
-            {
-                _width = value;
-            }
-        }
+        public int Width { get; set; }
 
         /// <summary>
         /// 缩放以后的高度（单位：像素）
         /// </summary>
-        public int Height
-        {
-            get
-            {
-                return _height;
-            }
-            set
-            {
-                _height = value;
-            }
-        }
+        public int Height { get; set; }
 
         #endregion
 
@@ -116,7 +75,7 @@ namespace Kiss.Utils.Imaging
             {
                 newImage = (IImage)image.Clone();
 
-                using (Image innerImage = image.Image,scaled = new Bitmap(Width, Height, innerImage.PixelFormat))
+                using (Image innerImage = image.Image, scaled = new Bitmap(Width, Height, innerImage.PixelFormat))
                 {
                     using (Graphics graphics = Graphics.FromImage(scaled))
                     {
@@ -124,9 +83,9 @@ namespace Kiss.Utils.Imaging
                         float heightF = image.Height;
 
                         float aspect = widthF / heightF;
-                        float targetAspect = (float)Width / (float)Height;                        
+                        float targetAspect = (float)Width / (float)Height;
 
-                        if (_keepRatio && widthF != heightF)
+                        if (KeepRatio && widthF != heightF)
                         {
                             float scale;
 
@@ -144,24 +103,24 @@ namespace Kiss.Utils.Imaging
                             destinationHeight = System.Convert.ToInt32(heightF * scale);
                             destinationWidth = System.Convert.ToInt32(widthF * scale);
                             destinationX = (Width - destinationWidth) / 2;
-                            destinationY = (Height - destinationHeight) / 2;                           
+                            destinationY = (Height - destinationHeight) / 2;
                         }
 
                         //定义图片在缩放的时候才用高质量的缩放方式
                         graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                        
+
                         graphics.DrawImage(innerImage,
                             new Rectangle(destinationX, destinationY, destinationWidth, destinationHeight),
-                            new Rectangle( 0,0, (int)widthF, (int)heightF ),
+                            new Rectangle(0, 0, (int)widthF, (int)heightF),
                             GraphicsUnit.Pixel);
                     }
 
                     newImage.Image = scaled;
                 }
-                
+
                 return newImage;
             }
-            catch(Exception ex)            
+            catch (Exception ex)
             {
                 if (newImage != null)
                 {
