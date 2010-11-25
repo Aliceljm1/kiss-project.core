@@ -1,66 +1,66 @@
-KISS core
+ï»¿KISS core
 
-ºËĞÄµÄÒ»Ğ©½Ó¿Ú
+æ ¸å¿ƒçš„ä¸€äº›æ¥å£
 
-°æ±¾ÀúÊ·£º
+ç‰ˆæœ¬å†å²ï¼š
 
 v1.6
-Ôö¼Ó»ñÈ¡QueryConditionºÍRepository»ñÈ¡DataTableµÄ½Ó¿Ú£¬´¦Àí×Ô¶¨ÒåµÄ²éÑ¯
-ÖØÒª¸üĞÂ£ºÒÆ³ıQueryConditionµÄAppendWhereKeywordÊôĞÔ£¬ÓÉÓÃ»§×ÔĞĞÉèÖÃÊÇ·ñÓĞwhere
-ÖØÒª¸üĞÂ£ºÒÆ³ıQueryObjectµÄQueryÊôĞÔ£¬Ìæ»»ÎªCreateContext·½·¨
+å¢åŠ è·å–QueryConditionå’ŒRepositoryè·å–DataTableçš„æ¥å£ï¼Œå¤„ç†è‡ªå®šä¹‰çš„æŸ¥è¯¢
+é‡è¦æ›´æ–°ï¼šç§»é™¤QueryConditionçš„AppendWhereKeywordå±æ€§ï¼Œç”±ç”¨æˆ·è‡ªè¡Œè®¾ç½®æ˜¯å¦æœ‰where
+é‡è¦æ›´æ–°ï¼šç§»é™¤QueryObjectçš„Queryå±æ€§ï¼Œæ›¿æ¢ä¸ºCreateContextæ–¹æ³•
 
 v1.5
-ĞÂÔöIExtendable½Ó¿Ú
-ÒÆ³ıÁËLogÀàºÍLogInitializerÀà£¬ÓÉÈÕÖ¾Ìá¹©Õß³õÊ¼»¯×ÔÉí
-ºöÂÔReflectionTypeLoadExceptionÒì³£
-ÒÆ³ıTemplateEngineInitializer£¬¸ÄÓÉÌá¹©Õß×ÔÉíÌá¹©
-Ôö¼ÓIUser½Ó¿Ú£¬ÓÃÓÚÃèÊöÓÃ»§µÄĞÅÏ¢
+æ–°å¢IExtendableæ¥å£
+ç§»é™¤äº†Logç±»å’ŒLogInitializerç±»ï¼Œç”±æ—¥å¿—æä¾›è€…åˆå§‹åŒ–è‡ªèº«
+å¿½ç•¥ReflectionTypeLoadExceptionå¼‚å¸¸
+ç§»é™¤TemplateEngineInitializerï¼Œæ”¹ç”±æä¾›è€…è‡ªèº«æä¾›
+å¢åŠ IUseræ¥å£ï¼Œç”¨äºæè¿°ç”¨æˆ·çš„ä¿¡æ¯
 
 v1.4
-Ôö¼ÓÁËÍ¼Ïñ´¦ÀíµÄ¹¤¾ßÀà
-ÀàPrincipalÔö¼ÓPermissionDeniedÊÂ¼ş
-JCacheÔö¼ÓRemoveHierarchyCache·½·¨£¬ÓÃÓÚÒÆ³ı¶ş¼¶»º´æ
-¼ò»¯QueryCondition£¬ÒÆ³ıÁË»º´æÏà¹Ø´úÂë
-ÒÆ³ıÁËICachable½Ó¿Ú
-IRepository½Ó¿ÚÔö¼ÓÁËDelete·½·¨
-²éÑ¯ÔÊĞíÊ¹ÓÃ¡°-¡±,¡°,¡±×Ö·û
-Ìí¼ÓÁËTemplateEngineInitializer£¬ÓÃÓÚ¼ÓÔØÄ£°åÒıÇæ²å¼ş
-Ôö¼ÓÁËResourceUtilÀà£¬ÓÃÓÚ¼ÓÔØ×ÊÔ´
-Ôö¼ÓDbProviderAttributeÀà£¬ÓÃÓÚ±êÊ¶database provider
-ServiceLocatorÀàÌí¼Ópublic IList<Type> Find(Type requestedType, bool excludeSelf)·½·¨
-PluginBootstrapperÖ§³Ö³õÊ¼»¯²å¼şÖĞµÄ²å¼ş
-ÒÆ³ıQueryConditionÀàµÄOrderbyItemsÊôĞÔ£¬Ìí¼ÓAppendOrderby·½·¨
+å¢åŠ äº†å›¾åƒå¤„ç†çš„å·¥å…·ç±»
+ç±»Principalå¢åŠ PermissionDeniedäº‹ä»¶
+JCacheå¢åŠ RemoveHierarchyCacheæ–¹æ³•ï¼Œç”¨äºç§»é™¤äºŒçº§ç¼“å­˜
+ç®€åŒ–QueryConditionï¼Œç§»é™¤äº†ç¼“å­˜ç›¸å…³ä»£ç 
+ç§»é™¤äº†ICachableæ¥å£
+IRepositoryæ¥å£å¢åŠ äº†Deleteæ–¹æ³•
+æŸ¥è¯¢å…è®¸ä½¿ç”¨â€œ-â€,â€œ,â€å­—ç¬¦
+æ·»åŠ äº†TemplateEngineInitializerï¼Œç”¨äºåŠ è½½æ¨¡æ¿å¼•æ“æ’ä»¶
+å¢åŠ äº†ResourceUtilç±»ï¼Œç”¨äºåŠ è½½èµ„æº
+å¢åŠ DbProviderAttributeç±»ï¼Œç”¨äºæ ‡è¯†database provider
+ServiceLocatorç±»æ·»åŠ public IList<Type> Find(Type requestedType, bool excludeSelf)æ–¹æ³•
+PluginBootstrapperæ”¯æŒåˆå§‹åŒ–æ’ä»¶ä¸­çš„æ’ä»¶
+ç§»é™¤QueryConditionç±»çš„OrderbyItemså±æ€§ï¼Œæ·»åŠ AppendOrderbyæ–¹æ³•
 
 v1.3
-Ôö¼ÓÁËRepositoryµÄprovidersÅäÖÃ
-ĞŞ¸ÄQueryConditionµÄPageSizeÄ¬ÈÏÖµÎª-1£¬±íÊ¾Ã»ÓĞÉèÖÃ£¬0±íÊ¾²»·ÖÒ³
-ÎÄµµ×¢ÊÍ
-IRepository<T>½Ó¿ÚÔö¼ÓÁËIKissQueryable<T> CreateQuery()·½·¨
-ĞŞ¸´ServerUtilÀàµÄResolveUrl·½·¨µÄbug
-ServiceLocator·Ç³õÊ¼»¯Ê±µ÷ÓÃÅ×³öÒì³£ĞÅÏ¢
+å¢åŠ äº†Repositoryçš„providersé…ç½®
+ä¿®æ”¹QueryConditionçš„PageSizeé»˜è®¤å€¼ä¸º-1ï¼Œè¡¨ç¤ºæ²¡æœ‰è®¾ç½®ï¼Œ0è¡¨ç¤ºä¸åˆ†é¡µ
+æ–‡æ¡£æ³¨é‡Š
+IRepository<T>æ¥å£å¢åŠ äº†IKissQueryable<T> CreateQuery()æ–¹æ³•
+ä¿®å¤ServerUtilç±»çš„ResolveUrlæ–¹æ³•çš„bug
+ServiceLocatoréåˆå§‹åŒ–æ—¶è°ƒç”¨æŠ›å‡ºå¼‚å¸¸ä¿¡æ¯
 
 v1.2
-¼ÇÂ¼²å¼ş¼ÓÔØÈÕÖ¾
-ĞŞ¸ÄILinqQuery<T>½Ó¿ÚÎªILinqQueryable<T>
-²»ÔÚÖ§³Ö.net framework 2.0£¬Ö§³ÖµÄ×îµÍ°æ±¾ÊÇ3.5
+è®°å½•æ’ä»¶åŠ è½½æ—¥å¿—
+ä¿®æ”¹ILinqQuery<T>æ¥å£ä¸ºILinqQueryable<T>
+ä¸åœ¨æ”¯æŒ.net framework 2.0ï¼Œæ”¯æŒçš„æœ€ä½ç‰ˆæœ¬æ˜¯3.5
 
 v1.1
-Ç¨ÒÆµ½vs2010
-IRepository<T>½Ó¿ÚÔö¼ÓGetsAll()·½·¨£¬QueryObjectÔö¼ÓÁËÏàÓ¦µÄ±ãÀû·½·¨
-ÊµÌåÀà¼Ì³ĞÓÚQueryObject<T>»òQueryObject<T>£¬ÓÉÓÚc#²»Ö§³Ö¶àÖØ¼Ì³Ğ£¬ËùÒÔÒµÎñÊµÌåÀàÎŞ·¨Ê¹ÓÃ¼Ì³ĞµÄÌØĞÔ¡£Õâ¸öÎÊÌâÓ°Ïì²»ÊÇºÜ´ó£¬ÒµÎñÄ£ĞÍ²ÉÓÃ×éºÏµÄ·½Ê½´úÌæ¼Ì³Ğ¿ÉÒÔ½â¾öÕâ¸öÎÊÌâ¡£Èç¹ûÒµÎñÄ£ĞÍ±ØĞëÊ¹ÓÃ¼Ì³Ğ£¬¿ÉÒÔµ÷ÓÃQueryObjectµÄ¾²Ì¬·½·¨ÊµÏÖÍ¬ÑùµÄ¹¦ÄÜ£¬Ö»ÊÇĞ´·¨ÉÏ²»Ì«¼ò½àÖ±¹Û¡£
-QueryConditionÀàÔö¼ÓÁËAddOrderby·½·¨£¬ÓÃÓÚÍ¨¹ı³ÌĞòÌí¼ÓÅÅĞòĞÅÏ¢£»Í¬Ê±É¾³ıÁËAddOrderbyColumns·½·¨
-ĞŞ¸´ÁËQueryConditionµÄcount»º´ækeyµÄÒ»¸öbug
-ĞŞ¸ÄObjµÄIdÎªvirtual, ĞŞ¸ÄÁËlinqÏà¹Ø±êÇ©µÄÃû³Æ
-Ö§³Ö.net framework 2.0, µ«ÊÇ±ØĞëÒıÓÃSystem.Core.dll
-RepositoryInitializerÖ§³ÖÏß³Ì°²È«µÄRepository£¨´ı²âÊÔ£©
-ÓÉÓÚ.net framework¶Ô·ºĞÍµÄ·´ÉäÔÚ²»Í¬°æ±¾ÏÂÓĞ²»Ò»ÖÂµÄ±íÏÖ£¬ÊµÌåÀà²»ÔÙÖ§³Ö¼Ì³Ğ
-Ôö¼Ó¶ÔAppDomainTypeFinderµÄÒì³£´¦Àí
-QueryConditionÔö¼ÓÁËEnableFireEventMultiÊôĞÔ
-QueryConditionÄ¬ÈÏTableFieldĞŞ¸ÄÎª*,ĞŞ¸´PageCountµÄbug
-»º´æÏµÍ³Ö§³Ö¶ÔÄ³Ğ©Ä£ĞÍÉèÖÃÊÇ·ñÆôÓÃ»º´æ
-È¥³ıÁËQueryConditionÅÅĞòÁĞµÄ¡°[]¡±
+è¿ç§»åˆ°vs2010
+IRepository<T>æ¥å£å¢åŠ GetsAll()æ–¹æ³•ï¼ŒQueryObjectå¢åŠ äº†ç›¸åº”çš„ä¾¿åˆ©æ–¹æ³•
+å®ä½“ç±»ç»§æ‰¿äºQueryObject<T>æˆ–QueryObject<T>ï¼Œç”±äºc#ä¸æ”¯æŒå¤šé‡ç»§æ‰¿ï¼Œæ‰€ä»¥ä¸šåŠ¡å®ä½“ç±»æ— æ³•ä½¿ç”¨ç»§æ‰¿çš„ç‰¹æ€§ã€‚è¿™ä¸ªé—®é¢˜å½±å“ä¸æ˜¯å¾ˆå¤§ï¼Œä¸šåŠ¡æ¨¡å‹é‡‡ç”¨ç»„åˆçš„æ–¹å¼ä»£æ›¿ç»§æ‰¿å¯ä»¥è§£å†³è¿™ä¸ªé—®é¢˜ã€‚å¦‚æœä¸šåŠ¡æ¨¡å‹å¿…é¡»ä½¿ç”¨ç»§æ‰¿ï¼Œå¯ä»¥è°ƒç”¨QueryObjectçš„é™æ€æ–¹æ³•å®ç°åŒæ ·çš„åŠŸèƒ½ï¼Œåªæ˜¯å†™æ³•ä¸Šä¸å¤ªç®€æ´ç›´è§‚ã€‚
+QueryConditionç±»å¢åŠ äº†AddOrderbyæ–¹æ³•ï¼Œç”¨äºé€šè¿‡ç¨‹åºæ·»åŠ æ’åºä¿¡æ¯ï¼›åŒæ—¶åˆ é™¤äº†AddOrderbyColumnsæ–¹æ³•
+ä¿®å¤äº†QueryConditionçš„countç¼“å­˜keyçš„ä¸€ä¸ªbug
+ä¿®æ”¹Objçš„Idä¸ºvirtual, ä¿®æ”¹äº†linqç›¸å…³æ ‡ç­¾çš„åç§°
+æ”¯æŒ.net framework 2.0, ä½†æ˜¯å¿…é¡»å¼•ç”¨System.Core.dll
+RepositoryInitializeræ”¯æŒçº¿ç¨‹å®‰å…¨çš„Repositoryï¼ˆå¾…æµ‹è¯•ï¼‰
+ç”±äº.net frameworkå¯¹æ³›å‹çš„åå°„åœ¨ä¸åŒç‰ˆæœ¬ä¸‹æœ‰ä¸ä¸€è‡´çš„è¡¨ç°ï¼Œå®ä½“ç±»ä¸å†æ”¯æŒç»§æ‰¿
+å¢åŠ å¯¹AppDomainTypeFinderçš„å¼‚å¸¸å¤„ç†
+QueryConditionå¢åŠ äº†EnableFireEventMultiå±æ€§
+QueryConditioné»˜è®¤TableFieldä¿®æ”¹ä¸º*,ä¿®å¤PageCountçš„bug
+ç¼“å­˜ç³»ç»Ÿæ”¯æŒå¯¹æŸäº›æ¨¡å‹è®¾ç½®æ˜¯å¦å¯ç”¨ç¼“å­˜
+å»é™¤äº†QueryConditionæ’åºåˆ—çš„â€œ[]â€
 
 v1.0
-Ö§³Ö¶ÔÄ£ĞÍÀàÉèÖÃÁ¬½Ó×Ö·û´®
-´ÓLogging ComponentÇ¨ÒÆÁËLogInitializer
-ServerUtilµÄĞ¡¸Ä¶¯£¨²¿·Ö·½·¨Ôö¼ÓÁËHttpResponse²ÎÊı£©
+æ”¯æŒå¯¹æ¨¡å‹ç±»è®¾ç½®è¿æ¥å­—ç¬¦ä¸²
+ä»Logging Componentè¿ç§»äº†LogInitializer
+ServerUtilçš„å°æ”¹åŠ¨ï¼ˆéƒ¨åˆ†æ–¹æ³•å¢åŠ äº†HttpResponseå‚æ•°ï¼‰
