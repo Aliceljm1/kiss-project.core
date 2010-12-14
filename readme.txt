@@ -8,6 +8,7 @@ v1.6
 增加获取QueryCondition和Repository获取DataTable的接口，处理自定义的查询
 重要更新：移除QueryCondition的AppendWhereKeyword属性，由用户自行设置是否有where
 重要更新：移除QueryObject的Query属性，替换为CreateContext方法
+修复了Obj的一个bug
 
 v1.5
 新增IExtendable接口

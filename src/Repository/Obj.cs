@@ -40,7 +40,10 @@ namespace Kiss
         /// <returns>A unique integer value</returns>
         public override int GetHashCode()
         {
-            return this.Id.GetHashCode();
+            if (Id == null)
+                return string.Empty.GetHashCode();
+
+            return Id.GetHashCode();
         }
 
         /// <summary>
