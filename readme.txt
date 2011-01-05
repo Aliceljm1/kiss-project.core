@@ -4,6 +4,9 @@
 
 版本历史：
 
+v1.7
+增加了Events命名空间。用于集成分布式消息队列
+
 v1.6
 增加获取QueryCondition和Repository获取DataTable的接口，处理自定义的查询
 重要更新：移除QueryCondition的AppendWhereKeyword属性，由用户自行设置是否有where
