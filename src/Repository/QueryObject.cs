@@ -241,7 +241,7 @@ namespace Kiss
             public static readonly new QueryEventArgs Empty = new QueryEventArgs();
 
             public Type Type { get; set; }
-            public string TableName { get; set; }
+            //public string TableName { get; set; }
             public string Sql { get; set; }
             public object Result { get; set; }
         }
@@ -360,7 +360,7 @@ namespace Kiss
     public class BatchEventArgs : EventArgs
     {
         public static readonly new BatchEventArgs Empty = new BatchEventArgs();
-        public string TableName { get; set; }
+        //public string TableName { get; set; }
         public Type Type { get; set; }
     }
 

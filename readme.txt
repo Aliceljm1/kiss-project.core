@@ -4,6 +4,10 @@
 
 版本历史：
 
+v1.8
+移除了QueryObject事件的TableName属性
+移除了Event命名空间
+
 v1.7
 增加了Events命名空间。用于集成分布式消息队列
 

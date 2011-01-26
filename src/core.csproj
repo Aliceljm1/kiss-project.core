@@ -72,10 +72,6 @@
     <Compile Include="Caching\CacheInitializer.cs" />
     <Compile Include="Collection\HashSet.cs" />
     <Compile Include="Collection\ISet.cs" />
-    <Compile Include="Events\Broker.cs" />
-    <Compile Include="Events\Heartbeat.cs" />
-    <Compile Include="Events\zmq.cs" />
-    <Compile Include="Events\zmq_ffi.cs" />
     <Compile Include="Logging\DummyLogger.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="Plugin\AutoInitAttribute.cs" />
