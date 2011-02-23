@@ -12,6 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System;
 
 namespace Kiss.Utils
 {
@@ -36,7 +37,6 @@ namespace Kiss.Utils
         /// <returns>an int representing the number of rows affected by the command</returns>
         public static int ExecuteNonQuery(string connectionString, CommandType cmdType, string cmdText, params SqlParameter[] commandParameters)
         {
-
             SqlCommand cmd = new SqlCommand();
 
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -63,7 +63,6 @@ namespace Kiss.Utils
         /// <returns>an int representing the number of rows affected by the command</returns>
         public static int ExecuteNonQuery(SqlConnection connection, CommandType cmdType, string cmdText, params SqlParameter[] commandParameters)
         {
-
             SqlCommand cmd = new SqlCommand();
 
             PrepareCommand(cmd, connection, null, cmdType, cmdText, commandParameters);
@@ -122,10 +121,10 @@ namespace Kiss.Utils
                 cmd.Parameters.Clear();
                 return rdr;
             }
-            catch
+            catch (Exception ex)
             {
                 conn.Close();
-                throw;
+                throw ex;
             }
         }
 
@@ -149,27 +148,18 @@ namespace Kiss.Utils
         public static DataTable GetDataTable(string connectionString, CommandType cmdType, string cmdText, params SqlParameter[] commandParameters)
         {
             DataTable dt = new DataTable();
-            SqlCommand cmd = new SqlCommand();
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
 
-            SqlConnection conn = new SqlConnection(connectionString);
-
-            // we use a try/catch here because if the method throws an exception we want to 
-            // close the connection throw code, because no datareader will exist, hence the 
-            // commandBehaviour.CloseConnection will not work
-            try
+            using (SqlConnection conn = new SqlConnection(connectionString))
             {
+                SqlCommand cmd = new SqlCommand();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+
                 PrepareCommand(cmd, conn, null, cmdType, cmdText, commandParameters);
-                // SqlDataReader rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
                 cmd.Parameters.Clear();
+
                 da.Fill(dt);
+
                 return dt;
-                // return rdr;
-            }
-            catch
-            {
-                // conn.Close();
-                throw;
             }
         }
 
@@ -214,7 +204,6 @@ namespace Kiss.Utils
         /// <returns>An object that should be converted to the expected type using Convert.To{Type}</returns>
         public static object ExecuteScalar(SqlConnection connection, CommandType cmdType, string cmdText, params SqlParameter[] commandParameters)
         {
-
             SqlCommand cmd = new SqlCommand();
 
             PrepareCommand(cmd, connection, null, cmdType, cmdText, commandParameters);
@@ -260,7 +249,6 @@ namespace Kiss.Utils
         /// <param name="cmdParms">SqlParameters to use in the command</param>
         private static void PrepareCommand(SqlCommand cmd, SqlConnection conn, SqlTransaction trans, CommandType cmdType, string cmdText, SqlParameter[] cmdParms)
         {
-
             if (conn.State != ConnectionState.Open)
                 conn.Open();
 
