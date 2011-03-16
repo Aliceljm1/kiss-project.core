@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
-using System.Web;
-using Castle.Core;
-using Castle.Facilities.Startable;
-using Castle.MicroKernel;
-using Castle.Windsor;
+using Kiss.Ioc;
 using Kiss.Plugin;
-using Kiss.Utils;
 
 namespace Kiss
 {
@@ -17,8 +10,8 @@ namespace Kiss
     /// </summary>
     public sealed class ServiceLocator
     {
-        private IWindsorContainer _container;
-        private IWindsorContainer container
+        private IServiceContainer _container;
+        public IServiceContainer Container
         {
             get
             {
@@ -67,15 +60,12 @@ namespace Kiss
 
             try
             {
-                if (!CastleConfigFileExist)
-                    _container = new WindsorContainer();
-                else
-                    _container = new WindsorContainer(CastleConfigFile);
+                _container = new ServiceContainer();
 
                 if (action != null)
                     action.Invoke();
 
-                StartComponents();
+                _container.ComponentCreated += _container_ComponentCreated;
 
                 if (enablePlugins)
                 {
@@ -89,62 +79,30 @@ namespace Kiss
             }
         }
 
+        void _container_ComponentCreated(object sender, ComponentCreatedEventArgs e)
+        {
+            if (e.Instance != null && e.Instance is IAutoStart)
+            {
+                var startable = e.Instance as IAutoStart;
+                if (startable != null)
+                {
+                    startable.Start();
+                }
+            }
+        }
+
         /// <summary>Finds types assignable from of a certain type</summary>
         /// <param name="requestedType">The type to find</param>
         /// <param name="excludeSelf">If or not exclude requestedType</param>
         /// <returns>A list of types found</returns>
         public IList<Type> Find(Type requestedType, bool excludeSelf)
         {
-            IList<Type> list = Resolve<ITypeFinder>().Find(requestedType);
+            IList<Type> list = Container.Resolve<ITypeFinder>().Find(requestedType);
 
             if (excludeSelf)
                 list.Remove(requestedType);
 
             return list;
-        }
-
-        private void StartComponents()
-        {
-            StartComponents(container.Kernel);
-            container.Kernel.ComponentCreated += KernelComponentCreated;
-        }
-
-        private void StartComponents(IKernel kernel)
-        {
-            var naming = (INamingSubSystem)kernel.GetSubSystem(SubSystemConstants.NamingKey);
-            foreach (GraphNode node in kernel.GraphNodes)
-            {
-                var model = node as ComponentModel;
-                if (model != null)
-                {
-                    if (typeof(IStartable).IsAssignableFrom(model.Implementation) ||
-                        typeof(IAutoStart).IsAssignableFrom(model.Implementation))
-                    {
-                        IHandler h = naming.GetHandler(model.Name);
-                        if (h.CurrentState == HandlerState.Valid)
-                        {
-                            object component = kernel[model.Name];
-                            if (component is IStartable)
-                                (component as IStartable).Start();
-                            else if (component is IAutoStart)
-                                (component as IAutoStart).Start();
-                        }
-                    }
-                }
-            }
-            container.AddFacility<StartableFacility>();
-        }
-
-        private static void KernelComponentCreated(ComponentModel model, object instance)
-        {
-            if (instance is IStartable)
-                return;
-
-            var startable = instance as IAutoStart;
-            if (startable != null)
-            {
-                startable.Start();
-            }
         }
 
         /// <summary>
@@ -157,12 +115,12 @@ namespace Kiss
         /// <summary>Resolves a service configured in the factory.</summary>
         public T Resolve<T>() where T : class
         {
-            return container.Resolve<T>();
+            return Container.Resolve<T>();
         }
 
         public object Resolve(Type serviceType)
         {
-            return container.Resolve(serviceType);
+            return Container.Resolve(serviceType);
         }
 
         /// <summary>Resolves a named service configured in the factory.</summary>
@@ -170,7 +128,7 @@ namespace Kiss
         /// <returns>An instance of the resolved service.</returns>        
         public object Resolve(string key)
         {
-            return container.Resolve(key);
+            return Container.Resolve(key);
         }
 
         /// <summary>Registers a component in the IoC container.</summary>
@@ -178,7 +136,7 @@ namespace Kiss
         /// <param name="classType">The type of component to register.</param>
         public void AddComponent(string key, Type classType)
         {
-            container.AddComponent(key, classType);
+            Container.AddComponent(key, classType);
         }
 
         /// <summary>Registers a component in the IoC container.</summary>
@@ -187,12 +145,7 @@ namespace Kiss
         /// <param name="classType">The type of component to register.</param>
         public void AddComponent(string key, Type serviceType, Type classType)
         {
-            container.AddComponent(key, serviceType, classType);
-        }
-
-        public void AddComponent(string key, Type serviceType, Type classType, LifestyleType lifestyleType)
-        {
-            container.AddComponentLifeStyle(key, serviceType, classType, lifestyleType);
+            Container.AddComponent(key, serviceType, classType);
         }
 
         /// <summary>Adds a component instance to the container.</summary>
@@ -201,7 +154,7 @@ namespace Kiss
         /// <param name="instance">The service instance to add.</param>
         public void AddComponentInstance(string key, Type serviceType, object instance)
         {
-            container.Kernel.AddComponentInstance(key, serviceType, instance);
+            Container.AddComponentInstance(key, serviceType, instance);
         }
 
         /// <summary>Adds a component instance to the container.</summary>
@@ -218,31 +171,5 @@ namespace Kiss
         }
 
         #endregion
-
-        private string castleConfigFile;
-        private string CastleConfigFile
-        {
-            get
-            {
-                if (castleConfigFile == null)
-                {
-                    string filename = ConfigurationManager.AppSettings["castle"];
-                    if (StringUtil.IsNullOrEmpty(filename))
-                        filename = HttpContext.Current == null ? "castle.xml" : "~/App_Data/castle.xml";
-
-                    castleConfigFile = ServerUtil.MapPath(filename);
-                }
-
-                return castleConfigFile;
-            }
-        }
-
-        private bool CastleConfigFileExist
-        {
-            get
-            {
-                return File.Exists(CastleConfigFile);
-            }
-        }
     }
 }

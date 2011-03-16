@@ -29,21 +29,21 @@ namespace Kiss.Utils
         /// <param name="cmdText">Acutall SQL Command</param>
         /// <param name="commandParameters">Parameters to bind to the command</param>
         /// <returns></returns>
-        public static int ExecuteNonQuery ( string connectionString , CommandType cmdType , string cmdText , params OracleParameter[ ] commandParameters )
+        public static int ExecuteNonQuery(string connectionString, CommandType cmdType, string cmdText, params OracleParameter[] commandParameters)
         {
             // Create a new Oracle command
-            OracleCommand cmd = new OracleCommand ( );
+            OracleCommand cmd = new OracleCommand();
 
             //Create a connection
-            using ( OracleConnection connection = new OracleConnection ( connectionString ) )
+            using (OracleConnection connection = new OracleConnection(connectionString))
             {
 
                 //Prepare the command
-                PrepareCommand ( cmd , connection , null , cmdType , cmdText , commandParameters );
+                PrepareCommand(cmd, connection, null, cmdType, cmdText, commandParameters);
 
                 //Execute the command
-                int val = cmd.ExecuteNonQuery ( );
-                cmd.Parameters.Clear ( );
+                int val = cmd.ExecuteNonQuery();
+                cmd.Parameters.Clear();
                 return val;
             }
         }
@@ -61,12 +61,12 @@ namespace Kiss.Utils
         /// <param name="cmdText">the stored procedure name or PL/SQL command</param>
         /// <param name="commandParameters">an array of OracleParamters used to execute the command</param>
         /// <returns>an int representing the number of rows affected by the command</returns>
-        public static int ExecuteNonQuery ( OracleTransaction trans , CommandType cmdType , string cmdText , params OracleParameter[ ] commandParameters )
+        public static int ExecuteNonQuery(OracleTransaction trans, CommandType cmdType, string cmdText, params OracleParameter[] commandParameters)
         {
-            OracleCommand cmd = new OracleCommand ( );
-            PrepareCommand ( cmd , trans.Connection , trans , cmdType , cmdText , commandParameters );
-            int val = cmd.ExecuteNonQuery ( );
-            cmd.Parameters.Clear ( );
+            OracleCommand cmd = new OracleCommand();
+            PrepareCommand(cmd, trans.Connection, trans, cmdType, cmdText, commandParameters);
+            int val = cmd.ExecuteNonQuery();
+            cmd.Parameters.Clear();
             return val;
         }
 
@@ -84,13 +84,13 @@ namespace Kiss.Utils
         /// <param name="cmdText">the stored procedure name or PL/SQL command</param>
         /// <param name="commandParameters">an array of OracleParamters used to execute the command</param>
         /// <returns>an int representing the number of rows affected by the command</returns>
-        public static int ExecuteNonQuery ( OracleConnection connection , CommandType cmdType , string cmdText , params OracleParameter[ ] commandParameters )
+        public static int ExecuteNonQuery(OracleConnection connection, CommandType cmdType, string cmdText, params OracleParameter[] commandParameters)
         {
-            OracleCommand cmd = new OracleCommand ( );
+            OracleCommand cmd = new OracleCommand();
 
-            PrepareCommand ( cmd , connection , null , cmdType , cmdText , commandParameters );
-            int val = cmd.ExecuteNonQuery ( );
-            cmd.Parameters.Clear ( );
+            PrepareCommand(cmd, connection, null, cmdType, cmdText, commandParameters);
+            int val = cmd.ExecuteNonQuery();
+            cmd.Parameters.Clear();
             return val;
         }
 
@@ -102,21 +102,21 @@ namespace Kiss.Utils
         /// <param name="cmdText">the stored procedure name or PL/SQL command</param>
         /// <param name="commandParameters">an array of OracleParamters used to execute the command</param>
         /// <returns></returns>
-        public static OracleDataReader ExecuteReader ( string connectionString , CommandType cmdType , string cmdText , params OracleParameter[ ] commandParameters )
+        public static OracleDataReader ExecuteReader(string connectionString, CommandType cmdType, string cmdText, params OracleParameter[] commandParameters)
         {
 
             //Create the command and connection
-            OracleCommand cmd = new OracleCommand ( );
-            OracleConnection conn = new OracleConnection ( connectionString );
+            OracleCommand cmd = new OracleCommand();
+            OracleConnection conn = new OracleConnection(connectionString);
 
             try
             {
                 //Prepare the command to execute
-                PrepareCommand ( cmd , conn , null , cmdType , cmdText , commandParameters );
+                PrepareCommand(cmd, conn, null, cmdType, cmdText, commandParameters);
 
                 //Execute the query, stating that the connection should close when the resulting datareader has been read
-                OracleDataReader rdr = cmd.ExecuteReader ( CommandBehavior.CloseConnection );
-                cmd.Parameters.Clear ( );
+                OracleDataReader rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+                cmd.Parameters.Clear();
                 return rdr;
 
             }
@@ -124,7 +124,7 @@ namespace Kiss.Utils
             {
 
                 //If an error occurs close the connection as the reader will not be used and we expect it to close the connection
-                conn.Close ( );
+                conn.Close();
                 throw;
             }
         }
@@ -143,15 +143,15 @@ namespace Kiss.Utils
         /// <param name="cmdText">the stored procedure name or PL/SQL command</param>
         /// <param name="commandParameters">an array of OracleParamters used to execute the command</param>
         /// <returns>An object that should be converted to the expected type using Convert.To{Type}</returns>
-        public static object ExecuteScalar ( string connectionString , CommandType cmdType , string cmdText , params OracleParameter[ ] commandParameters )
+        public static object ExecuteScalar(string connectionString, CommandType cmdType, string cmdText, params OracleParameter[] commandParameters)
         {
-            OracleCommand cmd = new OracleCommand ( );
+            OracleCommand cmd = new OracleCommand();
 
-            using ( OracleConnection conn = new OracleConnection ( connectionString ) )
+            using (OracleConnection conn = new OracleConnection(connectionString))
             {
-                PrepareCommand ( cmd , conn , null , cmdType , cmdText , commandParameters );
-                object val = cmd.ExecuteScalar ( );
-                cmd.Parameters.Clear ( );
+                PrepareCommand(cmd, conn, null, cmdType, cmdText, commandParameters);
+                object val = cmd.ExecuteScalar();
+                cmd.Parameters.Clear();
                 return val;
             }
         }
@@ -166,23 +166,23 @@ namespace Kiss.Utils
         ///    <param name="commandText">The stored procedure name    or PL/SQL command</param>
         ///    <param name="commandParameters">An array of    OracleParamters used to execute the command</param>
         ///    <returns>An    object containing the value    in the 1x1 resultset generated by the command</returns>
-        public static object ExecuteScalar ( OracleTransaction transaction , CommandType commandType , string commandText , params OracleParameter[ ] commandParameters )
+        public static object ExecuteScalar(OracleTransaction transaction, CommandType commandType, string commandText, params OracleParameter[] commandParameters)
         {
-            if ( transaction == null )
-                throw new ArgumentNullException ( "transaction" );
-            if ( transaction != null && transaction.Connection == null )
-                throw new ArgumentException ( "The transaction was rollbacked    or commited, please    provide    an open    transaction." , "transaction" );
+            if (transaction == null)
+                throw new ArgumentNullException("transaction");
+            if (transaction != null && transaction.Connection == null)
+                throw new ArgumentException("The transaction was rollbacked    or commited, please    provide    an open    transaction.", "transaction");
 
             // Create a    command    and    prepare    it for execution
-            OracleCommand cmd = new OracleCommand ( );
+            OracleCommand cmd = new OracleCommand();
 
-            PrepareCommand ( cmd , transaction.Connection , transaction , commandType , commandText , commandParameters );
+            PrepareCommand(cmd, transaction.Connection, transaction, commandType, commandText, commandParameters);
 
             // Execute the command & return    the    results
-            object retval = cmd.ExecuteScalar ( );
+            object retval = cmd.ExecuteScalar();
 
             // Detach the SqlParameters    from the command object, so    they can be    used again
-            cmd.Parameters.Clear ( );
+            cmd.Parameters.Clear();
             return retval;
         }
 
@@ -200,27 +200,27 @@ namespace Kiss.Utils
         /// <param name="cmdText">the stored procedure name or PL/SQL command</param>
         /// <param name="commandParameters">an array of OracleParamters used to execute the command</param>
         /// <returns>An object that should be converted to the expected type using Convert.To{Type}</returns>
-        public static object ExecuteScalar ( OracleConnection connectionString , CommandType cmdType , string cmdText , params OracleParameter[ ] commandParameters )
+        public static object ExecuteScalar(OracleConnection connectionString, CommandType cmdType, string cmdText, params OracleParameter[] commandParameters)
         {
-            OracleCommand cmd = new OracleCommand ( );
+            OracleCommand cmd = new OracleCommand();
 
-            PrepareCommand ( cmd , connectionString , null , cmdType , cmdText , commandParameters );
-            object val = cmd.ExecuteScalar ( );
-            cmd.Parameters.Clear ( );
+            PrepareCommand(cmd, connectionString, null, cmdType, cmdText, commandParameters);
+            object val = cmd.ExecuteScalar();
+            cmd.Parameters.Clear();
             return val;
         }
 
-        public static List<Hashtable> GetHashtable ( string connectionString , CommandType cmdType , string cmdText , params OracleParameter[ ] commandParameters )
+        public static List<Hashtable> GetHashtable(string connectionString, CommandType cmdType, string cmdText, params OracleParameter[] commandParameters)
         {
-            List<Hashtable> list = new List<Hashtable> ( );
+            List<Hashtable> list = new List<Hashtable>();
 
-            using ( OracleDataReader rdr = ExecuteReader ( connectionString , cmdType , cmdText , commandParameters ) )
+            using (OracleDataReader rdr = ExecuteReader(connectionString, cmdType, cmdText, commandParameters))
             {
-                DataTable schemaTable = rdr.GetSchemaTable ( );
+                DataTable schemaTable = rdr.GetSchemaTable();
 
-                while ( rdr.Read ( ) )
+                while (rdr.Read())
                 {
-                    list.Add ( DataUtil.GetHashtable ( rdr , schemaTable ) );
+                    list.Add(DataUtil.GetHashtable(rdr, schemaTable));
                 }
             }
 
@@ -238,12 +238,12 @@ namespace Kiss.Utils
         /// <param name="cmdType">Command type, e.g. stored procedure</param>
         /// <param name="cmdText">Command test</param>
         /// <param name="commandParameters">Parameters for the command</param>
-        private static void PrepareCommand ( OracleCommand cmd , OracleConnection conn , OracleTransaction trans , CommandType cmdType , string cmdText , OracleParameter[ ] commandParameters )
+        private static void PrepareCommand(OracleCommand cmd, OracleConnection conn, OracleTransaction trans, CommandType cmdType, string cmdText, OracleParameter[] commandParameters)
         {
 
             //Open the connection if required
-            if ( conn.State != ConnectionState.Open )
-                conn.Open ( );
+            if (conn.State != ConnectionState.Open)
+                conn.Open();
 
             //Set up the command
             cmd.Connection = conn;
@@ -251,14 +251,14 @@ namespace Kiss.Utils
             cmd.CommandType = cmdType;
 
             //Bind it to the transaction if it exists
-            if ( trans != null )
+            if (trans != null)
                 cmd.Transaction = trans;
 
             // Bind the parameters passed in
-            if ( commandParameters != null )
+            if (commandParameters != null)
             {
-                foreach ( OracleParameter parm in commandParameters )
-                    cmd.Parameters.Add ( parm );
+                foreach (OracleParameter parm in commandParameters)
+                    cmd.Parameters.Add(parm);
             }
         }
 
@@ -268,9 +268,9 @@ namespace Kiss.Utils
         /// </summary>
         /// <param name="value">Value to convert</param>
         /// <returns></returns>
-        public static string OraBit ( bool value )
+        public static string OraBit(bool value)
         {
-            if ( value )
+            if (value)
                 return "Y";
             else
                 return "N";
@@ -282,9 +282,9 @@ namespace Kiss.Utils
         /// </summary>
         /// <param name="value">Value to convert</param>
         /// <returns></returns>
-        public static bool OraBool ( string value )
+        public static bool OraBool(string value)
         {
-            if ( value.Equals ( "Y" ) )
+            if (value.Equals("Y"))
                 return true;
             else
                 return false;

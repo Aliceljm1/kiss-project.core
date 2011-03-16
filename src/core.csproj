@@ -44,18 +44,6 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.MicroKernel">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Castle.MicroKernel.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.Windsor">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Castle.Windsor.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -72,6 +60,8 @@
     <Compile Include="Caching\CacheInitializer.cs" />
     <Compile Include="Collection\HashSet.cs" />
     <Compile Include="Collection\ISet.cs" />
+    <Compile Include="Ioc\IServiceContainer.cs" />
+    <Compile Include="Ioc\ServiceContainer.cs" />
     <Compile Include="Logging\DummyLogger.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="Plugin\AutoInitAttribute.cs" />
@@ -83,7 +73,6 @@
     <Compile Include="Plugin\PluginConfig.cs" />
     <Compile Include="Plugin\PluginInitializationException.cs" />
     <Compile Include="Plugin\Plugins.cs" />
-    <Compile Include="IStoppable.cs" />
     <Compile Include="Plugin\PluginSetting.cs" />
     <Compile Include="DbProviderAttribute.cs" />
     <Compile Include="Repository\QueryObject.cs" />
