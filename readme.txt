@@ -7,6 +7,7 @@
 v1.9
 移除对Castle项目的依赖，添加Kiss.Ioc命名空间
 移除IStartable，IStopable接口
+添加Json命名空间
 
 v1.8
 移除了QueryObject事件的TableName属性

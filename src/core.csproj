@@ -80,6 +80,14 @@
     <Compile Include="Security\IUserService.cs" />
     <Compile Include="Security\PermissionAttribute.cs" />
     <Compile Include="Security\Principal.cs" />
+    <Compile Include="Json\JavaScriptConverter.cs" />
+    <Compile Include="Json\JavaScriptObjectDeserializer.cs" />
+    <Compile Include="Json\JavaScriptSerializer.cs" />
+    <Compile Include="Json\JavaScriptString.cs" />
+    <Compile Include="Json\JavaScriptTypeResolver.cs" />
+    <Compile Include="Json\ObjectConverter.cs" />
+    <Compile Include="Json\ScriptIgnoreAttribute.cs" />
+    <Compile Include="Json\SimpleTypeResolver.cs" />
     <Compile Include="Tuple.cs" />
     <Compile Include="Utils\CrossDomain.cs" />
     <Compile Include="IAutoStart.cs" />
