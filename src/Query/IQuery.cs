@@ -37,5 +37,7 @@ namespace Kiss.Query
         /// </summary>
         /// <param name="q"></param>
         void Delete(QueryCondition q);
+
+        IDbTransaction BeginTransaction(string connectionstring);
     }
 }

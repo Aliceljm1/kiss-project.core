@@ -2,9 +2,7 @@
 using System.Collections.Specialized;
 using System.Configuration;
 using System.Data;
-using System.Linq;
 using Kiss.Query;
-using System;
 
 namespace Kiss
 {
@@ -64,18 +62,5 @@ namespace Kiss
         void Delete(QueryCondition q);
 
         ConnectionStringSettings ConnectionStringSettings { get; set; }
-    }
-
-    public interface ILinqContext<T> : IQueryable<T>, IOrderedQueryable<T>, IQueryProvider
-    {
-        void Add(T item);
-        void Add(T item, bool isNew);
-        void AddRange(IEnumerable<T> items);
-        void AddRange(IEnumerable<T> items, bool inMemorySort);
-        void Remove(T value);
-        void Remove(IEnumerable<T> items);
-        void SubmitChanges();
-        void SubmitChanges(bool batch);
-        bool EnableQueryEvent { get; set; }
-    }
+    }    
 }
