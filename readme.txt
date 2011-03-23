@@ -4,6 +4,9 @@
 
 版本历史：
 
+v2.0
+修复ResourceUtil的一个bug，校验BOM
+
 v1.9
 移除对Castle项目的依赖，添加Kiss.Ioc命名空间
 移除IStartable，IStopable接口
