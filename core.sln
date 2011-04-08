@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "core", "src\core.csproj", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{2000CF3E-9649-4AAF-9B55-BD856E686D48}"
 	ProjectSection(SolutionItems) = preProject
-		readme.txt = readme.txt
+		VERSION = VERSION
 	EndProjectSection
 EndProject
 Global

@@ -5,7 +5,7 @@ using Kiss.Utils;
 
 namespace Kiss
 {
-    [AutoInit(Title = "repository", Priority = 9)]
+    [AutoInit(Title = "Repository", Priority = 9)]
     public class RepositoryInitializer : IPluginInitializer
     {
         #region IPluginInitializer Members

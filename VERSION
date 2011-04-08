@@ -6,6 +6,7 @@
 
 v2.0
 修复ResourceUtil的一个bug，校验BOM
+更新了插件的显示名称
 
 v1.9
 移除对Castle项目的依赖，添加Kiss.Ioc命名空间
