@@ -78,6 +78,7 @@
     <Compile Include="Repository\ILinqContext.cs" />
     <Compile Include="Repository\QueryObject.cs" />
     <Compile Include="Repository\RepositoryInitalizer.cs" />
+    <Compile Include="Repository\RepositoryPluginSetting.cs" />
     <Compile Include="Security\IUserService.cs" />
     <Compile Include="Security\PermissionAttribute.cs" />
     <Compile Include="Security\Principal.cs" />

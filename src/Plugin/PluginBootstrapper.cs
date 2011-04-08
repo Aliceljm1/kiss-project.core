@@ -84,12 +84,17 @@ namespace Kiss.Plugin
             try
             {
                 PluginSetting setting = settings.FindByName(plugin.Name);
+
+                // remove it. add it later
+                settings.Remove(setting);
+
                 setting.Title = plugin.Title;
                 setting.Description = plugin.Description;
 
-                _pluginSettings[plugin.Name] = setting;
+                plugin.Init(sl, ref setting);
 
-                plugin.Init(sl, setting);
+                _pluginSettings[plugin.Name] = setting;
+                settings.Add(setting);
 
                 initializedPlugins.Add(plugin.Name);
 

@@ -7,6 +7,6 @@ namespace Kiss.Plugin
     /// it's initialize methods will be invoked during initialization.</summary>
     public interface IPluginInitializer
     {
-        void Init(ServiceLocator sl, PluginSetting setting);
+        void Init(ServiceLocator sl, ref PluginSetting setting);
     }
 }

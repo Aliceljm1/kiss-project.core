@@ -112,7 +112,7 @@ namespace Kiss
                 {
                     if (t == null) continue;
 
-                    if (requestedType.IsAssignableFrom(t))
+                    if ((requestedType.IsInterface && t.GetInterface(requestedType.Name) != null) || requestedType.IsAssignableFrom(t))
                         types.Add(t);
                 }
 

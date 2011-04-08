@@ -1,19 +1,21 @@
 ﻿using System;
-using System.Xml;
 using Kiss.Plugin;
 using Kiss.Utils;
 
-namespace Kiss
+namespace Kiss.Repository
 {
     [AutoInit(Title = "Repository", Priority = 9)]
     public class RepositoryInitializer : IPluginInitializer
     {
         #region IPluginInitializer Members
 
-        public void Init(ServiceLocator sl, PluginSetting setting)
+        public void Init(ServiceLocator sl, ref PluginSetting s)
         {
-            if (!setting.Enable)
+            if (!s.Enable)
                 return;
+
+            RepositoryPluginSetting setting = new Repository.RepositoryPluginSetting(s);
+            s = setting;
 
             string type1 = setting["type1"];
             string type2 = setting["type2"];
@@ -33,23 +35,13 @@ namespace Kiss
                 }
             }
 
-            if (setting.Node != null)
+            foreach (var item in setting.Providers)
             {
-                // providers
-                foreach (XmlNode provider in setting.Node.SelectNodes("providers/add"))
-                {
-                    bool enabled = XmlUtil.GetBoolAttribute(provider, "enable", true);
+                Type type = Type.GetType(item.Value, true, true);
+                if (type == null)
+                    continue;
 
-                    if (!enabled) continue;
-                    string name = XmlUtil.GetStringAttribute(provider, "name", string.Empty);
-                    if (string.IsNullOrEmpty(name))
-                        continue;
-
-                    Type type = Type.GetType(XmlUtil.GetStringAttribute(provider, "type", string.Empty), true, false);
-                    if (type == null) continue;
-
-                    sl.AddComponent(name, type);
-                }
+                sl.AddComponent(item.Key, type);
             }
         }
 

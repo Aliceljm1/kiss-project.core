@@ -16,11 +16,11 @@ namespace Kiss.Plugin
             set { initializerType = value; }
         }
 
-        public virtual void Init(ServiceLocator sl, PluginSetting setting)
+        public virtual void Init(ServiceLocator sl, ref PluginSetting setting)
         {
             if (InitializerType == null) throw new ArgumentNullException("InitializerType");
 
-            CreateInitializer().Init(sl, setting);
+            CreateInitializer().Init(sl, ref setting);
         }
 
         /// <summary>Creates an instance of the initializer defined by this attribute.</summary>

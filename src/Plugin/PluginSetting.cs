@@ -10,11 +10,93 @@ namespace Kiss.Plugin
         {
         }
 
-        public string Name { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public bool Enable { get; set; }
-        public XmlNode Node { get; set; }
+        public virtual string Name { get; set; }
+        public virtual string Title { get; set; }
+        public virtual string Description { get; set; }
+        public virtual bool Enable { get; set; }
+        public virtual XmlNode Node { get; set; }
+    }
+
+    public class PluginSettingDecorator : PluginSetting
+    {
+        private PluginSetting _inner;
+
+        public override string Name
+        {
+            get
+            {
+                return _inner.Name;
+            }
+            set
+            {
+                _inner.Name = value;
+            }
+        }
+
+        public override string Description
+        {
+            get
+            {
+                return _inner.Description;
+            }
+            set
+            {
+                _inner.Description = value;
+            }
+        }
+
+        public override bool Enable
+        {
+            get
+            {
+                return _inner.Enable;
+            }
+            set
+            {
+                _inner.Enable = value;
+            }
+        }
+
+        public override string Title
+        {
+            get
+            {
+                return _inner.Title;
+            }
+            set
+            {
+                _inner.Title = value;
+            }
+        }
+
+        public override XmlNode Node
+        {
+            get
+            {
+                return _inner.Node;
+            }
+            set
+            {
+                _inner.Node = value;
+            }
+        }
+
+        public override string this[string key]
+        {
+            get
+            {
+                return _inner[key];
+            }
+            set
+            {
+                _inner[key] = value;
+            }
+        }
+
+        public PluginSettingDecorator(PluginSetting setting)
+        {
+            _inner = setting;
+        }
     }
 
     /// <summary>
