@@ -90,7 +90,7 @@ namespace Kiss.Ioc
                     return instances2[key];
 
                 if (!types2.ContainsKey(key))
-                    throw new ArgumentException("key not registed!");
+                    throw new ArgumentException(string.Format("Key {0} is not registed!", key));
 
                 Type implementation = types2[key];
 
@@ -115,18 +115,25 @@ namespace Kiss.Ioc
                 if (instances.ContainsKey(contract))
                     return instances[contract];
 
-                Type implementation;
-
+                Type implementation = null;
 
                 if (contract.IsGenericType)
                 {
-                    implementation = types[contract.GetGenericTypeDefinition()];
-                    implementation = implementation.MakeGenericType(contract.GetGenericArguments());
+                    Type genericType = contract.GetGenericTypeDefinition();
+                    if (types.ContainsKey(genericType))
+                    {
+                        implementation = types[genericType];
+                        implementation = implementation.MakeGenericType(contract.GetGenericArguments());
+                    }
                 }
                 else
                 {
-                    implementation = types[contract];
+                    if (types.ContainsKey(contract))
+                        implementation = types[contract];
                 }
+
+                if (implementation == null)
+                    throw new ArgumentException(string.Format("Type {0} is not registed!", contract.FullName));
 
                 object instance = CreateInstance(implementation);
 
