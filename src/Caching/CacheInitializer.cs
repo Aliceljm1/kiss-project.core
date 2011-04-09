@@ -12,7 +12,7 @@ namespace Kiss.Caching
     {
         #region IPluginInitializer Members
 
-        public void Init(ServiceLocator sl,ref PluginSetting setting)
+        public void Init(ServiceLocator sl, ref PluginSetting setting)
         {
             if (!setting.Enable) return;
 
@@ -21,7 +21,6 @@ namespace Kiss.Caching
                 setting.Enable = false;
             else
                 sl.AddComponent("kiss.cache", typeof(ICacheProvider), Type.GetType(type, true, true));
-
         }
 
         #endregion

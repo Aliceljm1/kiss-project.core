@@ -8,6 +8,20 @@ v2.1
 更新了插件的显示名称
 优化查找类型的方法
 重要更新：优化插件IPluginInitializer接口，允许设置自定义的插件配置
+集成了HierarchyCache插件
+	v1.3
+	代码重构
+
+	v1.2
+	以类型的fullname做为缓存key的前缀
+
+	v1.1
+	去除了对Kiss.Linq.dll的依赖
+	增加了一些异常判断
+	修复了Obj_AfterQuery对象为空时插入缓存的bug
+
+	v1.0
+	简单二级缓存控制
 
 v2.0
 修复ResourceUtil的一个bug，校验BOM

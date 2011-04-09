@@ -58,6 +58,8 @@
     </Compile>
     <Compile Include="AppDomainTypeFinder.cs" />
     <Compile Include="Caching\CacheInitializer.cs" />
+    <Compile Include="Caching\HierarchyCacheInitializer.cs" />
+    <Compile Include="Caching\HierarchyCachePlugin.cs" />
     <Compile Include="Collection\HashSet.cs" />
     <Compile Include="Collection\ISet.cs" />
     <Compile Include="Ioc\IServiceContainer.cs" />
