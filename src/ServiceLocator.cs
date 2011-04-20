@@ -132,6 +132,14 @@ namespace Kiss
         }
 
         /// <summary>Registers a component in the IoC container.</summary>
+        /// <param name="serviceType">The type of service to provide.</param>
+        /// <param name="classType">The type of component to register.</param>
+        public void AddComponent(Type serviceType, Type classType)
+        {
+            Container.AddComponent(serviceType, classType);
+        }
+
+        /// <summary>Registers a component in the IoC container.</summary>
         /// <param name="key">A unique key.</param>
         /// <param name="classType">The type of component to register.</param>
         public void AddComponent(string key, Type classType)

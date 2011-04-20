@@ -6,6 +6,7 @@
 
 v2.2
 优化Ioc的错误提示信息
+ServiceLocator增加了AddComponent(Type serviceType, Type classType)方法
 
 v2.1
 更新了插件的显示名称

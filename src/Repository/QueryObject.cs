@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
+using System.Data;
 using Kiss.Query;
 using Kiss.Utils;
-using System.Data;
 
 namespace Kiss
 {
@@ -177,7 +177,7 @@ namespace Kiss
         /// <summary>
         /// Occurs when the obj is Saved
         /// </summary>
-        public static event EventHandler<SavedEventArgs> Saved;
+        public static event EventHandler< SavedEventArgs> Saved;
 
         /// <summary>
         /// Occurs when the class is Saving
