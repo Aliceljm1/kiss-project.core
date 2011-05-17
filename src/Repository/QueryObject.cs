@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.Data;
+using System.Reflection;
+using System.Xml;
 using Kiss.Query;
 using Kiss.Utils;
 
@@ -101,6 +103,96 @@ namespace Kiss
         public static ILinqContext<T> CreateContext(bool enableQueryEvent) { return Repository.CreateContext(enableQueryEvent); }
 
         public static ConnectionStringSettings ConnectionStringSettings { get { return Repository.ConnectionStringSettings; } set { Repository.ConnectionStringSettings = value; } }
+
+        public static List<T> ImportFromXml(XmlDocument xml)
+        {
+            Type t = typeof(T);
+
+            List<T> list = new List<T>();
+
+            XmlNode node = xml.DocumentElement.SelectSingleNode("//" + t.FullName);
+
+            if (node == null) return list;
+
+            foreach (XmlNode n in node.ChildNodes)
+            {
+                T obj = Activator.CreateInstance<T>();
+
+                foreach (XmlAttribute attr in n.Attributes)
+                {
+                    PropertyInfo pi = t.GetProperty(attr.Name);
+
+                    if (pi == null || !pi.CanWrite) continue;
+
+                    pi.SetValue(obj, TypeConvertUtil.ConvertTo(attr.Value, pi.PropertyType), null);
+                }
+
+                list.Add(obj);
+            }
+
+            ILinqContext<T> context = CreateContext(false);
+
+            // remove old items
+            //
+            List<t> ids = new List<t>();
+
+            foreach (var item in list)
+            {
+                ids.Add(item.Id);
+            }
+
+            List<T> old_list = Gets(context, StringUtil.CollectionToCommaDelimitedString(ids));
+
+            foreach (var item in old_list)
+            {
+                if (list.Find((T obj) => { return item.Id.Equals(obj.Id); }) != null)
+                    context.Remove(item);
+            }
+
+            // add new items
+            //
+            foreach (var item in list)
+            {
+                context.Add(item, true);
+            }
+
+            context.SubmitChanges(true);
+
+            return list;
+        }
+
+        /// <summary>
+        /// export current type's all data to xml
+        /// </summary>
+        /// <param name="writer"></param>
+        /// <example>
+        /// <Kiss.Components.ContentModel.Model,Kiss.Components.ContentModel>
+        /// <item Id="1" TypeName="" Key="" Category="" Title="产品" Description="" Status="1" DateCreate="0001/1/1 0:00:00" PropertyName="" PropertyValue="" />
+        /// </Kiss.Components.ContentModel.Model>
+        /// </example>
+        public static void ExportToXml(XmlTextWriter writer)
+        {
+            Type t = typeof(T);
+
+            writer.WriteStartElement(t.FullName);
+
+            foreach (var item in GetsAll())
+            {
+                writer.WriteStartElement("item");
+
+                foreach (var prop in t.GetProperties())
+                {
+                    if (prop.GetCustomAttributes(typeof(IgnoreAttribute), true).Length > 0)
+                        continue;
+
+                    writer.WriteAttributeString(prop.Name, Convert.ToString(prop.GetValue(item, null)));
+                }
+
+                writer.WriteEndElement();
+            }
+
+            writer.WriteEndElement();
+        }
     }
 
     [Serializable]
@@ -177,7 +269,7 @@ namespace Kiss
         /// <summary>
         /// Occurs when the obj is Saved
         /// </summary>
-        public static event EventHandler< SavedEventArgs> Saved;
+        public static event EventHandler<SavedEventArgs> Saved;
 
         /// <summary>
         /// Occurs when the class is Saving

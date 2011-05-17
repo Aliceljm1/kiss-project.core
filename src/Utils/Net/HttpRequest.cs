@@ -67,7 +67,7 @@ namespace Kiss.Utils.Net
                 wreq.Timeout = defaultTimeout_;
 
                 if (credentials != null)
-                    wreq.Credentials = credentials;                
+                    wreq.Credentials = credentials;
             }
             return wreq;
         }
@@ -185,21 +185,20 @@ namespace Kiss.Utils.Net
             Encoding encode;
             string enc = response.ContentEncoding.Trim();
 
-
-            if (enc == "" && response.CharacterSet.Length > 0)
+            if (string.IsNullOrEmpty(enc) && StringUtil.HasText(response.CharacterSet))
                 enc = response.CharacterSet;
 
-            if (enc == "" && response.ContentType.Length > 0)
+            if (string.IsNullOrEmpty(enc) && StringUtil.HasText(response.ContentType))
             {
                 string contentType = response.ContentType;
                 string c = "charset=";
                 enc = contentType.Substring(contentType.IndexOf(c) + c.Length);
             }
 
-            if (enc == "")
+            if (string.IsNullOrEmpty(enc))
                 encode = Encoding.UTF8;
             else
-                encode = System.Text.Encoding.GetEncoding(enc);
+                encode = Encoding.GetEncoding(enc);
 
             return GetPageText(response, encode);
         }

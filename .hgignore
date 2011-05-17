@@ -4,3 +4,5 @@ glob:*.suo
 glob:bin
 glob:obj
 glob:*user
+syntax: glob
+*.docstates

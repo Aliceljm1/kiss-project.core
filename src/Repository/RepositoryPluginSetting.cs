@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Xml;
 using Kiss.Plugin;
 using Kiss.Utils;
-using System.Configuration;
 
 namespace Kiss.Repository
 {
@@ -19,21 +19,24 @@ namespace Kiss.Repository
             // conns
             Conns = new Dictionary<string, string>();
 
-            XmlNode connsnode = setting.Node.SelectSingleNode("conns");
-
-            if (connsnode != null)
+            if (setting.Node != null)
             {
-                DefaultConn = XmlUtil.GetStringAttribute(connsnode, "default", string.Empty);
+                XmlNode connsnode = setting.Node.SelectSingleNode("conns");
 
-                foreach (XmlNode conn in connsnode.ChildNodes)
+                if (connsnode != null)
                 {
-                    string conn_name = XmlUtil.GetStringAttribute(conn, "conn", string.Empty);
-                    if (string.IsNullOrEmpty(conn_name)) continue;
+                    DefaultConn = XmlUtil.GetStringAttribute(connsnode, "default", string.Empty);
 
-                    string table = XmlUtil.GetStringAttribute(conn, "table", string.Empty);
-                    if (string.IsNullOrEmpty(table)) continue;
+                    foreach (XmlNode conn in connsnode.ChildNodes)
+                    {
+                        string conn_name = XmlUtil.GetStringAttribute(conn, "conn", string.Empty);
+                        if (string.IsNullOrEmpty(conn_name)) continue;
 
-                    Conns[conn_name] = table;
+                        string table = XmlUtil.GetStringAttribute(conn, "table", string.Empty);
+                        if (string.IsNullOrEmpty(table)) continue;
+
+                        Conns[conn_name] = table;
+                    }
                 }
             }
 
@@ -43,19 +46,23 @@ namespace Kiss.Repository
 
             // providers
             Providers = new Dictionary<string, string>();
-            foreach (XmlNode provider in setting.Node.SelectNodes("providers/add"))
+
+            if (setting.Node != null)
             {
-                bool enabled = XmlUtil.GetBoolAttribute(provider, "enable", true);
+                foreach (XmlNode provider in setting.Node.SelectNodes("providers/add"))
+                {
+                    bool enabled = XmlUtil.GetBoolAttribute(provider, "enable", true);
 
-                if (!enabled) continue;
-                string name = XmlUtil.GetStringAttribute(provider, "name", string.Empty);
-                if (string.IsNullOrEmpty(name))
-                    continue;
+                    if (!enabled) continue;
+                    string name = XmlUtil.GetStringAttribute(provider, "name", string.Empty);
+                    if (string.IsNullOrEmpty(name))
+                        continue;
 
-                string type = XmlUtil.GetStringAttribute(provider, "type", string.Empty);
-                if (string.IsNullOrEmpty(type)) continue;
+                    string type = XmlUtil.GetStringAttribute(provider, "type", string.Empty);
+                    if (string.IsNullOrEmpty(type)) continue;
 
-                Providers[name] = type;
+                    Providers[name] = type;
+                }
             }
         }
     }
