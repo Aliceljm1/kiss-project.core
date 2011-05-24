@@ -108,6 +108,8 @@ namespace Kiss
         {
             Type t = typeof(T);
 
+            List<PropertyInfo> props = new List<PropertyInfo>(t.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly));
+
             List<T> list = new List<T>();
 
             XmlNode node = xml.DocumentElement.SelectSingleNode("//" + t.FullName);
@@ -120,7 +122,10 @@ namespace Kiss
 
                 foreach (XmlAttribute attr in n.Attributes)
                 {
-                    PropertyInfo pi = t.GetProperty(attr.Name);
+                    PropertyInfo pi = props.Find(p =>
+                    {
+                        return p.Name.Equals(attr.Name, StringComparison.InvariantCultureIgnoreCase);
+                    });
 
                     if (pi == null || !pi.CanWrite) continue;
 
@@ -176,11 +181,13 @@ namespace Kiss
 
             writer.WriteStartElement(t.FullName);
 
+            PropertyInfo[] props = t.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
+
             foreach (var item in GetsAll())
             {
                 writer.WriteStartElement("item");
 
-                foreach (var prop in t.GetProperties())
+                foreach (var prop in props)
                 {
                     if (prop.GetCustomAttributes(typeof(IgnoreAttribute), true).Length > 0)
                         continue;
