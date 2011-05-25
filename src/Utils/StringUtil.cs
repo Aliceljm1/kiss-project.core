@@ -5,7 +5,6 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Web;
 
 namespace Kiss.Utils
 {
@@ -112,7 +111,7 @@ namespace Kiss.Utils
         /// <returns></returns>
         public static string[] Equation2StringArray(string equation)
         {
-            string[] s = Split(equation, Equal, false, true);
+            string[] s = Split(equation, Equal, false, false);
 
             if (s.Length == 0)
                 return new string[] { };
