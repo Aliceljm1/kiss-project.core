@@ -65,7 +65,6 @@
     <Compile Include="Ioc\IServiceContainer.cs" />
     <Compile Include="Ioc\ServiceContainer.cs" />
     <Compile Include="Logging\DummyLogger.cs" />
-    <Compile Include="Pair.cs" />
     <Compile Include="Plugin\AutoInitAttribute.cs" />
     <Compile Include="Plugin\IPlugin.cs" />
     <Compile Include="Plugin\IPluginDefinition.cs" />
@@ -92,6 +91,7 @@
     <Compile Include="Json\ObjectConverter.cs" />
     <Compile Include="Json\ScriptIgnoreAttribute.cs" />
     <Compile Include="Json\SimpleTypeResolver.cs" />
+    <Compile Include="Service\IService.cs" />
     <Compile Include="Transaction.cs" />
     <Compile Include="Tuple.cs" />
     <Compile Include="Utils\CrossDomain.cs" />

@@ -126,9 +126,9 @@ namespace Kiss.Query
                 List<string> list = new List<string>();
                 foreach (var item in _orderbyItems)
                 {
-                    if (!AllowedOrderbyColumns.Contains(item.First))
+                    if (!AllowedOrderbyColumns.Contains(item.Key))
                         continue;
-                    list.Add(string.Format("{0} {1}", item.First, item.Second ? "ASC" : "DESC"));
+                    list.Add(string.Format("{0} {1}", item.Key, item.Value ? "ASC" : "DESC"));
                 }
                 return StringUtil.CollectionToCommaDelimitedString(list);
             }
@@ -165,7 +165,7 @@ namespace Kiss.Query
             set { tableField = value; }
         }
 
-        private List<Pair<string, bool>> _orderbyItems = new List<Pair<string, bool>>();
+        private List<KeyValuePair<string, bool>> _orderbyItems = new List<KeyValuePair<string, bool>>();
 
         /// <summary>
         /// add sort column( desc ) and set the column to sortable
@@ -194,8 +194,8 @@ namespace Kiss.Query
         /// </summary>
         public void AppendOrderby(string column, bool asc)
         {
-            if (!_orderbyItems.Exists(delegate(Pair<string, bool> p) { return string.Equals(p.First, column, StringComparison.InvariantCultureIgnoreCase); }))
-                _orderbyItems.Add(new Pair<string, bool>(column, asc));
+            if (!_orderbyItems.Exists(delegate(KeyValuePair<string, bool> p) { return string.Equals(p.Key, column, StringComparison.InvariantCultureIgnoreCase); }))
+                _orderbyItems.Add(new KeyValuePair<string, bool>(column, asc));
         }
 
         #endregion
