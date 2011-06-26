@@ -41,7 +41,6 @@ namespace Kiss.Config
         /// <param name="node"></param>
         protected virtual void LoadValuesFromConfigurationXml(XmlNode node)
         {
-
             foreach (PropertyInfo info in GetType().GetProperties())
             {
                 object[] arg = info.GetCustomAttributes(typeof(ConfigPropAttribute), true);
@@ -81,8 +80,14 @@ namespace Kiss.Config
                     default:
                         break;
                 }
+
                 if (info.CanWrite && value != null)
                     info.SetValue(this, value, null);
+            }
+
+            foreach (XmlAttribute attr in node.Attributes)
+            {
+                _ext.SetExtendedAttribute(attr.Name, attr.Value);
             }
         }
 
@@ -231,6 +236,20 @@ namespace Kiss.Config
             }
 
             return config;
+        }
+
+        #endregion
+
+        #region extend props
+
+        private ExtendedAttributes _ext = new ExtendedAttributes();
+
+        public virtual string this[string key]
+        {
+            get
+            {
+                return _ext.GetExtendedAttribute(key);
+            }
         }
 
         #endregion
