@@ -14,26 +14,10 @@ namespace Kiss.Config
     [Serializable]
     public abstract class ConfigBase
     {
-        #region props
-
-        /// <summary>
-        /// connection string
-        /// </summary>
-        public string ConnectionString { get { return ConnectionStringSettings.ConnectionString; } }
-
-        /// <summary>
-        /// connection string settings
-        /// </summary>
-        public ConnectionStringSettings ConnectionStringSettings { get { return GetConnectionStringSettings(ConnStringName); } }
-
         /// <summary>
         /// default connection string settings
         /// </summary>
         public static ConnectionStringSettings DefaultConnectionStringSettings { get; set; }
-
-        #endregion
-
-        #region virtual
 
         /// <summary>
         /// read config from xml node
@@ -90,14 +74,6 @@ namespace Kiss.Config
                 _ext.SetExtendedAttribute(attr.Name, attr.Value);
             }
         }
-
-        /// <summary>
-        /// connection string name
-        /// </summary>
-        [ConfigProp("connectionStringName", ConfigPropAttribute.DataType.String, DefaultValue = null)]
-        public virtual string ConnStringName { get; protected set; }
-
-        #endregion
 
         #region GetConfig
 

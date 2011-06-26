@@ -11,17 +11,6 @@ namespace Kiss.Config
     {
         #region props
 
-        /// <summary>
-        /// 连接字符串名称
-        /// </summary>
-        public override string ConnStringName
-        {
-            get
-            {
-                return Providers[ DefaultProvider ].Attributes[ "connectionStringName" ];
-            }
-        }
-
         internal string ConfigName { get; private set; }
 
         /// <summary>
