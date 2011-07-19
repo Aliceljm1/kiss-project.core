@@ -923,5 +923,30 @@ namespace Kiss.Utils
 
             return 1 - (double)d[n, m] / Math.Max(str1.Length, str2.Length);
         }
+
+        public static string UniqueId()
+        {
+            byte[] destinationArray = Guid.NewGuid().ToByteArray();
+            DateTime time = new DateTime(0x76c, 1, 1);
+            DateTime now = DateTime.Now;
+            TimeSpan span = new TimeSpan(now.Ticks - time.Ticks);
+            TimeSpan timeOfDay = now.TimeOfDay;
+            byte[] bytes = BitConverter.GetBytes(span.Days);
+            byte[] array = BitConverter.GetBytes((long)(timeOfDay.TotalMilliseconds / 3.333333));
+            Array.Reverse(bytes);
+            Array.Reverse(array);
+            Array.Copy(bytes, bytes.Length - 2, destinationArray, destinationArray.Length - 6, 2);
+            Array.Copy(array, array.Length - 4, destinationArray, destinationArray.Length - 4, 4);
+
+            Array.Reverse(destinationArray);
+
+            Guid guid = new Guid(destinationArray);
+
+            string enc = Convert.ToBase64String(guid.ToByteArray());
+            enc = enc.Replace("/", "_");
+            enc = enc.Replace("+", "-");
+
+            return enc.Substring(0, 22).ToLower();
+        }
     }
 }
