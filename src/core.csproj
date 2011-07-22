@@ -49,6 +49,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.OracleClient" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -145,6 +146,7 @@
     <Compile Include="Utils\PropertiesParser.cs" />
     <Compile Include="Utils\ResourceUtil.cs" />
     <Compile Include="Utils\SecurityUtil.cs" />
+    <Compile Include="Utils\StreamUtil.cs" />
     <Compile Include="Utils\TypeResolver\CachedTypeResolver.cs" />
     <Compile Include="Utils\DataUtil.cs" />
     <Compile Include="Utils\Enum\EnumerationExtensions.cs" />

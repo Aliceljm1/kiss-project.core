@@ -1,42 +1,22 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Drawing.Printing;
 using System.IO;
 using System.Net;
+using System.ServiceProcess;
 using System.Text;
+using System.Threading;
 using System.Web;
 using System.Web.UI;
+using Microsoft.Win32;
 
 namespace Kiss.Utils
 {
     /// <summary>
-    /// utils for http server
+    /// utils for http server or win service
     /// </summary>
     public static class ServerUtil
     {
-        /// <summary>
-        /// 判断服务端文件夹是否存在
-        /// </summary>
-        /// <param name="folderPath">以~开头的文件夹路径</param>
-        /// <returns></returns>
-        public static bool FolderExists(string folderPath)
-        {
-            HttpContext context = HttpContext.Current;
-
-            return context != null && Directory.Exists(context.Server.MapPath(folderPath));
-        }
-
-        /// <summary>
-        /// 判断服务端文件是否存在
-        /// </summary>
-        /// <param name="filePath">以~开头的文件</param>
-        /// <returns></returns>
-        public static bool FileExists(string filePath)
-        {
-            HttpContext context = HttpContext.Current;
-
-            return context != null && File.Exists(context.Server.MapPath(filePath));
-        }
-
         public const string HtmlNewLine = "<br />";
 
         /// <summary>
@@ -159,7 +139,7 @@ namespace Kiss.Utils
         {
             get
             {
-                return System.Threading.Thread.CurrentThread.CurrentCulture.ToString();
+                return Thread.CurrentThread.CurrentCulture.ToString();
             }
         }
 
@@ -195,19 +175,6 @@ namespace Kiss.Utils
         }
 
         #endregion
-
-        public static String GeneratePassword(int length)
-        {
-
-            string strTempPassword = Guid.NewGuid().ToString("N");
-
-            for (int i = 0; i < (length / 32); i++)
-            {
-                strTempPassword += Guid.NewGuid().ToString("N");
-            }
-
-            return strTempPassword.Substring(0, length);
-        }
 
         public static string CalculateStorageLocation(string storageLocation)
         {
@@ -247,23 +214,6 @@ namespace Kiss.Utils
                 return addressList[0].ToString();
             }
             return "127.0.0.1";
-        }
-
-        public static byte[] ConvertStreamToBytes(Stream stream)
-        {
-            byte[] content;
-
-            if (stream == null)
-                content = new byte[0];
-            else if (stream is MemoryStream)
-                content = ((MemoryStream)stream).ToArray();
-            else
-            {
-                content = new byte[stream.Length];
-                stream.Position = 0;
-                stream.Read(content, 0, (int)stream.Length);
-            }
-            return content;
         }
 
         /// <summary>
@@ -334,56 +284,6 @@ namespace Kiss.Utils
             }
 
             return RelativePath;
-        }
-
-
-        /// <summary>
-        /// Returns a resource string. Shortcut for HttpContext.GetGlobalResourceObject.
-        /// </summary>
-        /// <param name="ClassKey"></param>
-        /// <param name="ResourceKey"></param>
-        /// <returns></returns>
-        public static string GRes(string ClassKey, string ResourceKey)
-        {
-            string Value = HttpContext.GetGlobalResourceObject(ClassKey, ResourceKey) as string;
-            if (string.IsNullOrEmpty(Value))
-                return ResourceKey;
-
-            return Value;
-        }
-        /// <summary>
-        /// Returns a resource string. Shortcut for HttpContext.GetGlobalResourceObject.
-        /// 
-        /// Defaults to "Resources" as the ResourceSet (ie. Resources.xx.resx)
-        /// </summary>
-        /// <param name="ResourceKey"></param>
-        /// <returns></returns>
-        public static string GRes(string ResourceKey)
-        {
-            return GRes("Resources", ResourceKey);
-        }
-
-        /// <summary>
-        /// Returns a JavaScript Encoded string from a Global Resource
-        /// </summary>
-        /// <param name="ClassKey"></param>
-        /// <param name="ResourceKey"></param>
-        /// <returns></returns>
-        public static string GResJs(string ClassKey, string ResourceKey)
-        {
-            string Value = GRes(ClassKey, ResourceKey) as string;
-            return EncodeJsString(Value);
-        }
-
-        /// <summary>
-        /// Returns a JavaScript Encoded string from a Global Resource
-        /// Defaults to the "Resources" resource set.
-        /// </summary>
-        /// <param name="ResourceKey"></param>
-        /// <returns></returns>
-        public static string GResJs(string ResourceKey)
-        {
-            return GResJs("Resources", ResourceKey);
         }
 
         /// <summary>
@@ -559,6 +459,178 @@ namespace Kiss.Utils
                 count == 0 ? baseUrl.TrimEnd('?') : baseUrl,
                 key,
                 value);
+        }
+
+        /// <summary>
+        /// 设置Windows服务的启动类型
+        /// </summary>
+        /// <param name="sServiceName">服务名称</param>
+        /// <param name="iStartType">要设置的启动类型 1 系统 2 自动 3 手动 4 已禁用 </param>
+        /// <returns>true:设置成功; false:设置失败</returns>
+        public static bool SetWindowsServiceStartType(String sServiceName, int iStartType)
+        {
+            try
+            {
+                ProcessStartInfo objProcessInf = new ProcessStartInfo();
+                objProcessInf.FileName = "cmd.exe";
+                objProcessInf.CreateNoWindow = false;
+                objProcessInf.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                string sStartState = "boot";
+                switch (iStartType)
+                {
+                    case 1:
+                        {
+                            sStartState = "system";//系统
+                            break;
+                        }
+                    case 2:
+                        {
+                            sStartState = "auto";//自动
+                            break;
+                        }
+                    case 3:
+                        {
+                            sStartState = "demand";//手动
+                            break;
+                        }
+                    case 4:
+                        {
+                            sStartState = "disabled";//已禁用
+                            break;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
+                //设置指定服务的启动类型
+                objProcessInf.Arguments = "/c sc config " + sServiceName + " start= " + sStartState;
+                Process.Start(objProcessInf);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 如果指定的Windows服务不在运行状态,则启动该Windows服务 
+        /// </summary>
+        /// <param name="sServiceName">Windows服务的名称</param>
+        /// <returns>true:启动成功; false:启动失败</returns>
+        public static bool StartWindowService(string sServiceName)
+        {
+            try
+            {
+                ServiceController controller = new ServiceController(sServiceName);
+                //如果状态为停止,那么启动服务
+                if (controller.Status == ServiceControllerStatus.Stopped)
+                {
+                    try
+                    {
+                        controller.Start();
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+                    controller.Refresh();
+                }
+                //如果状态为暂停,那么继续服务
+                while (controller.Status != ServiceControllerStatus.Running)
+                {
+                    Thread.Sleep(10);
+
+                    controller.Refresh();
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 检测是否安装有打印机
+        /// </summary>
+        /// <returns>true:安装有打印机 false:没安装打印机</returns>
+        public static bool HasPrinter()
+        {
+            try
+            {
+                return PrinterSettings.InstalledPrinters.Count > 0;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static void StartPrintService()
+        {
+            string sServiceName = "Spooler";
+
+            //判断当前打印服务是否运行
+            if (!IsWindowsServiceRunning(sServiceName))
+            {
+                //如果打印服务已经被禁用，那么设置为自动
+                if (GetWindowsServiceStartType(sServiceName) == 4)
+                {
+                    //设置打印服务为自动
+                    bool setStartType = SetWindowsServiceStartType(sServiceName, 2);
+                    if (setStartType == true)
+                    {
+                        Thread.Sleep(500);//延迟半秒时间
+                    }
+                    else
+                    {
+                        throw new Exception("设置打印后台程序服务Print Spooler启动类型为自动,操作失败!");
+                    }
+                }
+            }
+            //启动打印服务
+            if (StartWindowService(sServiceName))
+            {
+                if (!HasPrinter())
+                {
+                    throw new Exception("系统尚未安装打印机!");
+                }
+            }
+            else
+            {
+                throw new Exception("打印后台程序服务Print Spooler启动失败!");
+            }
+        }
+
+        /// <summary>
+        /// 得到指定Windows服务的启动类型
+        /// [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\ServerName] Start"=dword:00000002   其中2为自动,   3为手动. 
+        /// </summary>
+        /// <param name="sServiceName">Windows服务的名称</param>
+        /// <returns>2:自动   3:手动   4:已禁用</returns>
+        public static int GetWindowsServiceStartType(string sServiceName)
+        {
+            RegistryKey rk = Registry.LocalMachine;
+            RegistryKey system = rk.OpenSubKey("SYSTEM");
+            RegistryKey currentControlSet = system.OpenSubKey("CurrentControlSet");
+            RegistryKey services = currentControlSet.OpenSubKey("Services");
+            RegistryKey windowsServiceName = services.OpenSubKey(sServiceName);
+            int typeValue = Convert.ToInt32(windowsServiceName.GetValue("Start").ToString());
+            return typeValue;
+        }
+
+        /// <summary>
+        /// 判断指定的Windows服务是否运行
+        /// </summary>
+        /// <param name="sServiceName">Windows服务的名称</param>
+        /// <returns>true: 正在运行; false:停止</returns>
+        public static bool IsWindowsServiceRunning(string sServiceName)
+        {
+            ServiceController controller = new ServiceController(sServiceName);
+            return controller.Status == ServiceControllerStatus.Running;
         }
     }
 }
