@@ -755,13 +755,89 @@ namespace Kiss.Utils
             return list.ToArray();
         }
 
-        public static string Trim(string input, int max)
+        public static string Trim(string param, int length)
         {
-            if (string.IsNullOrEmpty(input))
-                return string.Empty;
-            if (input.Length > max)
-                return input.Substring(0, max) + "...";
-            return input;
+            return Trim(param, length, "...");
+        }
+
+        /// <summary>
+        /// 按字节长度截取字符串(支持截取带HTML代码样式的字符串)
+        /// </summary>
+        /// <param name=”param”>将要截取的字符串参数</param>
+        /// <param name=”length”>截取的字节长度</param>
+        /// <param name=”end”>字符串末尾补上的字符串</param>
+        /// <returns>返回截取后的字符串</returns>
+        public static string Trim(string param, int length, string end)
+        {
+            string Pattern = null;
+            MatchCollection m = null;
+            StringBuilder result = new StringBuilder();
+            int n = 0;
+            char temp;
+            bool isCode = false; //是不是HTML代码
+            bool isHTML = false; //是不是HTML特殊字符,如&nbsp;
+            char[] pchar = param.ToCharArray();
+            for (int i = 0; i < pchar.Length; i++)
+            {
+                temp = pchar[i];
+                if (temp == '<')
+                {
+                    isCode = true;
+                }
+                else if (temp == '&')
+                {
+                    isHTML = true;
+                }
+                else if (temp == '>' && isCode)
+                {
+                    n = n - 1;
+                    isCode = false;
+                }
+                else if (temp == ';' && isHTML)
+                {
+                    isHTML = false;
+                }
+
+                if (!isCode && !isHTML)
+                {
+                    n = n + 1;
+                    //UNICODE码字符占两个字节
+                    if (Encoding.Default.GetBytes(temp + "").Length > 1)
+                    {
+                        n = n + 1;
+                    }
+                }
+
+                result.Append(temp);
+                if (n >= length)
+                {
+                    result.Append(end);
+                    break;
+                }
+            }
+            
+            //取出截取字符串中的HTML标记
+            string temp_result = Regex.Replace(result.ToString(), "(>)[^<>]*(<?)", "$1$2");
+            //去掉不需要结束标记的HTML标记
+            temp_result = Regex.Replace(temp_result, @"</?(AREA|BASE|BASEFONT|BODY|BR|COL|COLGROUP|DD|DT|FRAME|HEAD|HR|HTML|IMG|INPUT|ISINDEX|LI|LINK|META|OPTION|P|PARAM|TBODY|TD|TFOOT|TH|THEAD|TR|area|base|basefont|body|br|col|colgroup|dd|dt|frame|head|hr|html|img|input|isindex|li|link|meta|option|p|param|tbody|td|tfoot|th|thead|tr)[^<>]*/?>", "");
+            //去掉成对的HTML标记
+            temp_result = Regex.Replace(temp_result, @"<([a-zA-Z]+)[^<>]*>(.*?)</\1>", "$2");
+            //用正则表达式取出标记
+            Pattern = ("<([a-zA-Z]+)[^<>]*>");
+            m = Regex.Matches(temp_result, Pattern);
+            ArrayList endHTML = new ArrayList();
+            foreach (Match mt in m)
+            {
+                endHTML.Add(mt.Result("$1"));
+            }
+            //补全不成对的HTML标记
+            for (int i = endHTML.Count - 1; i >= 0; i--)
+            {
+                result.Append("</");
+                result.Append(endHTML[i]);
+                result.Append(">");
+            }
+            return result.ToString();
         }
 
         public static string TrimHtml(string html)
@@ -947,6 +1023,62 @@ namespace Kiss.Utils
             enc = enc.Replace("+", "-");
 
             return enc.Substring(0, 22).ToLower();
+        }
+
+        /// <summary> 
+        /// Encodes non-US-ASCII characters in a string. 
+        /// </summary> 
+        /// <param name="s"></param> 
+        /// <returns></returns> 
+        public static string ToHexString(string s)
+        {
+            char[] chars = s.ToCharArray();
+            StringBuilder builder = new StringBuilder();
+            for (int index = 0; index < chars.Length; index++)
+            {
+                bool needToEncode = NeedToEncode(chars[index]);
+                if (needToEncode)
+                {
+                    string encodedString = ToHexString(chars[index]);
+                    builder.Append(encodedString);
+                }
+                else
+                {
+                    builder.Append(chars[index]);
+                }
+            }
+            return builder.ToString();
+        }
+        /// <summary> 
+        /// Determines if the character needs to be encoded. 
+        /// </summary> 
+        /// <param name="chr"></param> 
+        /// <returns></returns> 
+        private static bool NeedToEncode(char chr)
+        {
+            string reservedChars = "$-_.+!*'(),@=&";
+            if (chr > 127)
+                return true;
+            if (char.IsLetterOrDigit(chr) || reservedChars.IndexOf(chr) >= 0)
+                return false;
+            return true;
+        }
+
+        /// <summary> 
+        /// Encodes a non-US-ASCII character. 
+        /// </summary> 
+        /// <param name="chr"></param> 
+        /// <returns></returns> 
+        private static string ToHexString(char chr)
+        {
+            UTF8Encoding utf8 = new UTF8Encoding();
+            byte[] encodedBytes = utf8.GetBytes(chr.ToString());
+            StringBuilder builder = new StringBuilder();
+            for (int index = 0; index < encodedBytes.Length; index++)
+            {
+                builder.AppendFormat("%{0}", Convert.ToString(encodedBytes[index], 16));
+            }
+            return builder.ToString();
         }
     }
 }
