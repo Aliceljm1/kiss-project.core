@@ -811,11 +811,12 @@ namespace Kiss.Utils
                 result.Append(temp);
                 if (n >= length)
                 {
-                    result.Append(end);
+                    if (n > length)
+                        result.Append(end);
                     break;
                 }
             }
-            
+
             //取出截取字符串中的HTML标记
             string temp_result = Regex.Replace(result.ToString(), "(>)[^<>]*(<?)", "$1$2");
             //去掉不需要结束标记的HTML标记
