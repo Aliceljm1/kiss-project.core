@@ -812,8 +812,10 @@ namespace Kiss.Utils
                 if (n >= length)
                 {
                     if (n > length)
+                    {
                         result.Append(end);
-                    break;
+                        break;
+                    }
                 }
             }
 
