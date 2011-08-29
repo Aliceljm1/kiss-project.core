@@ -78,7 +78,7 @@ namespace Kiss.Utils
                     continue;
 
                 p.SetValue(old,
-                    ConvertTo(nv[p.Name], p.PropertyType),
+                    ConvertTo(nv[p.Name].Trim(), p.PropertyType),
                     null);
             }
         }
