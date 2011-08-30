@@ -152,7 +152,7 @@ namespace Kiss.Utils
             {
                 return new string[0];
             }
-            if (IsNullOrEmpty(delimiters))
+            if (string.IsNullOrEmpty(delimiters))
             {
                 return new string[] { s };
             }
