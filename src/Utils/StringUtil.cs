@@ -811,11 +811,10 @@ namespace Kiss.Utils
                 result.Append(temp);
                 if (n >= length)
                 {
-                    if (n > length)
-                    {
+                    if (i < pchar.Length - 1)
                         result.Append(end);
-                        break;
-                    }
+
+                    break;
                 }
             }
 
