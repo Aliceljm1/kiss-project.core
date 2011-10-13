@@ -213,7 +213,12 @@ namespace Kiss
 
         public static DictSchema GetRoot(int siteId, string type)
         {
-            return (from q in CreateContext(true)
+            return GetRoot(CreateContext(true), siteId, type);
+        }
+
+        public static DictSchema GetRoot(ILinqContext<DictSchema> cx, int siteId, string type)
+        {
+            return (from q in cx
                     where q.SiteId == siteId && q.Type == type && q.Depth == 0
                     select q).SingleOrDefault();
         }
@@ -297,9 +302,9 @@ namespace Kiss
                     select q).FirstOrDefault();
         }
 
-        public static List<DictSchema> GetsByType(int siteId, string type)
+        public static DictSchemas GetsByType(ILinqContext<DictSchema> cx, int siteId, string type)
         {
-            List<DictSchema> list = (from q in CreateContext(true)
+            List<DictSchema> list = (from q in cx
                                      where q.SiteId == siteId && q.Type == type && q.Depth > 0
                                      orderby q.Depth ascending, q.SortOrder ascending
                                      select q).ToList();
@@ -315,7 +320,12 @@ namespace Kiss
                 regroup(s, list);
             }
 
-            return result;
+            return new DictSchemas(result);
+        }
+
+        public static DictSchemas GetsByType(int siteId, string type)
+        {
+            return GetsByType(DictSchema.CreateContext(true), siteId, type);
         }
 
         private static void regroup(DictSchema s, List<DictSchema> list)
@@ -402,5 +412,31 @@ namespace Kiss
         }
 
         #endregion
+    }
+
+    public class DictSchemas : List<DictSchema>
+    {
+        public DictSchemas()
+            : base()
+        {
+        }
+
+        public DictSchemas(int capacity)
+            : base(capacity)
+        {
+        }
+
+        public DictSchemas(IEnumerable<DictSchema> collection)
+            : base(collection)
+        {
+        }
+
+        public DictSchema this[string name]
+        {
+            get
+            {
+                return Find((d) => { return string.Equals(d.Name, name, StringComparison.InvariantCultureIgnoreCase); });
+            }
+        }
     }
 }
