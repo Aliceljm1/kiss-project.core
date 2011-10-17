@@ -34,8 +34,6 @@ namespace Kiss.Query
         /// </summary>
         public string Id { get; set; }
 
-        public string Keyword { get; set; }
-
         public int PageIndex { get; set; }
 
         /// <summary>
