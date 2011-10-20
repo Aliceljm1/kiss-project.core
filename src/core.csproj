@@ -66,6 +66,10 @@
     <Compile Include="Ioc\IServiceContainer.cs" />
     <Compile Include="Ioc\ServiceContainer.cs" />
     <Compile Include="Logging\DummyLogger.cs" />
+    <Compile Include="Notice\ChannelAttribute.cs" />
+    <Compile Include="Notice\INotice.cs" />
+    <Compile Include="Notice\NoticeFactory.cs" />
+    <Compile Include="Notice\NoticeInitalizer.cs" />
     <Compile Include="Plugin\AutoInitAttribute.cs" />
     <Compile Include="Plugin\IPlugin.cs" />
     <Compile Include="Plugin\IPluginDefinition.cs" />
