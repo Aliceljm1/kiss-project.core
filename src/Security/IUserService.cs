@@ -15,5 +15,7 @@ namespace Kiss.Security
         void RemovePermissionModule(string module_name, string action_name);
 
         IUser GetUserInfo(IIdentity identity);
+
+        void SaveUserInfo(params IUser[] users);
     }
 }

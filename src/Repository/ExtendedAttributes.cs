@@ -143,10 +143,7 @@ namespace Kiss
 
         public void SetSerializerData(SerializerData data)
         {
-            if (this._extendedAttributes == null || this._extendedAttributes.Count == 0)
-            {
-                this._extendedAttributes = Serializer.ConvertToNameValueCollection(data.Keys, data.Values);
-            }
+            this._extendedAttributes = Serializer.ConvertToNameValueCollection(data.Keys, data.Values);
 
             if (this._extendedAttributes == null)
                 _extendedAttributes = new NameValueCollection();

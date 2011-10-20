@@ -78,10 +78,12 @@ namespace Kiss.Security
     {
         string Id { get; }
         string UserName { get; }
-        string DisplayName { get; }
-        string Email { get; }
+        string DisplayName { get; set; }
+        string Email { get; set; }
 
-        string this[string prop] { get; }
+        string this[string prop] { get; set; }
+
+        ExtendedAttributes ExtAttrs { get; }
     }
 
     /// <summary>
