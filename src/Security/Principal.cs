@@ -76,8 +76,12 @@ namespace Kiss.Security
 
     public interface IUser
     {
+        string Id { get; }
         string UserName { get; }
         string DisplayName { get; }
+        string Email { get; }
+
+        string this[string prop] { get; }
     }
 
     /// <summary>
