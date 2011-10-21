@@ -35,13 +35,9 @@ namespace Kiss.Repository
                 }
             }
 
-            foreach (var item in setting.Providers)
+            foreach (var item in Plugin.Plugins.GetPlugins<DbProviderAttribute>())
             {
-                Type type = Type.GetType(item.Value, true, true);
-                if (type == null)
-                    continue;
-
-                sl.AddComponent(item.Key, type);
+                sl.AddComponent(item.ProviderName, item.Decorates);
             }
         }
 
