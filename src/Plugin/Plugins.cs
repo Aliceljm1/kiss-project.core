@@ -14,6 +14,11 @@ namespace Kiss.Plugin
             plugins = FindPlugins();
         }
 
+        internal static void ReInit()
+        {
+            plugins = FindPlugins();
+        }
+
         /// <summary>Gets plugins found in the environment sorted and filtered by the given user.</summary>
         /// <typeparam name="T">The type of plugin to get.</typeparam>
         /// <param name="user">The user that should be authorized for the plugin.</param>

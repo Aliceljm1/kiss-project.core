@@ -71,6 +71,8 @@ namespace Kiss.Plugin
                 throw new PluginInitException(message, exceptions.ToArray());
             }
 
+            Plugins.ReInit();
+
             log.AppendFormat("plugins initialized. {1} of {0} is enable.", count, enable_count);
 
             LogManager.GetLogger<PluginBootstrapper>().Info(log.ToString());
