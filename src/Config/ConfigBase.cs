@@ -12,7 +12,7 @@ namespace Kiss.Config
     /// base config class
     /// </summary>
     [Serializable]
-    public abstract class ConfigBase
+    public class ConfigBase
     {
         /// <summary>
         /// default connection string settings
@@ -122,6 +122,37 @@ namespace Kiss.Config
             ConfigNodeAttribute node = arg[0] as ConfigNodeAttribute;
 
             return GetConfig(type, node.Name, node.UseCache);
+        }
+
+        public static ConfigBase GetConfig(string sectionName)
+        {
+            Configuration config = Configuration.GetConfig();
+
+            string key = FormatCacheKey(sectionName);
+
+            ConfigBase typeConfig = HttpRuntime.Cache.Get(key) as ConfigBase;
+
+            if (typeConfig == null)
+            {
+                XmlNode node = config.GetSection(sectionName) ?? config.EmptyNode;
+
+                typeConfig = new ConfigBase();
+                typeConfig.LoadValuesFromConfigurationXml(node);
+
+                if (HttpContext.Current == null)
+                {
+                    HttpRuntime.Cache.Insert(key,
+                        typeConfig,
+                        Configuration.GetCacheDependency(node.Name));
+                }
+                else
+                {
+                    HttpRuntime.Cache.Insert(key,
+                        typeConfig, null, DateTime.MaxValue, Cache.NoSlidingExpiration);
+                }
+            }
+
+            return typeConfig;
         }
 
         /// <summary>

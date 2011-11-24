@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Principal;
+using System.Collections.Generic;
 
 namespace Kiss.Security
 {
@@ -80,10 +81,65 @@ namespace Kiss.Security
         string UserName { get; }
         string DisplayName { get; set; }
         string Email { get; set; }
+        string Password { get; }
+
+        string[] GetsRoleId();
+        string[] GetsDeptId();
+        string[] GetsDeptId(bool inherit);
 
         string this[string prop] { get; set; }
 
+        int GetPermissionLevel(string moduleId, string instance, string action);
+
         ExtendedAttributes ExtAttrs { get; }
+    }
+
+    public interface IPermission
+    {
+        string Id { get; }
+
+        string ModuleId { get; set; }
+
+        string Instance { get; set; }
+        long Flag { get; set; }
+
+        string ResId { get; set; }
+        int ResType { get; set; }
+
+        /// <summary>
+        /// 权限继承级别
+        /// </summary>
+        int Level { get; set; }
+    }
+
+    public interface IModule
+    {
+        string Id { get; }
+        string Name { get; }
+        string Title { get; }
+        string PermissionTitles { get; }
+        string PermissionNames { get; }
+        string PermissionFlags { get; }
+
+        List<string> Titles { get; }
+        List<string> Names { get; }
+        List<string> Flags { get; }
+
+        int TotalFlag { get; }
+    }
+
+    public interface IRole
+    {
+        string Id { get; }
+        string Name { get; }
+        string Title { get; }
+    }
+
+    public interface IDept
+    {
+        string Id { get; }
+        string Title { get; }
+        string ParentId { get; }
     }
 
     /// <summary>

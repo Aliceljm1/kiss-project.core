@@ -12,9 +12,14 @@ namespace Kiss.Notice
             if (!s.Enable)
                 return;
 
-            foreach (var item in Plugin.Plugins.GetPlugins<ChannelAttribute>())
+            foreach (var item in Plugins.GetPlugins<ChannelAttribute>())
             {
                 sl.AddComponent("kiss.notice." + item.ChannelName, item.Decorates);
+            }
+
+            foreach (var item in Plugins.GetPlugins<ChannelConfigAttribute>())
+            {
+                sl.AddComponent("kiss.noticeconfig", item.Decorates);
             }
         }
 
