@@ -84,8 +84,13 @@ namespace Kiss.Security
         string Password { get; }
 
         string[] GetsRoleId();
+        IRole[] GetsRole();
+
         string[] GetsDeptId();
+        IDept[] GetsDept();
+
         string[] GetsDeptId(bool inherit);
+        IDept[] GetsDept(bool inherit);
 
         string this[string prop] { get; set; }
 
