@@ -27,7 +27,7 @@ namespace Kiss.Security
         void AddPermission(params IPermission[] permissions);
         IPermission NewPermission(string moduleId, string instance, int resType, string resId, long flag, int level);
         IPermission[] GetsPermissionByInstance(string moduleId, string instance);
-        IPermission GetPermissionByResId(string moduleId, int resType, string resId);        
+        IPermission GetPermissionByResId(string moduleId, int resType, string resId);
 
         #endregion
 
@@ -49,11 +49,16 @@ namespace Kiss.Security
         IUser GetUserInfo(IIdentity identity);
         void SaveUserInfo(params IUser[] users);
 
+        IUser[] GetsUserByRoleId(string roleId);
+        IUser[] GetsUserByDeptId(string deptId);
+        IUser[] GetsUserByGroupId(string groupId);
+
         #endregion
 
         #region Dept
 
         IDept GetDeptByDeptId(string deptId);
+        IDept[] GetsDeptByDeptIds(string[] deptIds);
 
         #endregion
     }
