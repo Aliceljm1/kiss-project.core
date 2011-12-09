@@ -82,6 +82,11 @@ namespace Kiss
             return Repository.Count(q);
         }
 
+        public static IWhere Where(string where, params object[] args)
+        {
+            return Repository.Where(where, args);
+        }
+
         public static void DeleteById(params t[] ids)
         {
             Repository.DeleteById(ids);
@@ -228,6 +233,11 @@ namespace Kiss
         public static int Count(QueryCondition q)
         {
             return Repository.Count(q);
+        }
+
+        public static IWhere Where(string where, params object[] args)
+        {
+            return Repository.Where(where, args);
         }
 
         public static string GetTableName()

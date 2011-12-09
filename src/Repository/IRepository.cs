@@ -61,6 +61,8 @@ namespace Kiss
 
         void Delete(QueryCondition q);
 
-        ConnectionStringSettings ConnectionStringSettings { get; set; }
+        IWhere Where(string where, params object[] args);
+
+        ConnectionStringSettings ConnectionStringSettings { get; set; }        
     }    
 }

@@ -25,7 +25,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;x86</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>
@@ -36,7 +36,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;x86</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Kiss.xml</DocumentationFile>
@@ -82,6 +82,7 @@
     <Compile Include="Plugin\PluginSetting.cs" />
     <Compile Include="DbProviderAttribute.cs" />
     <Compile Include="Repository\ILinqContext.cs" />
+    <Compile Include="Repository\IWhere.cs" />
     <Compile Include="Repository\QueryObject.cs" />
     <Compile Include="Repository\RepositoryInitalizer.cs" />
     <Compile Include="Repository\RepositoryPluginSetting.cs" />
