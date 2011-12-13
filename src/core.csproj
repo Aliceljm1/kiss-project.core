@@ -176,6 +176,24 @@
     <Compile Include="Utils\TypeResolver\TypeRegistry.cs" />
     <Compile Include="Utils\TypeResolver\TypeResolver.cs" />
     <Compile Include="Utils\XmlUtil.cs" />
+    <Compile Include="Validation\Attributes\CompareValidatorAttribute.cs" />
+    <Compile Include="Validation\Attributes\CustomValidatorAttribute.cs" />
+    <Compile Include="Validation\Attributes\LengthValidatorAttribute.cs" />
+    <Compile Include="Validation\Attributes\NotEmptyValidatorAttribute.cs" />
+    <Compile Include="Validation\Attributes\RangeValidatorAttribute.cs" />
+    <Compile Include="Validation\Attributes\RegexValidatorAttribute.cs" />
+    <Compile Include="Validation\Attributes\RequiredValidatorAttribute.cs" />
+    <Compile Include="Validation\Attributes\ValidatorAttribute.cs" />
+    <Compile Include="Validation\ValidationException.cs" />
+    <Compile Include="Validation\ValidationManager.cs" />
+    <Compile Include="Validation\Validators\CompareValidator.cs" />
+    <Compile Include="Validation\Validators\CustomValidator.cs" />
+    <Compile Include="Validation\Validators\LengthValidator.cs" />
+    <Compile Include="Validation\Validators\NotEmptyValidator.cs" />
+    <Compile Include="Validation\Validators\RangeValidator.cs" />
+    <Compile Include="Validation\Validators\RegexValidator.cs" />
+    <Compile Include="Validation\Validators\RequiredValidator.cs" />
+    <Compile Include="Validation\Validators\Validator.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resource.resx">
