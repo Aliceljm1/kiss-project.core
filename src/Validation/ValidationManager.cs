@@ -240,29 +240,36 @@ namespace Kiss.Validation
 
             if (!typeValidators.ContainsKey(type))
             {
-                ValidatorCollection validators = new ValidatorCollection();
-                PropertyInfo[] pis = type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
-                foreach (PropertyInfo pi in pis)
+                lock (typeValidators)
                 {
-                    ValidatorAttribute[] vas = (ValidatorAttribute[])pi.GetCustomAttributes(typeof(ValidatorAttribute), true);
-                    List<ValidatorAttribute> vasList = new List<ValidatorAttribute>(vas);
-                    vasList.Sort(
-                        delegate(ValidatorAttribute va1, ValidatorAttribute va2)
+                    if (!typeValidators.ContainsKey(type))
+                    {
+                        ValidatorCollection validators = new ValidatorCollection();
+
+                        foreach (PropertyInfo pi in type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic))
                         {
-                            return va1.Order.CompareTo(va2.Order);
-                        });
+                            ValidatorAttribute[] vas = (ValidatorAttribute[])pi.GetCustomAttributes(typeof(ValidatorAttribute), true);
+                            List<ValidatorAttribute> vasList = new List<ValidatorAttribute>(vas);
+                            vasList.Sort(
+                                delegate(ValidatorAttribute va1, ValidatorAttribute va2)
+                                {
+                                    return va1.Order.CompareTo(va2.Order);
+                                });
 
-                    List<Validator> list = vasList.ConvertAll<Validator>(
-                        delegate(ValidatorAttribute va)
-                        {
-                            return va.GetValidator(pi);
-                        });
+                            List<Validator> list = vasList.ConvertAll<Validator>(
+                                delegate(ValidatorAttribute va)
+                                {
+                                    return va.GetValidator(pi);
+                                });
 
 
-                    if (list.Count > 0)
-                        validators.Add(pi.Name, list);
+                            if (list.Count > 0)
+                                validators.Add(pi.Name, list);
+                        }
+
+                        typeValidators.Add(type, validators);
+                    }
                 }
-                typeValidators.Add(type, validators);
             }
 
             return typeValidators[type];
