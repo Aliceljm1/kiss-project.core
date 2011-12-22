@@ -40,24 +40,24 @@ namespace Kiss.Utils
         {
             get
             {
-                string appname = ConfigurationManager.AppSettings[ "appname" ];
-                if ( !string.IsNullOrEmpty ( appname ) )
-                    return Path.Combine ( logDirectory, appname );
+                string appname = ConfigurationManager.AppSettings["appname"];
+                if (!string.IsNullOrEmpty(appname))
+                    return Path.Combine(logDirectory, appname);
 
                 return logDirectory;
             }
         }
 
-        private static readonly object _syncLock = new object ( );
+        private static readonly object _syncLock = new object();
 
         #endregion
 
         #region Ctor
 
-        static TxtLogger ( )
+        static TxtLogger()
         {
-            if ( !Directory.Exists ( LogDirectory ) )
-                Directory.CreateDirectory ( LogDirectory );
+            if (!Directory.Exists(LogDirectory))
+                Directory.CreateDirectory(LogDirectory);
         }
 
         #endregion
@@ -67,44 +67,44 @@ namespace Kiss.Utils
         /// <summary>
         /// 向Log文件添加记录
         /// </summary>
-        public static void Append ( object obj )
+        public static void Append(object obj)
         {
-            if ( obj == null ) return;
+            if (obj == null) return;
 
-            string filename = Path.Combine ( LogDirectory,
-                Assembly.GetCallingAssembly ( ).ManifestModule.Name + ".log" );
+            string filename = Path.Combine(LogDirectory,
+                Assembly.GetCallingAssembly().ManifestModule.Name + ".log");
 
-            AppendStringToTextFile ( filename,
-                obj.ToString ( ) );
+            AppendStringToTextFile(filename,
+                obj.ToString());
         }
 
         /// <summary>
         /// 向Log文件添加记录
         /// </summary>
-        public static void Append ( string format, params object[ ] objs )
+        public static void Append(string format, object[] objs)
         {
-            string filename = Path.Combine ( LogDirectory,
-                Assembly.GetCallingAssembly ( ).ManifestModule.Name + ".log" );
+            string filename = Path.Combine(LogDirectory,
+                Assembly.GetCallingAssembly().ManifestModule.Name + ".log");
 
-            AppendStringToTextFile ( filename,
-                string.Format ( format, objs ) );
+            AppendStringToTextFile(filename,
+                string.Format(format, objs));
         }
 
         /// <summary>
         /// Dump Exception
         /// </summary>
         /// <param name="theException"></param>
-        public static void DumpException ( Exception theException )
+        public static void DumpException(Exception theException)
         {
-            string filename = Path.Combine ( LogDirectory,
-                Assembly.GetCallingAssembly ( ).ManifestModule.Name + ".log" );
+            string filename = Path.Combine(LogDirectory,
+                Assembly.GetCallingAssembly().ManifestModule.Name + ".log");
 
-            StringBuilder txt = new StringBuilder ( );
-            txt.AppendLine ( "Exception Dumping Started" );
-            txt.AppendLine ( ExceptionUtil.WriteException ( theException ) );
-            txt.AppendLine ( "Exception Dumping Finished" );
+            StringBuilder txt = new StringBuilder();
+            txt.AppendLine("Exception Dumping Started");
+            txt.AppendLine(ExceptionUtil.WriteException(theException));
+            txt.AppendLine("Exception Dumping Finished");
 
-            AppendStringToTextFile ( filename, txt.ToString ( ) );
+            AppendStringToTextFile(filename, txt.ToString());
         }
 
         #endregion
@@ -114,36 +114,36 @@ namespace Kiss.Utils
         /// <summary>
         /// 检查文件是否超过10M
         /// </summary>
-        private static void CheckFile ( string filename )
+        private static void CheckFile(string filename)
         {
-            if ( !File.Exists ( filename ) )
+            if (!File.Exists(filename))
                 return;
 
-            FileInfo fi = new FileInfo ( filename );
+            FileInfo fi = new FileInfo(filename);
 
-            if ( fi.Length > FILESIZELIMIT )
+            if (fi.Length > FILESIZELIMIT)
             {
                 string strBakFileName = filename + ".bak";
-                if ( File.Exists ( strBakFileName ) )
-                    File.Delete ( strBakFileName );
+                if (File.Exists(strBakFileName))
+                    File.Delete(strBakFileName);
 
-                File.Move ( filename, strBakFileName );
+                File.Move(filename, strBakFileName);
             }
         }
 
-        private static void AppendStringToTextFile ( string filename, string strContent )
+        private static void AppendStringToTextFile(string filename, string strContent)
         {
-            lock ( _syncLock )
+            lock (_syncLock)
             {
                 try
                 {
-                    CheckFile ( filename );
+                    CheckFile(filename);
 
-                    string strTime = DateTime.Now.ToString ( "yyyy'-'MM'-'dd'' HH:mm:ss:fffffff " );
+                    string strTime = DateTime.Now.ToString("yyyy'-'MM'-'dd'' HH:mm:ss:fffffff ");
                     strContent = strTime + strContent;
-                    using ( StreamWriter writer = new StreamWriter ( filename, true ) )
+                    using (StreamWriter writer = new StreamWriter(filename, true))
                     {
-                        writer.WriteLine ( strContent );
+                        writer.WriteLine(strContent);
                     }
                 }
                 catch

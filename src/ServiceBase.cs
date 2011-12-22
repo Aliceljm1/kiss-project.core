@@ -43,7 +43,7 @@ namespace Kiss
         /// <summary>
         /// 处理命令
         /// </summary>
-        void Execute(Hashtable ht);
+        string Execute(Hashtable ht);
     }
 
     /// <summary>
@@ -58,12 +58,12 @@ namespace Kiss
             types = new List<Type>(ServiceLocator.Instance.Find(typeof(ICommand), true));
         }
 
-        public static void Process(Hashtable ht)
+        public static string Process(Hashtable ht)
         {
-            if (ht == null) return;
+            if (ht == null) return null;
 
             string type = Convert.ToString(ht["Type"]);
-            if (string.IsNullOrEmpty(type)) return;
+            if (string.IsNullOrEmpty(type)) return null;
 
             foreach (var item in types)
             {
@@ -75,17 +75,21 @@ namespace Kiss
 
                 try
                 {
-                    cmd.Execute(ht);
+                    string result = cmd.Execute(ht);
+
+                    Console.WriteLine("end {0}:", item.Name);
+
+                    return result;
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ExceptionUtil.WriteException(ex));
+
+                    return null;
                 }
-
-                Console.WriteLine("end {0}:", item.Name);
-
-                break;
             }
+
+            return null;
         }
     }
 }

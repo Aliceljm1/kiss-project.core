@@ -214,6 +214,8 @@ namespace Kiss.Query
             public static readonly new BeforeQueryEventArgs Empty = new BeforeQueryEventArgs();
 
             public string Method { get; set; }
+
+            public string DbProviderName { get; set; }
         }
 
         /// <summary>
@@ -237,7 +239,7 @@ namespace Kiss.Query
         public bool EnableFireEventMulti { get; set; }
 
         public int EventFiredTimes { get; set; }
-        public virtual void FireBeforeQueryEvent(string method)
+        public virtual void FireBeforeQueryEvent(string method, string dbProviderName)
         {
             if (EventFiredTimes == 1 && !EnableFireEventMulti) return;
 
@@ -248,7 +250,7 @@ namespace Kiss.Query
                 EventFiredTimes = 1;
             }
 
-            OnBeforeQuery(new BeforeQueryEventArgs() { Method = method });
+            OnBeforeQuery(new BeforeQueryEventArgs() { Method = method, DbProviderName = dbProviderName });
         }
 
         #endregion
