@@ -94,12 +94,12 @@ namespace Kiss.Ioc
 
                 Type implementation = types2[key];
 
-                object instance = CreateInstance(implementation);
-
-                instances2[key] = instance;
+                object instance = CreateInstance(implementation);                
 
                 // fire component created event
                 OnComponentCreated(new ComponentCreatedEventArgs(instance));
+
+                instances2[key] = instance;
 
                 return instance;
             }
@@ -135,12 +135,12 @@ namespace Kiss.Ioc
                 if (implementation == null)
                     throw new ArgumentException(string.Format("Type {0} is not registed!", contract.FullName));
 
-                object instance = CreateInstance(implementation);
-
-                instances[contract] = instance;
+                object instance = CreateInstance(implementation);                
 
                 // fire component created event
                 OnComponentCreated(new ComponentCreatedEventArgs(instance));
+
+                instances[contract] = instance;
 
                 return instance;
             }

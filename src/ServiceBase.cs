@@ -63,7 +63,7 @@ namespace Kiss
             if (ht == null) return null;
 
             string type = Convert.ToString(ht["Type"]);
-            if (string.IsNullOrEmpty(type)) return null;
+            if (string.IsNullOrEmpty(type)) return string.Empty;
 
             foreach (var item in types)
             {
@@ -77,7 +77,7 @@ namespace Kiss
                 {
                     string result = cmd.Execute(ht);
 
-                    Console.WriteLine("end {0}:", item.Name);
+                    Console.WriteLine("end {0}.", item.Name);
 
                     return result;
                 }
@@ -85,11 +85,11 @@ namespace Kiss
                 {
                     Console.WriteLine(ExceptionUtil.WriteException(ex));
 
-                    return null;
+                    return string.Empty;
                 }
             }
 
-            return null;
+            return string.Empty;
         }
     }
 }
