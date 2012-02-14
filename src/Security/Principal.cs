@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Security.Principal;
 using System.Collections.Generic;
+using System.Security.Principal;
 
 namespace Kiss.Security
 {
@@ -82,6 +82,7 @@ namespace Kiss.Security
         string DisplayName { get; set; }
         string Email { get; set; }
         string Password { get; }
+        string DefaultUrl { get; }
 
         string[] GetsRoleId();
         IRole[] GetsRole();
@@ -138,6 +139,7 @@ namespace Kiss.Security
         string Id { get; }
         string Name { get; }
         string Title { get; }
+        string DefaultUrl { get; }
     }
 
     public interface IDept

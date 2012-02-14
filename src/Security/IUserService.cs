@@ -35,6 +35,7 @@ namespace Kiss.Security
 
         IRole[] GetsAllRole();
         IRole GetRoleByRoleId(string roleId);
+        IRole[] GetsRoleByUserId(string userId);
         bool IsInRole(IIdentity identity, string role);
 
         #endregion
