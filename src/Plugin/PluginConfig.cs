@@ -14,7 +14,9 @@ namespace Kiss.Plugin
         {
             base.LoadValuesFromConfigurationXml(node);
 
-            foreach (XmlNode n in node.SelectNodes("plugin"))
+            LogManager.GetLogger<PluginConfig>().Debug("plugin config count: {0} ", node.ChildNodes.Count);
+
+            foreach (XmlNode n in node.ChildNodes)
             {
                 string name = XmlUtil.GetStringAttribute(n, "name", string.Empty);
                 if (string.IsNullOrEmpty(name))

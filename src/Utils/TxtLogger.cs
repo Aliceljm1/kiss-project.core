@@ -19,7 +19,6 @@
 #endregion
 
 using System;
-using System.Configuration;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -34,17 +33,12 @@ namespace Kiss.Utils
         #region Fields
 
         private const int FILESIZELIMIT = 10485760; // The log file can not exceed 10MB.
-        private const string logDirectory = @"c:\logfiles";
 
         private static string LogDirectory
         {
             get
             {
-                string appname = ConfigurationManager.AppSettings["appname"];
-                if (!string.IsNullOrEmpty(appname))
-                    return Path.Combine(logDirectory, appname);
-
-                return logDirectory;
+                return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logfiles");
             }
         }
 
