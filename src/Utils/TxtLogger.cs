@@ -38,7 +38,7 @@ namespace Kiss.Utils
         {
             get
             {
-                return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logfiles");
+                return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logsfile");
             }
         }
 
