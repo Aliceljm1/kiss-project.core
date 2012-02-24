@@ -63,6 +63,6 @@ namespace Kiss
 
         IWhere Where(string where, params object[] args);
 
-        ConnectionStringSettings ConnectionStringSettings { get; set; }        
-    }    
+        KeyValuePair<ConnectionStringSettings, ConnectionStringSettings> ConnectionStringSettings { get; set; }
+    }
 }

@@ -107,7 +107,7 @@ namespace Kiss
 
         public static ILinqContext<T> CreateContext(bool enableQueryEvent) { return Repository.CreateContext(enableQueryEvent); }
 
-        public static ConnectionStringSettings ConnectionStringSettings { get { return Repository.ConnectionStringSettings; } set { Repository.ConnectionStringSettings = value; } }
+        public static KeyValuePair<ConnectionStringSettings, ConnectionStringSettings> ConnectionStringSettings { get { return Repository.ConnectionStringSettings; } }
 
         public static List<T> ImportFromXml(XmlDocument xml)
         {
@@ -255,7 +255,7 @@ namespace Kiss
 
         public static ILinqContext<T> CreateContext(bool enableQueryEvent) { return Repository.CreateContext(enableQueryEvent); }
 
-        public static ConnectionStringSettings ConnectionStringSettings { get { return Repository.ConnectionStringSettings; } set { Repository.ConnectionStringSettings = value; } }
+        public static KeyValuePair<ConnectionStringSettings, ConnectionStringSettings> ConnectionStringSettings { get { return Repository.ConnectionStringSettings; } }
     }
 
     [Serializable]
