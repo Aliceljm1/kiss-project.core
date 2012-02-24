@@ -17,10 +17,7 @@ namespace Kiss
     /// </summary>
     public class AppDomainTypeFinder : ITypeFinder
     {
-        private bool loadAppDomainAssemblies = true;
         private string assemblySkipLoadingPattern = "^System|^mscorlib|^Microsoft|^CppCodeProvider|^VJSharpCodeProvider|^WebDev|^Castle|^Iesi|^log4net|^NHibernate|^nunit|^TestDriven|^MbUnit|^Rhino|^QuickGraph|^TestFu|^Telerik|^ComponentArt|^MvcContrib|^NLog|^SMDiagnostics|^NVelocity|^IronPython|^CookComputing|^antlr|^Newtonsoft.Json|^StringTemplate|^ICSharpCode";
-        private string assemblyRestrictToLoadingPattern = ".*";
-        private IList<string> assemblyNames = new List<string>();
 
         #region props
 
@@ -30,33 +27,11 @@ namespace Kiss
             get { return AppDomain.CurrentDomain; }
         }
 
-        /// <summary>Gets or sets wether N2 should iterate assemblies in the app domain when loading N2 types. Loading patterns are applied when loading these assemblies.</summary>
-        public bool LoadAppDomainAssemblies
-        {
-            get { return loadAppDomainAssemblies; }
-            set { loadAppDomainAssemblies = value; }
-        }
-
-        /// <summary>Gets or sets assemblies loaded a startup in addition to those loaded in the AppDomain.</summary>
-        public IList<string> AssemblyNames
-        {
-            get { return assemblyNames; }
-            set { assemblyNames = value; }
-        }
-
         /// <summary>Gets the pattern for dlls that we know don't need to be investigated for content items.</summary>
         public string AssemblySkipLoadingPattern
         {
             get { return assemblySkipLoadingPattern; }
             set { assemblySkipLoadingPattern = value; }
-        }
-
-        /// <summary>Gets or sets the pattern for dll that will be investigated. For ease of use this defaults to match all but to increase performance you might want to configure a pattern that includes N2 assemblies and your own.</summary>
-        /// <remarks>If you change this so that N2 assemblies arn't investigated (e.g. by not including something like "^N2|..." you may break core functionality.</remarks>
-        public string AssemblyRestrictToLoadingPattern
-        {
-            get { return assemblyRestrictToLoadingPattern; }
-            set { assemblyRestrictToLoadingPattern = value; }
         }
 
         #endregion
@@ -128,10 +103,9 @@ namespace Kiss
             List<string> addedAssemblyNames = new List<string>();
             List<Assembly> assemblies = new List<Assembly>();
 
-            if (LoadAppDomainAssemblies)
-                AddAssembliesInAppDomain(addedAssemblyNames, assemblies);
+            AddAssembliesInAppDomain(addedAssemblyNames, assemblies);
 
-            AddConfiguredAssemblies(addedAssemblyNames, assemblies);
+            LoadMatchingAssemblies(addedAssemblyNames, App.BaseDirectory);
 
             return assemblies;
         }
@@ -139,7 +113,7 @@ namespace Kiss
         /// <summary>Iterates all assemblies in the AppDomain and if it's name matches the configured patterns add it to our list.</summary>
         /// <param name="addedAssemblyNames"></param>
         /// <param name="assemblies"></param>
-        private void AddAssembliesInAppDomain(List<string> addedAssemblyNames, List<Assembly> assemblies)
+        protected void AddAssembliesInAppDomain(List<string> addedAssemblyNames, List<Assembly> assemblies)
         {
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
@@ -154,27 +128,12 @@ namespace Kiss
             }
         }
 
-        /// <summary>Adds specificly configured assemblies.</summary>
-        protected virtual void AddConfiguredAssemblies(List<string> addedAssemblyNames, List<Assembly> assemblies)
-        {
-            foreach (string assemblyName in AssemblyNames)
-            {
-                Assembly assembly = Assembly.Load(assemblyName);
-                if (!addedAssemblyNames.Contains(assembly.FullName))
-                {
-                    assemblies.Add(assembly);
-                    addedAssemblyNames.Add(assembly.FullName);
-                }
-            }
-        }
-
         /// <summary>Check if a dll is one of the shipped dlls that we know don't need to be investigated.</summary>
         /// <param name="assemblyFullName">The name of the assembly to check.</param>
-        /// <returns>True if the assembly should be loaded into N2.</returns>
+        /// <returns>True if the assembly should be loaded</returns>
         public virtual bool Matches(string assemblyFullName)
         {
-            return !Matches(assemblyFullName, AssemblySkipLoadingPattern)
-                   && Matches(assemblyFullName, AssemblyRestrictToLoadingPattern);
+            return !Matches(assemblyFullName, AssemblySkipLoadingPattern);
         }
 
         /// <summary>Check if a dll is one of the shipped dlls that we know don't need to be investigated.</summary>
@@ -186,16 +145,11 @@ namespace Kiss
             return Regex.IsMatch(assemblyFullName, pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
         }
 
-        /// <summary>Makes sure matching assemblies in the supplied folder are loaded in the app domain.</summary>
-        /// <param name="directoryPath">The physical path to a directory containing dlls to load in the app domain.</param>
-        protected virtual void LoadMatchingAssemblies(string directoryPath)
+        /// <summary>
+        /// Makes sure matching assemblies in the supplied folder are loaded in the app domain.
+        /// </summary>
+        protected virtual void LoadMatchingAssemblies(List<string> loadedAssemblyNames, string directoryPath)
         {
-            List<string> loadedAssemblyNames = new List<string>();
-            foreach (Assembly a in GetAssemblies())
-            {
-                loadedAssemblyNames.Add(a.FullName);
-            }
-
             if (!Directory.Exists(directoryPath))
             {
                 return;
