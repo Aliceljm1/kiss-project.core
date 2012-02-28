@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Security.Principal;
+using Kiss.Query;
 
 namespace Kiss.Security
 {
@@ -37,6 +39,7 @@ namespace Kiss.Security
         IRole GetRoleByRoleId(string roleId);
         IRole[] GetsRoleByUserId(string userId);
         bool IsInRole(IIdentity identity, string role);
+        void UpdateUserRoles(string userid, string[] roleIds);
 
         #endregion
 
@@ -48,11 +51,16 @@ namespace Kiss.Security
         IUser GetUserByUserName(int siteId, string username);
 
         IUser GetUserInfo(IIdentity identity);
+        IUser NewUserInfo(int siteId, string username, string password);
         void SaveUserInfo(params IUser[] users);
+
+        bool DeleteUser(params string[] userIds);
 
         IUser[] GetsUserByRoleId(string roleId);
         IUser[] GetsUserByDeptId(string deptId);
         IUser[] GetsUserByGroupId(string groupId);
+
+        DataTable QueryUser(QueryCondition qc);
 
         #endregion
 
