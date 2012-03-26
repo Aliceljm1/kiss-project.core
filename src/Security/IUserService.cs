@@ -51,7 +51,7 @@ namespace Kiss.Security
         IUser GetUserByUserName(int siteId, string username);
 
         IUser GetUserInfo(IIdentity identity);
-        IUser NewUserInfo(int siteId, string username, string password);
+        IUser NewUserInfo(int siteId, string username);
         void SaveUserInfo(params IUser[] users);
 
         bool DeleteUser(params string[] userIds);

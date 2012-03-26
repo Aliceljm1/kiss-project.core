@@ -98,6 +98,8 @@ namespace Kiss.Security
         int GetPermissionLevel(string moduleId, string instance, string action);
 
         ExtendedAttributes ExtAttrs { get; }
+
+        void UpdatePassword(string password);
     }
 
     public interface IPermission
@@ -116,6 +118,10 @@ namespace Kiss.Security
         /// 权限继承级别
         /// </summary>
         int Level { get; set; }
+
+        bool Check(long flag);
+
+        string Title { get; }
     }
 
     public interface IModule
