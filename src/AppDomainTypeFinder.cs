@@ -17,7 +17,7 @@ namespace Kiss
     /// </summary>
     public class AppDomainTypeFinder : ITypeFinder
     {
-        private string assemblySkipLoadingPattern = "^System|^mscorlib|^Microsoft|^CppCodeProvider|^VJSharpCodeProvider|^WebDev|^Castle|^Iesi|^log4net|^NHibernate|^nunit|^TestDriven|^MbUnit|^Rhino|^QuickGraph|^TestFu|^Telerik|^ComponentArt|^MvcContrib|^NLog|^SMDiagnostics|^NVelocity|^IronPython|^CookComputing|^antlr|^Newtonsoft.Json|^StringTemplate|^ICSharpCode";
+        private string assemblySkipLoadingPattern = "^System|^mscorlib";
 
         #region props
 
