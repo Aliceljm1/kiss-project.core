@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Kiss.Security;
+using Kiss.Utils;
 
 namespace Kiss.Plugin
 {
@@ -61,11 +62,6 @@ namespace Kiss.Plugin
 
         private static IEnumerable<IPlugin> FindPluginsIn(Assembly a)
         {
-            foreach (IPlugin attribute in a.GetCustomAttributes(typeof(IPlugin), false))
-            {
-                yield return attribute;
-            }
-
             Type[] types;
             try
             {
@@ -74,6 +70,12 @@ namespace Kiss.Plugin
             catch (ReflectionTypeLoadException ex)
             {
                 types = ex.Types;
+            }
+            catch (Exception ex)
+            {
+                LogManager.GetLogger<PluginBootstrapper>().Error(ExceptionUtil.WriteException(ex));
+
+                types = new Type[] { };
             }
 
             foreach (Type t in types)
