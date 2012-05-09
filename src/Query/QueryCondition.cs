@@ -12,7 +12,7 @@ namespace Kiss.Query
     /// <summary>
     /// 查询条件
     /// </summary>
-    public class QueryCondition : ExtendedAttributes
+    public class QueryCondition : ExtendedAttributes, ICloneable
     {
         #region ctor
 
@@ -457,6 +457,11 @@ namespace Kiss.Query
             {
                 return StringUtil.CollectionToDelimitedString(clauses, string.Format(" {0} ", logic_oper), string.Empty);
             }
+        }
+
+        public object Clone()
+        {
+            return (QueryCondition)MemberwiseClone();
         }
     }
 }

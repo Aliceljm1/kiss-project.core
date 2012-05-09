@@ -54,11 +54,15 @@ namespace Kiss.Plugin
                 InitPlugin(log, sl, settings, exceptions, ref count, ref enable_count, plugin);
             }
 
+            Plugins.ReInit();
+
             // init again for plugins in plugin
             foreach (var plugin in GetPluginDefinitions())
             {
                 InitPlugin(log, sl, settings, exceptions, ref count, ref enable_count, plugin);
             }
+
+            Plugins.ReInit();
 
             if (exceptions.Count > 0)
             {
@@ -69,9 +73,7 @@ namespace Kiss.Plugin
                     message += Environment.NewLine + Environment.NewLine + "- " + ex.Message;
 
                 throw new PluginInitException(message, exceptions.ToArray());
-            }
-
-            Plugins.ReInit();
+            }            
 
             log.AppendFormat("plugins initialized. {1} of {0} is enable.", count, enable_count);
 
