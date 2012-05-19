@@ -54,14 +54,10 @@ namespace Kiss
 
         public void SetExtendedAttribute(string name, string value)
         {
-            if (StringUtil.IsNullOrEmpty(value))
-            {
+            if (value == null)
                 _extendedAttributes.Remove(name);
-            }
             else
-            {
                 _extendedAttributes[name] = value;
-            }
         }
 
         #endregion
