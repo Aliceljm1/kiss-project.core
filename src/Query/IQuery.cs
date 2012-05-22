@@ -38,6 +38,6 @@ namespace Kiss.Query
         /// <param name="q"></param>
         void Delete(QueryCondition q);
 
-        IDbTransaction BeginTransaction(string connectionstring);
+        IDbTransaction BeginTransaction(string connectionstring, IsolationLevel isolationLevel);
     }
 }

@@ -22,8 +22,8 @@ namespace Kiss.Security
         IPermission GetPermissionByPermissionId(string id);
         IPermission[] GetsPermissionByPermissionIds(string[] ids);
 
-        void RemovePermission(string moduleId, string instance);
-        void RemovePermission(string instance);
+        void RemovePermission(string moduleId, params string[] instances);
+        void RemovePermission(params string[] instances);
         void RemovePermissionByPermissionId(string permissionId);
 
         void AddPermission(params IPermission[] permissions);
@@ -70,6 +70,6 @@ namespace Kiss.Security
         IDept GetDeptByDeptId(string deptId);
         IDept[] GetsDeptByDeptIds(string[] deptIds);
 
-        #endregion        
+        #endregion
     }
 }

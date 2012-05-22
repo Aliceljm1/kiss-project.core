@@ -13,9 +13,14 @@ namespace Kiss
 
         public static IDbTransaction Transaction { get { return currentTransaction; } }
 
-        public TransactionScope(ConnectionStringSettings css)
+        public TransactionScope(ConnectionStringSettings css):
+            this(css, IsolationLevel.ReadUncommitted)
         {
-            currentTransaction = Query.QueryFactory.Create(css.ProviderName).BeginTransaction(css.ConnectionString);
+        }
+
+        public TransactionScope(ConnectionStringSettings css, IsolationLevel isolationLevel)
+        {
+            currentTransaction = Query.QueryFactory.Create(css.ProviderName).BeginTransaction(css.ConnectionString, isolationLevel);
         }
 
         public void Complete()
