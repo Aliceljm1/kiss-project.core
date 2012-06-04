@@ -97,6 +97,8 @@ namespace Kiss.Security
 
         int GetPermissionLevel(string moduleId, string instance, string action);
 
+        Dictionary<int, List<string>> GetsRelation();
+
         ExtendedAttributes ExtAttrs { get; }
 
         void UpdatePassword(string password);
