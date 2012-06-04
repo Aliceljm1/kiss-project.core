@@ -22,7 +22,7 @@ namespace Kiss.Security
         IPermission GetPermissionByPermissionId(string id);
         IPermission[] GetsPermissionByPermissionIds(string[] ids);
 
-        void RemovePermission(string moduleId, params string[] instances);
+        void RemovePermission(string moduleId, string[] instances);
         void RemovePermission(params string[] instances);
         void RemovePermissionByPermissionId(string permissionId);
 
