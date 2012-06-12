@@ -143,7 +143,7 @@ namespace Kiss
             ILinqContext<T> context = CreateContext(false);
 
             // remove old items
-            //
+            //            
             List<t> ids = new List<t>();
 
             foreach (var item in list)
@@ -182,13 +182,18 @@ namespace Kiss
         /// </example>
         public static void ExportToXml(XmlTextWriter writer)
         {
+            ExportToXml(writer, GetsAll());
+        }
+
+        public static void ExportToXml(XmlTextWriter writer, List<T> datasource)
+        {
             Type t = typeof(T);
 
             writer.WriteStartElement(t.FullName);
 
             PropertyInfo[] props = t.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly);
 
-            foreach (var item in GetsAll())
+            foreach (var item in datasource)
             {
                 writer.WriteStartElement("item");
 
