@@ -30,6 +30,7 @@ namespace Kiss.Security
         IPermission NewPermission(string moduleId, string instance, int resType, string resId, long flag, int level);
         IPermission[] GetsPermissionByInstance(string moduleId, string instance);
         IPermission GetPermissionByResId(string moduleId, int resType, string resId);
+        IPermission[] GetsPermissionByInstance(IUser user, string moduleId, string instance);
 
         #endregion
 
