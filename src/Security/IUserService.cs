@@ -72,5 +72,9 @@ namespace Kiss.Security
         IDept[] GetsDeptByDeptIds(string[] deptIds);
 
         #endregion
+
+        #region Group
+        IGroup GetGroupByGroupId(string groupId);
+        #endregion
     }
 }

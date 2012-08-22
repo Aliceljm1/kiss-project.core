@@ -157,6 +157,14 @@ namespace Kiss.Security
         string ParentId { get; }
     }
 
+    public interface IGroup
+    {
+        string Id { get; }
+        string Title { get; }
+
+        int GroupType { get; }
+    }
+
     /// <summary>
     /// PermissionDenied EventArgs
     /// </summary>
