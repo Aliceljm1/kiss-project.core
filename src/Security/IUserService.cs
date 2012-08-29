@@ -63,6 +63,8 @@ namespace Kiss.Security
 
         DataTable QueryUser(QueryCondition qc);
 
+        bool SaveUserAvator(string userId, byte[] content);
+
         #endregion
 
         #region Dept

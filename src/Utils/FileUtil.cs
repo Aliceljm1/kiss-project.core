@@ -157,5 +157,27 @@ namespace Kiss.Utils
                 }
             }
         }
+
+        public static string FormatDirectory(string dir)
+        {
+            if (string.IsNullOrEmpty(dir)) return string.Empty;
+
+            if (dir.StartsWith("."))
+            {
+                string basedir = AppDomain.CurrentDomain.BaseDirectory;
+
+                dir = dir.Substring(1);
+
+                while (dir.StartsWith("."))
+                {
+                    basedir = new DirectoryInfo(basedir).Parent.FullName;
+                    dir = dir.Substring(1);
+                }
+
+                return Path.Combine(basedir, dir.Replace('\\', Path.DirectorySeparatorChar).Replace('/', Path.DirectorySeparatorChar).TrimStart(Path.DirectorySeparatorChar));
+            }
+
+            return dir;
+        }
     }
 }

@@ -101,7 +101,7 @@ namespace Kiss.Security
 
         ExtendedAttributes ExtAttrs { get; }
 
-        void UpdatePassword(string password);
+        void UpdatePassword(string password);        
     }
 
     public interface IPermission
