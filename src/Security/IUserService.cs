@@ -65,6 +65,8 @@ namespace Kiss.Security
 
         bool SaveUserAvator(string userId, byte[] content);
 
+        bool Authenticate(int siteId, string username, string password);
+
         #endregion
 
         #region Dept
