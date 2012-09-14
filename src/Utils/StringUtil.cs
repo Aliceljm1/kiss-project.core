@@ -11,7 +11,7 @@ namespace Kiss.Utils
     /// <summary>
     /// Miscellaneous <see cref="System.String"/> utility methods.
     /// </summary>
-    public static class StringUtil
+    public class StringUtil
     {
         #region Fields
 
@@ -80,7 +80,7 @@ namespace Kiss.Utils
         /// <param name="nv"></param>
         /// <param name="delimiter"></param>
         /// <returns></returns>
-        public static string ToQueryString(this NameValueCollection nv)
+        public static string ToQueryString(NameValueCollection nv)
         {
             StringBuilder sb = new StringBuilder(nv.Count);
 
@@ -616,7 +616,12 @@ namespace Kiss.Utils
             return sb.ToString();
         }
 
-        public static bool GetBoolean(object o, bool defaultValue)
+        public static bool ToBoolean(object o)
+        {
+            return ToBoolean(o, false);
+        }
+
+        public static bool ToBoolean(object o, bool defaultValue)
         {
             if (o == null)
                 return defaultValue;
@@ -893,7 +898,7 @@ namespace Kiss.Utils
             return str.Substring(index);
         }
 
-        public static int GetInt(string str, int defaultValue)
+        public static int ToInt(string str, int defaultValue)
         {
             int v;
             if (!int.TryParse(str, out v))
@@ -901,9 +906,40 @@ namespace Kiss.Utils
             return v;
         }
 
-        public static int GetInt(string str) { return GetInt(str, 0); }
+        public static int ToInt(string str) { return ToInt(str, 0); }
 
-        public static decimal GetDecimal(string str, decimal defaultValue)
+        public static string FormatDate(DateTime datetime)
+        {
+            DateTime now = DateTime.Now;
+
+            TimeSpan ts = now - datetime;
+
+            if (datetime.Year == now.Year)
+            {
+                if (ts.Days < 1 && now.Day == datetime.Day)
+                {
+                    if (ts.Hours < 1)
+                    {
+                        if (ts.Minutes < 1)
+                        {
+                            if (ts.Seconds == 0)
+                            {
+                                return "刚刚";
+                            }
+                            return ts.Seconds.ToString() + "秒前";
+                        }
+                        return ts.Minutes.ToString() + "分钟前";
+                    }
+                    return "今天 " + datetime.ToString("HH:mm");
+                }
+
+                return string.Format("{0}月{1}日 {2}:{3}", datetime.Month.ToString(), datetime.Day.ToString(), datetime.Hour.ToString("#00"), datetime.Minute.ToString("#00"));
+            }
+
+            return string.Format("{4}-{0}-{1} {2}:{3}", datetime.Month.ToString(), datetime.Day.ToString(), datetime.Hour.ToString("#00"), datetime.Minute.ToString("#00"), datetime.Year.ToString());
+        }
+
+        public static decimal ToDecimal(string str, decimal defaultValue)
         {
             decimal v;
             if (!decimal.TryParse(str, out v))
@@ -911,9 +947,9 @@ namespace Kiss.Utils
             return v;
         }
 
-        public static decimal GetDecimal(string str) { return GetDecimal(str, 0); }
+        public static decimal ToDecimal(string str) { return ToDecimal(str, 0); }
 
-        public static DateTime GetDateTime(string str, DateTime defaultValue)
+        public static DateTime ToDateTime(string str, DateTime defaultValue)
         {
             DateTime v;
             if (!DateTime.TryParse(str, out v))
@@ -922,35 +958,7 @@ namespace Kiss.Utils
             return v;
         }
 
-        public static DateTime GetDateTime(string str) { return GetDateTime(str, DateTime.Now); }
-
-        #region Extension method
-
-        public static int ToInt(this string str) { return GetInt(str); }
-        public static int ToInt(this string str, int defaultValue) { return GetInt(str, defaultValue); }
-        public static decimal ToDecimal(this string str) { return GetDecimal(str); }
-        public static decimal ToDecimal(this string str, decimal defaultValue) { return GetDecimal(str, defaultValue); }
-        public static bool ToBoolean(this string str) { return GetBoolean(str, false); }
-        public static bool ToBoolean(this string str, bool defaultValue) { return GetBoolean(str, defaultValue); }
-        public static DateTime ToDateTime(this string str) { return GetDateTime(str); }
-        public static DateTime ToDateTime(this string str, DateTime defaultValue) { return GetDateTime(str, defaultValue); }
-
-        public static string Join(this List<string> str)
-        {
-            return CollectionToCommaDelimitedString(str);
-        }
-
-        public static string Join(this List<string> str, string separtor)
-        {
-            return CollectionToDelimitedString(str, separtor, string.Empty);
-        }
-
-        public static string Join(this List<string> str, string separtor, string surround)
-        {
-            return CollectionToDelimitedString(str, separtor, surround);
-        }
-
-        #endregion
+        public static DateTime ToDateTime(string str) { return ToDateTime(str, DateTime.Now); }
 
         public static double Similarity(string str1, string str2)
         {
