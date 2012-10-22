@@ -145,7 +145,6 @@ namespace Kiss.Security
     public interface IRole
     {
         string Id { get; }
-        string Name { get; }
         string Title { get; }
         string DefaultUrl { get; }
     }
@@ -161,8 +160,7 @@ namespace Kiss.Security
     {
         string Id { get; }
         string Title { get; }
-
-        int GroupType { get; }
+        int SecurityType { get; }
     }
 
     /// <summary>

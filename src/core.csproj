@@ -56,9 +56,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\CommonAssemblyInfo.cs">
-      <Link>Properties\CommonAssemblyInfo.cs</Link>
-    </Compile>
     <Compile Include="AppDomainTypeFinder.cs" />
     <Compile Include="Caching\CacheInitializer.cs" />
     <Compile Include="Caching\HierarchyCacheInitializer.cs" />
@@ -82,6 +79,7 @@
     <Compile Include="Plugin\Plugins.cs" />
     <Compile Include="Plugin\PluginSetting.cs" />
     <Compile Include="DbProviderAttribute.cs" />
+    <Compile Include="Properties\CommonAssemblyInfo.cs" />
     <Compile Include="Repository\ILinqContext.cs" />
     <Compile Include="Repository\IWhere.cs" />
     <Compile Include="Repository\QueryObject.cs" />
