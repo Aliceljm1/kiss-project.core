@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Kiss.Config;
+using Kiss.Utils;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Text;
-using Kiss.Config;
-using Kiss.Utils;
 
 namespace Kiss.Query
 {
@@ -241,13 +241,13 @@ namespace Kiss.Query
         public int EventFiredTimes { get; set; }
         public virtual void FireBeforeQueryEvent(string method, string dbProviderName)
         {
-            if (EventFiredTimes == 1 && !EnableFireEventMulti) return;
+            if (EventFiredTimes > 0 && !EnableFireEventMulti) return;
 
             lock (this)
             {
-                if (EventFiredTimes == 1 && !EnableFireEventMulti) return;
+                if (EventFiredTimes > 0 && !EnableFireEventMulti) return;
 
-                EventFiredTimes = 1;
+                EventFiredTimes++;
             }
 
             OnBeforeQuery(new BeforeQueryEventArgs() { Method = method, DbProviderName = dbProviderName });
