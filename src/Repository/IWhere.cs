@@ -9,7 +9,7 @@ namespace Kiss
         DataTable Select(params string[] fields);
         void Delete();
         void Update();
-        IWhere Set(string column, string value);
+        IWhere Set(string column, object value);
         IWhere Where(string where, params object[] args);
     }
 }

@@ -160,6 +160,7 @@ namespace Kiss.Security
     {
         string Id { get; }
         string Title { get; }
+        int ResType { get; set; }
         int SecurityType { get; }
     }
 

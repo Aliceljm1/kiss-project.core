@@ -1,9 +1,9 @@
+using Kiss.Validation.Validators;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Kiss.Validation.Validators;
-using ValidatorCollection = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<Kiss.Validation.Validators.Validator>>;
 using System.Text;
+using ValidatorCollection = System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<Kiss.Validation.Validators.Validator>>;
 
 namespace Kiss.Validation
 {
