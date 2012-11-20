@@ -156,7 +156,9 @@ namespace Kiss
             foreach (var item in old_list)
             {
                 if (list.Find((T obj) => { return item.Id.Equals(obj.Id); }) != null)
+                {
                     context.Remove(item);
+                }
             }
 
             // add new items

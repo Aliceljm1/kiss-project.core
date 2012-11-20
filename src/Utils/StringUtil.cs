@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web;
 
 namespace Kiss.Utils
 {
@@ -41,6 +42,20 @@ namespace Kiss.Utils
         #endregion
 
         #region Methods
+
+        public static string htmlencode(object str)
+        {
+            if (str == null) return string.Empty;
+
+            return HttpUtility.HtmlEncode(str);
+        }
+
+        public static string urlencode(object str)
+        {
+            if (str == null) return string.Empty;
+
+            return HttpUtility.UrlEncode(str.ToString());
+        }
 
         /// <summary>
         /// 

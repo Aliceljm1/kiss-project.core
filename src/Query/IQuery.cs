@@ -32,12 +32,6 @@ namespace Kiss.Query
 
         DataTable GetDataTable(QueryCondition q);
 
-        /// <summary>
-        /// delete data using query condition
-        /// </summary>
-        /// <param name="q"></param>
-        void Delete(QueryCondition q);
-
         IDbTransaction BeginTransaction(string connectionstring, IsolationLevel isolationLevel);
     }
 }

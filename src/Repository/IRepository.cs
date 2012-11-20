@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Kiss.Query;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.Data;
-using Kiss.Query;
 
 namespace Kiss
 {
@@ -58,8 +58,6 @@ namespace Kiss
         DataTable GetDataTable(QueryCondition q);
 
         int Count(QueryCondition q);
-
-        void Delete(QueryCondition q);
 
         IWhere Where(string where, params object[] args);
 
