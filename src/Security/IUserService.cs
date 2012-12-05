@@ -79,6 +79,7 @@ namespace Kiss.Security
 
         #region Group
         IGroup GetGroupByGroupId(string groupId);
+        IGroup[] GetsGroupByGroupIds(string[] groupIds);
         #endregion
     }
 }

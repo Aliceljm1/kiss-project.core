@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Kiss.Utils;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Kiss.Utils;
 
 namespace Kiss
 {
@@ -46,6 +46,16 @@ namespace Kiss
         string Execute(Hashtable ht);
     }
 
+    public abstract class SetupableCommand : ICommand
+    {
+        public bool CanProcss(string command)
+        {
+            return string.Equals(command, "KISS." + GetType().Name, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        public abstract string Execute(Hashtable ht);
+    }
+
     /// <summary>
     /// 命令处理入口
     /// </summary>
@@ -67,23 +77,27 @@ namespace Kiss
 
             foreach (var item in types)
             {
+                if (item.IsAbstract || item.IsInterface || item.IsGenericType) continue;
+
+                ILogger logger = LogManager.GetLogger(item);
+
                 ICommand cmd = Activator.CreateInstance(item) as ICommand;
 
                 if (!cmd.CanProcss(type)) continue;
 
-                Console.WriteLine("execute {0}:", item.Name);
+                logger.Debug("begin...");
 
                 try
                 {
                     string result = cmd.Execute(ht);
 
-                    Console.WriteLine("end {0}.", item.Name);
+                    logger.Debug("end");
 
                     return result;
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ExceptionUtil.WriteException(ex));
+                    logger.Error(ExceptionUtil.WriteException(ex));
 
                     return string.Empty;
                 }
