@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Data;
 
 namespace Kiss
 {
@@ -101,21 +100,29 @@ namespace Kiss
     /// </summary>
     [Serializable]
     [OriginalName("gDictSchema")]
-    public class DictSchema : QueryObject<DictSchema, int>, IComparable<DictSchema>, IExtendable
+    public class DictSchema : QueryObject<DictSchema, string>, IComparable<DictSchema>, IExtendable
     {
         [PK]
-        public override int Id { get { return base.Id; } set { base.Id = value; } }
+        public override string Id { get { return base.Id; } set { base.Id = value; } }
 
         public int SiteId { get; set; }
-        public int ParentId { get; set; }
-        public int Depth { get; set; }
+        public string ParentId { get; set; }
         public string Type { get; set; }
+
+        public int Depth { get; set; }
         public string Name { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public int SortOrder { get; set; }
         public bool HasChild { get; set; }
         public bool IsValid { get; set; }
+        public DateTime DateCreated { get; set; }
+
+        public string Prop1 { get; set; }
+        public string Prop2 { get; set; }
+        public string Prop3 { get; set; }
+        public string Prop4 { get; set; }
+        public string Prop5 { get; set; }
 
         [Ignore]
         public DictSchema Parent { get; set; }
@@ -240,62 +247,6 @@ namespace Kiss
             context.SubmitChanges(true);
         }
 
-        public static void Copy(int fromSiteId, int toSiteId)
-        {
-            ILinqContext<DictSchema> context = CreateContext(false);
-
-            List<DictSchema> oldList = (from q in context
-                                        where q.SiteId == fromSiteId && q.ParentId == 0
-                                        select q).ToList();
-
-            foreach (DictSchema d0 in oldList)
-            {
-                d0.Id = 0;
-                d0.SiteId = toSiteId;
-                context.Add(d0);
-
-                ILinqContext<DictSchema> context2 = CreateContext(false);
-
-                List<DictSchema> list = (from q in context2
-                                         where q.SiteId == fromSiteId && q.Type == d0.Type && q.Depth > 0
-                                         select q).ToList();
-
-                foreach (DictSchema d1 in list)
-                {
-                    d1.ParentId = d0.Id;
-                    copyRecu(context2, d1, toSiteId);
-                }
-
-                context2.SubmitChanges(true);
-            }
-
-            context.SubmitChanges();
-        }
-
-        private static void copyRecu(ILinqContext<DictSchema> context, DictSchema schema, int tositeId)
-        {
-            schema.Id = 0;
-            schema.SiteId = tositeId;
-
-            context.Add(schema);
-
-            if (schema.HasChild && schema.Children != null && schema.Children.Count > 0)
-            {
-                foreach (DictSchema s in schema.Children)
-                {
-                    s.ParentId = schema.Id;
-                    copyRecu(context, s, tositeId);
-                }
-            }
-        }
-
-        public static List<DictSchema> GetsBySiteId(int siteId)
-        {
-            return (from q in CreateContext(true)
-                    where q.SiteId == siteId && q.ParentId == 0
-                    select q).ToList();
-        }
-
         public static DictSchema GetByName(int siteId, string type, string name)
         {
             return (from q in CreateContext(true)
@@ -346,41 +297,12 @@ namespace Kiss
             }
         }
 
-        public static List<DictSchema> GetsByParentId(int id)
+        public static List<DictSchema> GetsByParentId(string id)
         {
             return (from q in CreateContext(true)
                     where q.ParentId == id
                     orderby q.SortOrder ascending
                     select q).ToList();
-        }
-
-        //protected override void OnDelete(params DictSchema[] objs)
-        //{
-        //    base.OnDelete(objs);
-
-        //    foreach (DictSchema s in objs)
-        //    {
-        //        delRecu(s);
-        //    }
-        //}
-
-        private static void delRecu(DictSchema s)
-        {
-            if (!s.HasChild)
-                return;
-
-            ILinqContext<DictSchema> context = CreateContext(false);
-
-            List<DictSchema> list = (from q in context
-                                     where q.ParentId == s.Id
-                                     select q).ToList();
-
-            foreach (DictSchema sub in list)
-            {
-                context.Remove(sub);
-            }
-
-            context.SubmitChanges(true);
         }
 
         #endregion
