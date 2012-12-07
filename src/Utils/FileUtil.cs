@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Collections.Generic;
 using System.Text;
 
 namespace Kiss.Utils
@@ -117,12 +117,17 @@ namespace Kiss.Utils
             }
         }
 
+        public static Encoding GetFileEncoding(string filename)
+        {
+            return GetFileEncoding(filename, Encoding.UTF8);
+        }
+
         /// <summary>
         /// 获取文件编码
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
-        public static Encoding GetFileEncoding(string filename)
+        public static Encoding GetFileEncoding(string filename, Encoding default_encoding)
         {
             using (FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read))
             {
@@ -147,12 +152,12 @@ namespace Kiss.Utils
                         }
                         else
                         {
-                            return Encoding.Default;
+                            return default_encoding;
                         }
                     }
                     else
                     {
-                        return Encoding.Default;
+                        return default_encoding;
                     }
                 }
             }
