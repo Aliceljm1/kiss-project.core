@@ -102,7 +102,7 @@ namespace Kiss
     [OriginalName("gDictSchema")]
     public class DictSchema : QueryObject<DictSchema, string>, IComparable<DictSchema>, IExtendable
     {
-        [PK]
+        [PK(AutoGen = false)]
         public override string Id { get { return base.Id; } set { base.Id = value; } }
 
         public int SiteId { get; set; }

@@ -41,8 +41,8 @@ namespace Kiss.Utils
         /// <returns></returns>
         public static object ConvertTo(object value, Type targetType)
         {
-            // check for value = null, thx alex       
-            if (value == null || string.IsNullOrEmpty(value.ToString()) || value is DBNull)
+            // check for value = null    
+            if (value == null || value is DBNull)
                 return null;
 
             // do we have a nullable type?
