@@ -204,7 +204,9 @@ namespace Kiss
                     if (prop.GetCustomAttributes(typeof(IgnoreAttribute), true).Length > 0)
                         continue;
 
-                    writer.WriteAttributeString(prop.Name, Convert.ToString(prop.GetValue(item, null)));
+                    object val = prop.GetValue(item, null);
+                    if (val == null) continue;
+                    writer.WriteAttributeString(prop.Name, val.ToString());
                 }
 
                 writer.WriteEndElement();

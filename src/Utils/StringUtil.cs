@@ -57,6 +57,20 @@ namespace Kiss.Utils
             return HttpUtility.UrlEncode(str.ToString());
         }
 
+        public static string htmldecode(object str)
+        {
+            if (str == null) return string.Empty;
+
+            return HttpUtility.HtmlDecode(str.ToString());
+        }
+
+        public static string urldecode(object str)
+        {
+            if (str == null) return string.Empty;
+
+            return HttpUtility.UrlDecode(str.ToString());
+        }
+
         /// <summary>
         /// 
         /// </summary>
