@@ -136,6 +136,7 @@
     <Compile Include="Repository\ExtendedAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\AssertUtils.cs" />
+    <Compile Include="Utils\FTPClient.cs" />
     <Compile Include="Utils\Imaging\AnimatedGifDecoder.cs" />
     <Compile Include="Utils\Imaging\BaseImage.cs" />
     <Compile Include="Utils\Imaging\ExifProperty.cs" />
