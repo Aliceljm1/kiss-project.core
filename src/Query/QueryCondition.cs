@@ -12,7 +12,7 @@ namespace Kiss.Query
     /// <summary>
     /// 查询条件
     /// </summary>
-    public class QueryCondition : ExtendedAttributes, ICloneable
+    public class QueryCondition : ICloneable
     {
         #region ctor
 
@@ -28,6 +28,23 @@ namespace Kiss.Query
         #endregion
 
         #region props
+
+        private Dictionary<string, object> _datas = new Dictionary<string, object>();
+
+        public virtual object this[string key]
+        {
+            get
+            {
+                if (_datas.ContainsKey(key))
+                    return _datas[key];
+
+                return null;
+            }
+            set
+            {
+                _datas[key] = value;
+            }
+        }
 
         /// <summary>
         /// query id

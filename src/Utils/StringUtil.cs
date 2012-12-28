@@ -927,15 +927,17 @@ namespace Kiss.Utils
             return str.Substring(index);
         }
 
-        public static int ToInt(string str, int defaultValue)
+        public static int ToInt(object str, int defaultValue)
         {
+            if (str == null)
+                return defaultValue;
             int v;
-            if (!int.TryParse(str, out v))
+            if (!int.TryParse(str.ToString(), out v))
                 v = defaultValue;
             return v;
         }
 
-        public static int ToInt(string str) { return ToInt(str, 0); }
+        public static int ToInt(object str) { return ToInt(str, 0); }
 
         public static string FormatDate(DateTime datetime)
         {
@@ -968,26 +970,30 @@ namespace Kiss.Utils
             return string.Format("{4}-{0}-{1} {2}:{3}", datetime.Month.ToString(), datetime.Day.ToString(), datetime.Hour.ToString("#00"), datetime.Minute.ToString("#00"), datetime.Year.ToString());
         }
 
-        public static decimal ToDecimal(string str, decimal defaultValue)
+        public static decimal ToDecimal(object str, decimal defaultValue)
         {
+            if (str == null) return defaultValue;
             decimal v;
-            if (!decimal.TryParse(str, out v))
+            if (!decimal.TryParse(str.ToString(), out v))
                 v = defaultValue;
             return v;
         }
 
-        public static decimal ToDecimal(string str) { return ToDecimal(str, 0); }
+        public static decimal ToDecimal(object str) { return ToDecimal(str, 0); }
 
-        public static DateTime ToDateTime(string str, DateTime defaultValue)
+        public static DateTime ToDateTime(object str, DateTime defaultValue)
         {
+            if (str == null)
+                return defaultValue;
+
             DateTime v;
-            if (!DateTime.TryParse(str, out v))
+            if (!DateTime.TryParse(str.ToString(), out v))
                 v = defaultValue;
 
             return v;
         }
 
-        public static DateTime ToDateTime(string str) { return ToDateTime(str, DateTime.Now); }
+        public static DateTime ToDateTime(object str) { return ToDateTime(str, DateTime.Now); }
 
         public static double Similarity(string str1, string str2)
         {
