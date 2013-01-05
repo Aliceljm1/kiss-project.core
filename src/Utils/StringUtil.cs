@@ -250,7 +250,7 @@ namespace Kiss.Utils
             {
                 return new string[0];
             }
-            if (!HasLength(delimiter))
+            if (!HasText(delimiter))
             {
                 return new string[] { input };
             }
@@ -338,27 +338,6 @@ namespace Kiss.Utils
             }
         }
 
-        /// <summary>Checks if a string has length.</summary>
-        /// <param name="target">
-        /// The string to check, may be <see langword="null"/>.
-        /// </param>
-        /// <returns>
-        /// <see langword="true"/> if the string has length and is not
-        /// <see langword="null"/>.
-        /// </returns>
-        /// <example>
-        /// <code lang="C#">
-        /// StringUtils.HasLength(null) = false
-        /// StringUtils.HasLength("") = false
-        /// StringUtils.HasLength(" ") = true
-        /// StringUtils.HasLength("Hello") = true
-        /// </code>
-        /// </example>
-        public static bool HasLength(string target)
-        {
-            return (target != null && target.Trim().Length > 0);
-        }
-
         /// <summary>
         /// Checks if a <see cref="System.String"/> has text.
         /// </summary>
@@ -387,16 +366,9 @@ namespace Kiss.Utils
         /// StringUtils.HasText(" 12345 ") = true
         /// </code>
         /// </example>
-        public static bool HasText(string target)
+        public static bool HasText(object target)
         {
-            if (target == null)
-            {
-                return false;
-            }
-            else
-            {
-                return HasLength(target.Trim());
-            }
+            return (target != null && target.ToString().Trim().Length > 0);
         }
 
         /// <summary>

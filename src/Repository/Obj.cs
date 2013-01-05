@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
 namespace Kiss
@@ -302,6 +303,33 @@ namespace Kiss
         {
             return (from q in CreateContext(true)
                     where q.ParentId == id
+                    orderby q.SortOrder ascending
+                    select q).ToList();
+        }
+
+        #endregion
+
+        #region schema
+
+        public static List<string> Categories
+        {
+            get
+            {
+                List<string> list = new List<string>();
+
+                foreach (DataRow row in DictSchema.Where("type='schema'").Select("distinct category").Rows)
+                {
+                    list.Add(Convert.ToString(row[0]));
+                }
+
+                return list;
+            }
+        }
+
+        public static List<DictSchema> GetsByCategory(string category)
+        {
+            return (from q in CreateContext(true)
+                    where q.Type == "schema" && q.Category == category && q.ParentId == string.Empty
                     orderby q.SortOrder ascending
                     select q).ToList();
         }
