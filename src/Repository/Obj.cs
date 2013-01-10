@@ -221,34 +221,6 @@ namespace Kiss
 
         #region Api
 
-        public static DictSchema GetRoot(int siteId, string type)
-        {
-            return GetRoot(CreateContext(true), siteId, type);
-        }
-
-        public static DictSchema GetRoot(ILinqContext<DictSchema> cx, int siteId, string type)
-        {
-            return (from q in cx
-                    where q.SiteId == siteId && q.Type == type && q.Depth == 0
-                    select q).SingleOrDefault();
-        }
-
-        public static void DeleteByRoot(int siteId, string type)
-        {
-            ILinqContext<DictSchema> context = CreateContext(false);
-
-            List<DictSchema> list = (from q in context
-                                     where q.SiteId == siteId && q.Type == type && q.Depth > 0
-                                     select q).ToList();
-
-            foreach (var schema in list)
-            {
-                context.Remove(schema);
-            }
-
-            context.SubmitChanges(true);
-        }
-
         public static DictSchema GetByName(int siteId, string type, string name)
         {
             return (from q in CreateContext(true)
@@ -256,17 +228,22 @@ namespace Kiss
                     select q).FirstOrDefault();
         }
 
-        public static DictSchemas GetsByType(ILinqContext<DictSchema> cx, int siteId, string type)
+        public static void DeleteByCategory(int siteId, string type, string category)
+        {
+            DictSchema.Where("SiteId='{0}'", siteId).Where("Type='{0}'", type).Where("Category='{0}'", category).Delete();
+        }
+
+        public static DictSchemas GetsByCategory(ILinqContext<DictSchema> cx, int siteId, string type, string category)
         {
             List<DictSchema> list = (from q in cx
-                                     where q.SiteId == siteId && q.Type == type && q.Depth > 0
-                                     orderby q.Depth ascending, q.SortOrder ascending
+                                     where q.SiteId == siteId && q.Type == type && q.Category == category
+                                     orderby q.SortOrder ascending
                                      select q).ToList();
 
             // re group            
             List<DictSchema> result = list.FindAll(delegate(DictSchema s)
             {
-                return s.Depth == 1;
+                return string.IsNullOrEmpty(s.ParentId);
             });
 
             foreach (DictSchema s in result)
@@ -277,26 +254,9 @@ namespace Kiss
             return new DictSchemas(result);
         }
 
-        public static DictSchemas GetsByType(int siteId, string type)
+        public static DictSchemas GetsByCategory(int siteId, string type, string category)
         {
-            return GetsByType(DictSchema.CreateContext(true), siteId, type);
-        }
-
-        private static void regroup(DictSchema s, List<DictSchema> list)
-        {
-            if (s.HasChild)
-            {
-                s.Children = list.FindAll(delegate(DictSchema schema)
-                {
-                    return schema.ParentId == s.Id;
-                });
-
-                foreach (DictSchema schema in s.Children)
-                {
-                    schema.Parent = s;
-                    regroup(schema, list);
-                }
-            }
+            return GetsByCategory(DictSchema.CreateContext(true), siteId, type, category);
         }
 
         public static List<DictSchema> GetsByParentId(string id)
@@ -334,6 +294,25 @@ namespace Kiss
                     select q).ToList();
         }
 
+        #endregion
+
+        #region helper
+        private static void regroup(DictSchema s, List<DictSchema> list)
+        {
+            if (s.HasChild)
+            {
+                s.Children = list.FindAll(delegate(DictSchema schema)
+                {
+                    return schema.ParentId == s.Id;
+                });
+
+                foreach (DictSchema schema in s.Children)
+                {
+                    schema.Parent = s;
+                    regroup(schema, list);
+                }
+            }
+        }
         #endregion
 
         #region event

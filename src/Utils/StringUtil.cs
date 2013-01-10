@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -686,6 +687,27 @@ namespace Kiss.Utils
         }
 
         #endregion
+
+        public static string templatestring(Dictionary<string, object> datas, string template)
+        {
+            try
+            {
+                ITemplateEngine te = ServiceLocator.Instance.Resolve<ITemplateEngine>();
+
+                using (StringWriter sw = new StringWriter())
+                {
+                    te.Process(datas, string.Empty, sw, template);
+
+                    return sw.GetStringBuilder().ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogManager.GetLogger<StringUtil>().Error(ex.Message);
+
+                return string.Empty;
+            }
+        }
 
         public static string Int2String(int i)
         {
