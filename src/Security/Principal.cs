@@ -84,6 +84,19 @@ namespace Kiss.Security
         string Password { get; }
         string DefaultUrl { get; }
 
+        int UserType { get; set; }
+
+        string Prop1 { get; set; }
+        string Prop2 { get; set; }
+        string Prop3 { get; set; }
+        string Prop4 { get; set; }
+        string Prop5 { get; set; }
+        string Prop6 { get; set; }
+        string Prop7 { get; set; }
+        string Prop8 { get; set; }
+        string Prop9 { get; set; }
+        string Prop10 { get; set; }
+
         string[] GetsRoleId();
         IRole[] GetsRole();
 
@@ -101,7 +114,7 @@ namespace Kiss.Security
 
         ExtendedAttributes ExtAttrs { get; }
 
-        void UpdatePassword(string password);        
+        void UpdatePassword(string password);
     }
 
     public interface IPermission
