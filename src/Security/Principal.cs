@@ -173,8 +173,20 @@ namespace Kiss.Security
     {
         string Id { get; }
         string Title { get; }
+        string CreatorId { get; }
         int ResType { get; set; }
         int SecurityType { get; }
+    }
+
+    public interface ISite
+    {
+        string Id { get; }
+        string Title { get; set; }
+        string Authority { get; }
+
+        string this[string prop] { get; set; }
+
+        ExtendedAttributes ExtAttrs { get; }
     }
 
     /// <summary>

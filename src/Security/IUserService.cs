@@ -49,10 +49,10 @@ namespace Kiss.Security
         IUser GetUserByUserId(string userid);
         IUser[] GetsUserByUserIds(string[] userIds);
 
-        IUser GetUserByUserName(int siteId, string username);
+        IUser GetUserByUserName(string username);
 
         IUser GetUserInfo(IIdentity identity);
-        IUser NewUserInfo(int siteId, string username);
+        IUser NewUserInfo(string username);
         void SaveUserInfo(params IUser[] users);
 
         bool DeleteUser(params string[] userIds);
@@ -65,7 +65,7 @@ namespace Kiss.Security
 
         bool SaveUserAvator(string userId, byte[] content);
 
-        bool Authenticate(int siteId, string username, string password);
+        bool Authenticate(string username, string password);
 
         #endregion
 
@@ -80,6 +80,17 @@ namespace Kiss.Security
         #region Group
         IGroup GetGroupByGroupId(string groupId);
         IGroup[] GetsGroupByGroupIds(string[] groupIds);
+        IGroup[] GetsGroupByUserId(string userid);
+        #endregion
+
+        #region Site
+        ISite NewSite(string authority);
+        void SaveSite(ISite site);
+        ISite[] GetsSiteByUserId(string userid);
+        ISite GetSiteBySiteId(string siteId);
+        ISite[] GetsSiteBySiteIds(string[] siteIds);
+        void AddUser2Site(string siteId, string[] userids, int usertype);
+        void RemoveUserFromSite(string siteId, string[] userids);
         #endregion
     }
 }

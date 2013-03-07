@@ -106,7 +106,7 @@ namespace Kiss
         [PK(AutoGen = false)]
         public override string Id { get { return base.Id; } set { base.Id = value; } }
 
-        public int SiteId { get; set; }
+        public string SiteId { get; set; }
         public string ParentId { get; set; }
         public string Type { get; set; }
 
@@ -221,22 +221,22 @@ namespace Kiss
 
         #region Api
 
-        public static DictSchema GetByName(int siteId, string type, string name)
+        public static DictSchema GetByName(string type, string name)
         {
             return (from q in CreateContext(true)
-                    where q.SiteId == siteId && q.Type == type && q.Name == name
+                    where q.Type == type && q.Name == name
                     select q).FirstOrDefault();
         }
 
-        public static void DeleteByCategory(int siteId, string type, string category)
+        public static void DeleteByCategory(string siteId, string type, string category)
         {
             DictSchema.Where("SiteId='{0}'", siteId).Where("Type='{0}'", type).Where("Category='{0}'", category).Delete();
         }
 
-        public static DictSchemas GetsByCategory(ILinqContext<DictSchema> cx, int siteId, string type, string category)
+        public static DictSchemas GetsByCategory(ILinqContext<DictSchema> cx, string type, string category)
         {
             List<DictSchema> list = (from q in cx
-                                     where q.SiteId == siteId && q.Type == type && q.Category == category
+                                     where q.Type == type && q.Category == category
                                      orderby q.SortOrder ascending
                                      select q).ToList();
 
@@ -254,9 +254,9 @@ namespace Kiss
             return new DictSchemas(result);
         }
 
-        public static DictSchemas GetsByCategory(int siteId, string type, string category)
+        public static DictSchemas GetsByCategory(string type, string category)
         {
-            return GetsByCategory(DictSchema.CreateContext(true), siteId, type, category);
+            return GetsByCategory(DictSchema.CreateContext(true), type, category);
         }
 
         public static List<DictSchema> GetsByParentId(string id)

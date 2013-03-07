@@ -60,7 +60,10 @@ namespace Kiss.Utils
                 TypeConverter td = TypeDescriptor.GetConverter(targetType);
                 if (td.CanConvertFrom(value.GetType()))
                 {
-                    return td.ConvertFrom(value);
+                    if (td.IsValid(value))
+                        return td.ConvertFrom(value);
+
+                    return Activator.CreateInstance(targetType);
                 }
                 else // otherwise use the changetype
                     return Convert.ChangeType(value, targetType);
