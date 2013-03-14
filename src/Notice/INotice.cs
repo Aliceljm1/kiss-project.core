@@ -17,6 +17,16 @@ namespace Kiss.Notice
         /// send notify using template
         /// </summary>
         void Send(string templateId, Dictionary<string, object> param, IUser from, IUser[] to, params string[] msgKey);
+
+        /// <summary>
+        /// send notify
+        /// </summary>
+        void Send(string title, string content, string from, string[] to, params string[] msgKey);
+
+        /// <summary>
+        /// send notify using template
+        /// </summary>
+        void Send(string templateId, Dictionary<string, object> param, string from, string[] to, params string[] msgKey);
     }
 
     /// <summary>

@@ -78,6 +78,11 @@ namespace Kiss.Security
         #endregion
 
         #region Group
+        IGroup NewGroup(string title);
+        void SaveGroup(IGroup group);
+        void AddUser2Group(string groupId, string[] userids, int usertype);
+        void RemoveUserFromGroup(string groupId, string[] userids);
+        bool IsInGroup(IIdentity identity, string siteId);
         IGroup GetGroupByGroupId(string groupId);
         IGroup[] GetsGroupByGroupIds(string[] groupIds);
         IGroup[] GetsGroupByUserId(string userid);
@@ -91,6 +96,7 @@ namespace Kiss.Security
         ISite[] GetsSiteBySiteIds(string[] siteIds);
         void AddUser2Site(string siteId, string[] userids, int usertype);
         void RemoveUserFromSite(string siteId, string[] userids);
+        bool IsInSite(IIdentity identity, string siteId);
         #endregion
     }
 }

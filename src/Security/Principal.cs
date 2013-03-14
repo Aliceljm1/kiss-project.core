@@ -48,6 +48,11 @@ namespace Kiss.Security
             return ServiceLocator.Instance.Resolve<IUserService>().IsInRole(Identity, role);
         }
 
+        public bool IsInSite(string siteId)
+        {
+            return ServiceLocator.Instance.Resolve<IUserService>().IsInSite(Identity, siteId);
+        }
+
         #endregion
 
         public IUser Info
@@ -81,6 +86,7 @@ namespace Kiss.Security
         string UserName { get; }
         string DisplayName { get; set; }
         string Email { get; set; }
+        string Mobile { get; set; }
         string Password { get; }
         string DefaultUrl { get; }
 
@@ -165,17 +171,25 @@ namespace Kiss.Security
     public interface IDept
     {
         string Id { get; }
+        string SiteId { get; set; }
         string Title { get; }
         string ParentId { get; }
+
+        string this[string prop] { get; set; }
+        ExtendedAttributes ExtAttrs { get; }
     }
 
     public interface IGroup
     {
         string Id { get; }
-        string Title { get; }
-        string CreatorId { get; }
+        string SiteId { get; set; }
+        string Title { get; set; }
+        string CreatorId { get; set; }
         int ResType { get; set; }
-        int SecurityType { get; }
+        int SecurityType { get; set; }
+
+        string this[string prop] { get; set; }
+        ExtendedAttributes ExtAttrs { get; }
     }
 
     public interface ISite
