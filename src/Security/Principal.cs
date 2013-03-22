@@ -175,6 +175,17 @@ namespace Kiss.Security
         string Title { get; }
         string ParentId { get; }
 
+        string C0 { get; set; }
+        string C1 { get; set; }
+        string C2 { get; set; }
+        string C3 { get; set; }
+        string C4 { get; set; }
+        string C5 { get; set; }
+        string C6 { get; set; }
+        string C7 { get; set; }
+        string C8 { get; set; }
+        string C9 { get; set; }
+
         string this[string prop] { get; set; }
         ExtendedAttributes ExtAttrs { get; }
     }
@@ -188,6 +199,17 @@ namespace Kiss.Security
         int ResType { get; set; }
         int SecurityType { get; set; }
 
+        string C0 { get; set; }
+        string C1 { get; set; }
+        string C2 { get; set; }
+        string C3 { get; set; }
+        string C4 { get; set; }
+        string C5 { get; set; }
+        string C6 { get; set; }
+        string C7 { get; set; }
+        string C8 { get; set; }
+        string C9 { get; set; }
+
         string this[string prop] { get; set; }
         ExtendedAttributes ExtAttrs { get; }
     }
@@ -197,6 +219,17 @@ namespace Kiss.Security
         string Id { get; }
         string Title { get; set; }
         string Authority { get; }
+
+        string C0 { get; set; }
+        string C1 { get; set; }
+        string C2 { get; set; }
+        string C3 { get; set; }
+        string C4 { get; set; }
+        string C5 { get; set; }
+        string C6 { get; set; }
+        string C7 { get; set; }
+        string C8 { get; set; }
+        string C9 { get; set; }
 
         string this[string prop] { get; set; }
 

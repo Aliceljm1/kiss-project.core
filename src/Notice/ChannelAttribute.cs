@@ -13,10 +13,7 @@ namespace Kiss.Notice
         /// provider name. etc:MSG,EMAIL
         /// </summary>
         public string ChannelName { get; set; }
-    }
 
-    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-    public class ChannelConfigAttribute : PluginAttribute
-    {
+        public string Description { get; set; }
     }
 }

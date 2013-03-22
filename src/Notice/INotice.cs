@@ -37,9 +37,18 @@ namespace Kiss.Notice
         /// <summary>
         /// get specified user's valid channel of specified msg type
         /// </summary>
-        /// <param name="msgType"></param>
-        /// <param name="users"></param>
         /// <returns></returns>
-        Dictionary<string, IUser[]> GetsValidChannel(string msgType, IEnumerable<IUser> users);
+        Dictionary<string, List<string>> GetsValidChannel(string templateId, params string[] userIds);
+
+        Dictionary<string, List<string>> GetsValidTemplate(string userid);
+
+        List<string> GetsValidTemplate(string userid, string channel);
+
+        /// <summary>
+        /// save users' notice config
+        /// </summary>
+        void SaveConfig(string userId, List<Tuple<string, string, bool>> config);
+
+        List<string> GetsConfigableTemplate(string channelname);
     }
 }

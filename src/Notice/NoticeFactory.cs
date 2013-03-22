@@ -13,34 +13,47 @@ namespace Kiss.Notice
             if (string.IsNullOrEmpty(channel))
                 throw new ArgumentException("channel name is empty.");
 
-            return ServiceLocator.Instance.Resolve("kiss.notice." + channel) as INotice;
+            return ServiceLocator.Instance.Resolve("kiss.notice." + channel.ToLowerInvariant()) as INotice;
         }
 
         public static INoticeConfig Config
         {
             get
             {
-                return ServiceLocator.Instance.Resolve("kiss.noticeconfig") as INoticeConfig;
+                return ServiceLocator.Instance.Resolve<INoticeConfig>();
             }
         }
 
-        public static void Send(string msgType, string title, string content, IUser from, params IUser[] to)
+        public static void Send(string templateId, Dictionary<string, object> param, IUser from, params IUser[] to)
         {
             if (to.Length == 0) return;
 
-            foreach (var item in Config.GetsValidChannel(msgType, to))
+            List<IUser> list = new List<IUser>(to);
+
+            foreach (var item in Config.GetsValidChannel(templateId, (from q in to
+                                                                      select q.Id).ToArray()))
             {
-                Create(item.Key).Send(title, content, from, item.Value);
+                List<IUser> sendto = new List<IUser>();
+
+                foreach (string userid in item.Value)
+                {
+                    IUser user = list.Find((u) => { return u.Id == userid; });
+                    if (user == null) continue;
+
+                    sendto.Add(user);
+                }
+
+                Create(item.Key).Send(templateId, param, from, sendto.ToArray());
             }
         }
 
-        public static void Send(string msgType, string templateId, Dictionary<string, object> param, IUser from, params IUser[] to)
+        public static void Send(string templateId, Dictionary<string, object> param, string from, params string[] to)
         {
             if (to.Length == 0) return;
 
-            foreach (var item in Config.GetsValidChannel(msgType, to))
+            foreach (var item in Config.GetsValidChannel(templateId, to))
             {
-                Create(item.Key).Send(templateId, param, from, item.Value);
+                Create(item.Key).Send(templateId, param, from, item.Value.ToArray());
             }
         }
 
