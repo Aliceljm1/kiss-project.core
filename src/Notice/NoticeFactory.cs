@@ -82,9 +82,16 @@ namespace Kiss.Notice
                 if (string.IsNullOrEmpty(template))
                     template = schema["default_title"];
 
-                te.Process(param, string.Empty, sw, template);
+                if (string.IsNullOrWhiteSpace(template))
+                {
+                    title = string.Empty;
+                }
+                else
+                {
+                    te.Process(param, string.Empty, sw, template);
 
-                title = sw.GetStringBuilder().ToString();
+                    title = sw.GetStringBuilder().ToString();
+                }
             }
 
             using (StringWriter sw = new StringWriter())
@@ -93,9 +100,16 @@ namespace Kiss.Notice
                 if (string.IsNullOrEmpty(template))
                     template = schema["default_content"];
 
-                te.Process(param, string.Empty, sw, template);
+                if (string.IsNullOrWhiteSpace(template))
+                {
+                    content = string.Empty;
+                }
+                else
+                {
+                    te.Process(param, string.Empty, sw, template);
 
-                content = sw.GetStringBuilder().ToString();
+                    content = sw.GetStringBuilder().ToString();
+                }
             }
 
             return true;
