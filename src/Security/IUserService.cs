@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Kiss.Query;
+using System.Collections.Generic;
 using System.Data;
 using System.Security.Principal;
-using Kiss.Query;
 
 namespace Kiss.Security
 {
@@ -98,5 +98,32 @@ namespace Kiss.Security
         void RemoveUserFromSite(string siteId, string[] userids);
         bool IsInSite(IIdentity identity, string siteId);
         #endregion
+
+        #region UserRelation
+
+        IUserRelation NewUserRelation(string userId, int restype, string resId);
+        void SaveUserRelation(IUserRelation ur);
+        IUserRelation GetUserRelationById(int id);
+        IUserRelation[] GetsUserRelationByIds(int[] ids);
+        void DeleteUserRelation(int id);
+
+        #endregion
+
+        /// <summary>
+        /// 获取权限clause
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        string GetPermissionClause(IUser user);
+
+        /// <summary>
+        /// 获取用户关系类型
+        /// </summary>
+        /// <param name="resType">集合类型</param>
+        /// <returns></returns>
+        Dictionary<string, int> GetRelationType(int resType);
+
+        IWhere WhereGroup { get; }
+        IWhere WhereUser { get; }
     }
 }

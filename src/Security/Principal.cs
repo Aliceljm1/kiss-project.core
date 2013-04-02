@@ -236,6 +236,18 @@ namespace Kiss.Security
         ExtendedAttributes ExtAttrs { get; }
     }
 
+    public interface IUserRelation
+    {
+        int Id { get; }
+        string UserId { get; set; }
+        string ResId { get; set; }
+        int ResType { get; set; }
+        int SortOrder { get; set; }
+        bool IsDirect { get; set; }
+        string RefTo { get; set; }
+        int UserType { get; set; }
+    }
+
     /// <summary>
     /// PermissionDenied EventArgs
     /// </summary>

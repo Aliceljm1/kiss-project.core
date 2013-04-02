@@ -97,6 +97,9 @@
     <Compile Include="Json\ScriptIgnoreAttribute.cs" />
     <Compile Include="Json\SimpleTypeResolver.cs" />
     <Compile Include="ServiceBase.cs" />
+    <Compile Include="Task\ITask.cs" />
+    <Compile Include="Task\TaskExecutor.cs" />
+    <Compile Include="Task\Tasks.cs" />
     <Compile Include="Transaction.cs" />
     <Compile Include="Tuple.cs" />
     <Compile Include="Utils\CrossDomain.cs" />
