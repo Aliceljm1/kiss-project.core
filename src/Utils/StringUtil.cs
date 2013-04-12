@@ -276,8 +276,7 @@ namespace Kiss.Utils
             {
                 string str = obj.ToString();
 
-                if (!IsNullOrEmpty(str))
-                    str = Surround(surround, str);
+                str = Surround(surround, str);
 
                 if (i++ > 0)
                 {

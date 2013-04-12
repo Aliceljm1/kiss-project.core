@@ -259,6 +259,32 @@ namespace Kiss
             return GetsByCategory(DictSchema.CreateContext(true), type, category);
         }
 
+        public static DictSchemas GetsByCategory(ILinqContext<DictSchema> cx, string siteid, string type, string category)
+        {
+            List<DictSchema> list = (from q in cx
+                                     where q.SiteId == siteid && q.Type == type && q.Category == category
+                                     orderby q.SortOrder ascending
+                                     select q).ToList();
+
+            // re group            
+            List<DictSchema> result = list.FindAll(delegate(DictSchema s)
+            {
+                return string.IsNullOrEmpty(s.ParentId);
+            });
+
+            foreach (DictSchema s in result)
+            {
+                regroup(s, list);
+            }
+
+            return new DictSchemas(result);
+        }
+
+        public static DictSchemas GetsByCategory(string siteId, string type, string category)
+        {
+            return GetsByCategory(DictSchema.CreateContext(true), siteId, type, category);
+        }
+
         public static List<DictSchema> GetsByParentId(string id)
         {
             return (from q in CreateContext(true)
