@@ -121,6 +121,8 @@ namespace Kiss.Security
         ExtendedAttributes ExtAttrs { get; }
 
         void UpdatePassword(string password);
+
+        void SerializeExtAttrs();
     }
 
     public interface IPermission
@@ -166,6 +168,8 @@ namespace Kiss.Security
         string Id { get; }
         string Title { get; }
         string DefaultUrl { get; }
+
+        void SerializeExtAttrs();
     }
 
     public interface IDept
@@ -188,6 +192,8 @@ namespace Kiss.Security
 
         string this[string prop] { get; set; }
         ExtendedAttributes ExtAttrs { get; }
+
+        void SerializeExtAttrs();
     }
 
     public interface IGroup
@@ -212,6 +218,8 @@ namespace Kiss.Security
 
         string this[string prop] { get; set; }
         ExtendedAttributes ExtAttrs { get; }
+
+        void SerializeExtAttrs();
     }
 
     public interface ISite
@@ -234,6 +242,8 @@ namespace Kiss.Security
         string this[string prop] { get; set; }
 
         ExtendedAttributes ExtAttrs { get; }
+
+        void SerializeExtAttrs();
     }
 
     public interface IUserRelation

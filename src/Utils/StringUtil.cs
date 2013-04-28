@@ -988,6 +988,11 @@ namespace Kiss.Utils
 
         public static DateTime ToDateTime(object str) { return ToDateTime(str, DateTime.Now); }
 
+        public static string ToJson(object obj)
+        {
+            return new Kiss.Json.JavaScriptSerializer().Serialize(obj);
+        }
+
         public static double Similarity(string str1, string str2)
         {
             int[,] d;     // 矩阵 
