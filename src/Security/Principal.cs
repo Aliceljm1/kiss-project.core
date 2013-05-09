@@ -225,6 +225,7 @@ namespace Kiss.Security
     public interface ISite
     {
         string Id { get; }
+        string CreatorId { get; set; }
         string Title { get; set; }
         string Authority { get; }
 
