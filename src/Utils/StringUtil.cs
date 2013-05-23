@@ -932,9 +932,13 @@ namespace Kiss.Utils
 
         public static int ToInt(object str) { return ToInt(str, 0); }
 
-        public static string FormatDate(DateTime datetime)
+        public static string FormatDate(object obj)
         {
+            if (obj == null || obj is DBNull)
+                return string.Empty;
+
             DateTime now = DateTime.Now;
+            DateTime datetime = ToDateTime(obj, DateTime.MinValue);
 
             TimeSpan ts = now - datetime;
 

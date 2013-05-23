@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 
 namespace Kiss
@@ -8,6 +9,7 @@ namespace Kiss
         int Count();
         T Select<T>(string field);
         DataTable Select(params string[] fields);
+        List<t> Selects<t>(string field);
         void Delete();
         void Update();
         IWhere Set(string column, object value);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kiss.Validation;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -106,6 +107,7 @@ namespace Kiss
         [PK(AutoGen = false)]
         public override string Id { get { return base.Id; } set { base.Id = value; } }
 
+        [Length(50)]
         public string SiteId { get; set; }
         public string ParentId { get; set; }
         public string Type { get; set; }
@@ -178,7 +180,10 @@ namespace Kiss
             return result;
         }
 
+        [Length(2000)]
         public string PropertyName { get; set; }
+
+        [Length(Int32.MaxValue)]
         public string PropertyValue { get; set; }
 
         private ExtendedAttributes _extAttrs;

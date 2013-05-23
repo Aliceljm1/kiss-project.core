@@ -102,7 +102,7 @@ namespace Kiss.Security
         #region UserRelation
 
         IUserRelation NewUserRelation(string userId, int restype, string resId);
-        void SaveUserRelation(IUserRelation ur);
+        void SaveUserRelation( params IUserRelation[] ur);
         IUserRelation GetUserRelationById(int id);
         IUserRelation[] GetsUserRelationByIds(int[] ids);
         void DeleteUserRelation(int id);
@@ -125,5 +125,7 @@ namespace Kiss.Security
 
         IWhere WhereGroup { get; }
         IWhere WhereUser { get; }
+
+        IWhere WhereRelation { get; }
     }
 }
