@@ -1067,6 +1067,7 @@ namespace Kiss.Utils
 
             string enc = Convert.ToBase64String(guid.ToByteArray());
             enc = enc.Replace("/", "-");
+            enc = enc.Replace("+", "-");
 
             return enc.Substring(0, 22).ToLower();
         }
