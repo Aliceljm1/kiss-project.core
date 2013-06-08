@@ -74,6 +74,9 @@ namespace Kiss.Security
         IDept[] GetsDeptByUserId(string userId);
         IDept GetDeptByDeptId(string deptId);
         IDept[] GetsDeptByDeptIds(string[] deptIds);
+        void AddUser2Dept(string deptId, string[] userids, int usertype);
+        void RemoveUserFromDept(string deptId, string[] userids);
+        bool IsInDept(IIdentity identity, string deptId);
 
         #endregion
 
@@ -102,7 +105,7 @@ namespace Kiss.Security
         #region UserRelation
 
         IUserRelation NewUserRelation(string userId, int restype, string resId);
-        void SaveUserRelation( params IUserRelation[] ur);
+        void SaveUserRelation(params IUserRelation[] ur);
         IUserRelation GetUserRelationById(int id);
         IUserRelation[] GetsUserRelationByIds(int[] ids);
         void DeleteUserRelation(int id);
