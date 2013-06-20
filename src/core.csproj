@@ -62,6 +62,8 @@
     <Compile Include="Caching\HierarchyCachePlugin.cs" />
     <Compile Include="Collection\HashSet.cs" />
     <Compile Include="Collection\ISet.cs" />
+    <Compile Include="Credit\ICredit.cs" />
+    <Compile Include="Credit\ICreditRule.cs" />
     <Compile Include="Ioc\IServiceContainer.cs" />
     <Compile Include="Ioc\ServiceContainer.cs" />
     <Compile Include="Logging\DummyLogger.cs" />
