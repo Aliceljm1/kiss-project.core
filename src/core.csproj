@@ -103,7 +103,6 @@
     <Compile Include="Task\TaskExecutor.cs" />
     <Compile Include="Task\Tasks.cs" />
     <Compile Include="Transaction.cs" />
-    <Compile Include="Tuple.cs" />
     <Compile Include="Utils\CrossDomain.cs" />
     <Compile Include="IAutoStart.cs" />
     <Compile Include="Repository\IRepository.cs" />
