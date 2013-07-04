@@ -137,6 +137,7 @@ namespace Kiss.Security
         string ResId { get; set; }
         int ResType { get; set; }
 
+        string SiteId { get; set; }
         /// <summary>
         /// 权限继承级别
         /// </summary>
