@@ -13,13 +13,13 @@ namespace Kiss.Validation.Validators
         /// Gets the length of the maximum.
         /// </summary>
         /// <value>The length of the maximum.</value>
-        public uint MaxLength { get; private set; }
+        public int MaxLength { get; private set; }
 
         /// <summary>
         /// Gets the length of the minimum.
         /// </summary>
         /// <value>The length of the minimum.</value>
-        public uint MinLength { get; private set; }
+        public int MinLength { get; private set; }
 
         #region Protected Properties
 
@@ -42,7 +42,7 @@ namespace Kiss.Validation.Validators
         /// <param name="propertyInfo">The property info.</param>
         /// <param name="minLength">Length of the min.</param>
         /// <param name="maxLength">Length of the max.</param>
-        public LengthValidator(PropertyInfo propertyInfo, uint minLength, uint maxLength)
+        public LengthValidator(PropertyInfo propertyInfo, int minLength, int maxLength)
             : this(null, propertyInfo, minLength, maxLength)
         {
         }
@@ -54,7 +54,7 @@ namespace Kiss.Validation.Validators
         /// <param name="propertyInfo">The property info.</param>
         /// <param name="minLength">Length of the min.</param>
         /// <param name="maxLength">Length of the max.</param>
-        public LengthValidator(string errorMessage, PropertyInfo propertyInfo, uint minLength, uint maxLength)
+        public LengthValidator(string errorMessage, PropertyInfo propertyInfo, int minLength, int maxLength)
             : base(errorMessage, propertyInfo)
         {
             this.MinLength = minLength;
@@ -117,7 +117,7 @@ namespace Kiss.Validation.Validators
         /// <param name="minLength">The minimum value.</param>
         /// <param name="maxLength">The maximum value.</param>
         /// <returns></returns>
-        public static LengthValidator CreateValidator<T>(string propertyName, uint minLength, uint maxLength)
+        public static LengthValidator CreateValidator<T>(string propertyName, int minLength, int maxLength)
         {
             return CreateValidator(typeof(T), propertyName, minLength, maxLength);
         }
@@ -130,7 +130,7 @@ namespace Kiss.Validation.Validators
         /// <param name="minLength">The minimum value.</param>
         /// <param name="maxLength">The maximum value.</param>
         /// <returns></returns>
-        public static LengthValidator CreateValidator(Type type, string propertyName, uint minLength, uint maxLength)
+        public static LengthValidator CreateValidator(Type type, string propertyName, int minLength, int maxLength)
         {
             return new LengthValidator(Validator.GetPropertyInfo(type, propertyName), minLength, maxLength);
         }
@@ -143,7 +143,7 @@ namespace Kiss.Validation.Validators
         /// <param name="minLength">The minimum value.</param>
         /// <param name="maxLength">The maximum value.</param>
         /// <returns></returns>
-        public static LengthValidator CreateValidator<T>(string errorMessage, string propertyName, uint minLength, uint maxLength)
+        public static LengthValidator CreateValidator<T>(string errorMessage, string propertyName, int minLength, int maxLength)
         {
             return CreateValidator(typeof(T), errorMessage, propertyName, minLength, maxLength);
         }
@@ -157,7 +157,7 @@ namespace Kiss.Validation.Validators
         /// <param name="minLength">The minimum value.</param>
         /// <param name="maxLength">The maximum value.</param>
         /// <returns></returns>
-        public static LengthValidator CreateValidator(Type type, string errorMessage, string propertyName, uint minLength, uint maxLength)
+        public static LengthValidator CreateValidator(Type type, string errorMessage, string propertyName, int minLength, int maxLength)
         {
             return new LengthValidator(errorMessage, Validator.GetPropertyInfo(type, propertyName), minLength, maxLength);
         }

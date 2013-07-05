@@ -11,8 +11,8 @@ namespace Kiss.Validation
 
         #region Private Fields
 
-        private uint maxLength;
-        private uint minLength;
+        private int _maxLength;
+        private int _minLength;
 
         #endregion
 
@@ -22,18 +22,18 @@ namespace Kiss.Validation
         /// Gets the maximum length.
         /// </summary>
         /// <value>The maximum length.</value>
-        public uint MaxLength
+        public int MaxLength
         {
-            get { return this.maxLength; }
+            get { return this._maxLength; }
         }
 
         /// <summary>
         /// Gets the minimum length.
         /// </summary>
         /// <value>The minimum length</value>
-        public uint MinLength
+        public int MinLength
         {
-            get { return this.minLength; }
+            get { return this._minLength; }
         }
 
         #endregion
@@ -44,8 +44,8 @@ namespace Kiss.Validation
         /// Initializes a new instance of the <see cref="LengthAttribute"/> class.
         /// </summary>
         /// <param name="maxLength">The maximum length.</param>
-        public LengthAttribute(uint maxLength)
-            : this(uint.MinValue, maxLength)
+        public LengthAttribute(int maxLength)
+            : this(0, maxLength)
         {
         }
 
@@ -54,10 +54,10 @@ namespace Kiss.Validation
         /// </summary>
         /// <param name="minLength">The minimum length..</param>
         /// <param name="maxLength">The maximum length.</param>
-        public LengthAttribute(uint minLength, uint maxLength)
+        public LengthAttribute(int minLength, int maxLength)
         {
-            this.maxLength = maxLength;
-            this.minLength = minLength;
+            this._maxLength = maxLength;
+            this._minLength = minLength;
         }
 
         #endregion
@@ -71,7 +71,7 @@ namespace Kiss.Validation
         /// <returns></returns>
         public override Validator GetValidator(PropertyInfo propertyInfo)
         {
-            return new LengthValidator(this.ErrorMessage, propertyInfo, this.minLength, this.maxLength);
+            return new LengthValidator(this.ErrorMessage, propertyInfo, this._minLength, this._maxLength);
         }
 
         #endregion

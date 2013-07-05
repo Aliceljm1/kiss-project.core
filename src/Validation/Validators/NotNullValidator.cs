@@ -7,7 +7,7 @@ namespace Kiss.Validation.Validators
     /// <summary>
     /// Performs validation based on a value not being null or empty.
     /// </summary>
-    public class NotEmptyValidator : Validator
+    public class NotNullValidator : Validator
     {
         #region Protected Properties
 
@@ -28,7 +28,7 @@ namespace Kiss.Validation.Validators
         /// Initializes a new instance of the <see cref="NotEmptyValidator"/> class.
         /// </summary>
         /// <param name="propertyInfo">The property info.</param>
-        public NotEmptyValidator(PropertyInfo propertyInfo)
+        public NotNullValidator(PropertyInfo propertyInfo)
             : this(null, propertyInfo)
         {
         }
@@ -38,11 +38,11 @@ namespace Kiss.Validation.Validators
         /// </summary>
         /// <param name="errorMessage">The error message.</param>
         /// <param name="propertyInfo">The property info.</param>
-        public NotEmptyValidator(string errorMessage, PropertyInfo propertyInfo)
+        public NotNullValidator(string errorMessage, PropertyInfo propertyInfo)
             : base(errorMessage, propertyInfo)
         {
             if (string.IsNullOrEmpty(errorMessage))
-                this.ErrorMessage = string.Format("{0} 不能为空.", getPropertyName(propertyInfo));
+                this.ErrorMessage = string.Format("{0} 不能为NULL.", getPropertyName(propertyInfo));
         }
 
         #endregion
@@ -76,7 +76,7 @@ namespace Kiss.Validation.Validators
         /// </summary>
         /// <param name="propertyName">The name of the property.</param>
         /// <returns></returns>
-        public static NotEmptyValidator CreateValidator<T>(string propertyName)
+        public static NotNullValidator CreateValidator<T>(string propertyName)
         {
             return CreateValidator(typeof(T), propertyName);
         }
@@ -87,9 +87,9 @@ namespace Kiss.Validation.Validators
         /// <param name="type">The type.</param>
         /// <param name="propertyName">The name of the property.</param>
         /// <returns></returns>
-        public static NotEmptyValidator CreateValidator(Type type, string propertyName)
+        public static NotNullValidator CreateValidator(Type type, string propertyName)
         {
-            return new NotEmptyValidator(Validator.GetPropertyInfo(type, propertyName));
+            return new NotNullValidator(Validator.GetPropertyInfo(type, propertyName));
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Kiss.Validation.Validators
         /// <param name="errorMessage">The error message.</param>
         /// <param name="propertyName">The name of the property.</param>
         /// <returns></returns>
-        public static NotEmptyValidator CreateValidator<T>(string errorMessage, string propertyName)
+        public static NotNullValidator CreateValidator<T>(string errorMessage, string propertyName)
         {
             return CreateValidator(typeof(T), errorMessage, propertyName);
         }
@@ -110,9 +110,9 @@ namespace Kiss.Validation.Validators
         /// <param name="errorMessage">The error message.</param>
         /// <param name="propertyName">The name of the property.</param>
         /// <returns></returns>
-        public static NotEmptyValidator CreateValidator(Type type, string errorMessage, string propertyName)
+        public static NotNullValidator CreateValidator(Type type, string errorMessage, string propertyName)
         {
-            return new NotEmptyValidator(errorMessage, Validator.GetPropertyInfo(type, propertyName));
+            return new NotNullValidator(errorMessage, Validator.GetPropertyInfo(type, propertyName));
         }
 
         #endregion

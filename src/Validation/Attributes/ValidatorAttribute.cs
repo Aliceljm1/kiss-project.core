@@ -14,7 +14,7 @@ namespace Kiss.Validation
         #region Private Fields
 
         private string errorMessage;
-        private uint order;
+        private int _order;
 
         #endregion
 
@@ -34,10 +34,10 @@ namespace Kiss.Validation
         /// Gets or sets the order.
         /// </summary>
         /// <value>The order.</value>
-        public uint Order
+        public int Order
         {
-            get { return this.order; }
-            set { this.order = value; }
+            get { return this._order; }
+            set { this._order = value; }
         }
 
         #endregion
@@ -61,7 +61,7 @@ namespace Kiss.Validation
         public ValidatorAttribute()
         {
             this.errorMessage = null;
-            this.order = 0;
+            this._order = 0;
         }
 
         #endregion
