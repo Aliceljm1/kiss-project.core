@@ -118,6 +118,7 @@ namespace Kiss.Security
         /// <param name="user"></param>
         /// <returns></returns>
         string GetPermissionClause(IUser user);
+        string GetPermissionClause(IUser user, string resId);
 
         /// <summary>
         /// 获取用户关系类型
