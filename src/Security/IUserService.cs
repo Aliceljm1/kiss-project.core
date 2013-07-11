@@ -23,14 +23,18 @@ namespace Kiss.Security
         IPermission[] GetsPermissionByPermissionIds(string[] ids);
 
         void RemovePermission(string moduleId, string[] instances);
-        void RemovePermission(params string[] instances);
+        void RemovePermission(string[] instances);
+        void RemovePermission(string moduleId, string siteId, string[] instances);
         void RemovePermissionByPermissionId(string permissionId);
 
         void AddPermission(params IPermission[] permissions);
         IPermission NewPermission(string moduleId, string instance, int resType, string resId, long flag, int level);
         IPermission[] GetsPermissionByInstance(string moduleId, string instance);
+        IPermission[] GetsPermissionByInstance(string moduleId, string instance, string siteId);
         IPermission GetPermissionByResId(string moduleId, int resType, string resId);
         IPermission[] GetsPermissionByInstance(IUser user, string moduleId, string instance);
+        IPermission[] GetsPermissionByInstance(IUser user, string moduleId, string instance, string siteId);
+        IWhere WherePermission { get; }
 
         #endregion
 
