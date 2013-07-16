@@ -121,7 +121,6 @@
     <Compile Include="Config\ConfigBase.cs" />
     <Compile Include="Config\ConfigWithProviders.cs" />
     <Compile Include="Config\Configuration.cs" />
-    <Compile Include="Config\ConfigHandler.cs" />
     <Compile Include="KissException.cs" />
     <Compile Include="Repository\IQueryObject.cs" />
     <Compile Include="Repository\Obj.cs" />
@@ -199,11 +198,44 @@
     <Compile Include="Validation\Validators\RequiredValidator.cs" />
     <Compile Include="Validation\Validators\Validator.cs" />
     <Compile Include="Validation\Validators\NotNullValidator.cs" />
+    <Compile Include="XmlTransform\IXmlOriginalDocumentService.cs" />
+    <Compile Include="XmlTransform\IXmlTransformationLogger.cs" />
+    <Compile Include="XmlTransform\NamedTypeFactory.cs" />
+    <Compile Include="XmlTransform\PositionTrackingTextReaders.cs" />
+    <Compile Include="XmlTransform\SR1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SR.resx</DependentUpon>
+    </Compile>
+    <Compile Include="XmlTransform\XmlArgumentUtility.cs" />
+    <Compile Include="XmlTransform\XmlAttributePreservationDict.cs" />
+    <Compile Include="XmlTransform\XmlAttributePreservationProvider.cs" />
+    <Compile Include="XmlTransform\XmlAttributePreservingWriter.cs" />
+    <Compile Include="XmlTransform\XmlAttributeTransform.cs" />
+    <Compile Include="XmlTransform\XmlElementContext.cs" />
+    <Compile Include="XmlTransform\XmlFileInfoDocument.cs" />
+    <Compile Include="XmlTransform\XmlFormatter.cs" />
+    <Compile Include="XmlTransform\XmlLocator.cs" />
+    <Compile Include="XmlTransform\XmlLocators.cs" />
+    <Compile Include="XmlTransform\XmlNodeContext.cs" />
+    <Compile Include="XmlTransform\XmlNodeException.cs" />
+    <Compile Include="XmlTransform\XmlTransform.cs" />
+    <Compile Include="XmlTransform\XmlTransformableDocument.cs" />
+    <Compile Include="XmlTransform\XmlTransformation.cs" />
+    <Compile Include="XmlTransform\XmlTransformationException.cs" />
+    <Compile Include="XmlTransform\XmlTransformationLogger.cs" />
+    <Compile Include="XmlTransform\XmlTransforms.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XmlTransform\SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SR1.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>Kiss.XmlTransform</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>

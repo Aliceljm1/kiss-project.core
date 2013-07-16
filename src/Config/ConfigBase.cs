@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Kiss.Utils;
+using System;
 using System.Configuration;
 using System.Reflection;
 using System.Web;
 using System.Web.Caching;
 using System.Xml;
-using Kiss.Utils;
 
 namespace Kiss.Config
 {
@@ -134,22 +134,13 @@ namespace Kiss.Config
 
             if (typeConfig == null)
             {
-                XmlNode node = config.GetSection(sectionName) ?? config.EmptyNode;
+                XmlNode node = config.GetSection(sectionName);
 
                 typeConfig = new ConfigBase();
                 typeConfig.LoadValuesFromConfigurationXml(node);
 
-                if (HttpContext.Current == null)
-                {
-                    HttpRuntime.Cache.Insert(key,
-                        typeConfig,
-                        Configuration.GetCacheDependency(node.Name));
-                }
-                else
-                {
-                    HttpRuntime.Cache.Insert(key,
-                        typeConfig, null, DateTime.MaxValue, Cache.NoSlidingExpiration);
-                }
+                HttpRuntime.Cache.Insert(key,
+                    typeConfig, null, DateTime.MaxValue, Cache.NoSlidingExpiration);
             }
 
             return typeConfig;
@@ -198,11 +189,6 @@ namespace Kiss.Config
             {
                 XmlNode node = config.GetSection(sectionName);
 
-                if (node == null)
-                {
-                    node = config.EmptyNode;
-                }
-
                 typeConfig = GetConfig(type, node, useCache);
             }
 
@@ -230,14 +216,10 @@ namespace Kiss.Config
 
                     if (useCache)
                     {
-                        if (HttpContext.Current == null)
-                        {
-                            HttpRuntime.Cache.Insert(key,
-                                config,
-                                Configuration.GetCacheDependency(node.Name));
-                        }
-                        else
-                            HttpRuntime.Cache.Insert(key, config, null, DateTime.MaxValue, Cache.NoSlidingExpiration);
+                        HttpRuntime.Cache.Insert(key, 
+                            config, 
+                            null, 
+                            DateTime.MaxValue, Cache.NoSlidingExpiration);
                     }
                 }
             }

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using Kiss.Utils;
+using Kiss.XmlTransform;
+using System;
 using System.IO;
 using System.Web;
-using System.Web.Caching;
 using System.Xml;
 
 namespace Kiss.Config
@@ -17,46 +16,15 @@ namespace Kiss.Config
 
         private XmlNode root;
 
-        internal XmlNode EmptyNode;
+        private XmlNode _EmptyNode;
 
-        private static Dictionary<string,CacheDependency> CacheDependencyDict = new Dictionary<string, CacheDependency> ( );
-
-        public static CacheDependency GetCacheDependency ( string key )
-        {
-            if ( CacheDependencyDict.ContainsKey ( key ) )
-            {
-                CacheDependency cd = CacheDependencyDict[ key ];
-                if ( cd != null )
-                    cd.Dispose ( );
-            }
-
-            CacheDependency cd2 = new CacheDependency ( Directory.GetFiles ( AppDomain.CurrentDomain.BaseDirectory, "*.config" ) );
-            CacheDependencyDict[ key ] = cd2;
-
-            return cd2;
-        }
-
-        private static bool ConfigChanged
-        {
-            get
-            {
-                foreach ( CacheDependency cd in CacheDependencyDict.Values )
-                {
-                    if ( cd.HasChanged )
-                        return true;
-                }
-
-                return false;
-            }
-        }
-
-        private const string NODENAME = "kiss";
+        private static readonly object _synclocker = new object();
 
         #endregion
 
         #region ctor
 
-        internal Configuration ( )
+        private Configuration()
         {
         }
 
@@ -64,42 +32,60 @@ namespace Kiss.Config
 
         #region methods
 
-        public static Configuration GetConfig ( )
+        public static Configuration GetConfig()
         {
-            // only refresh when httpcontext is null 
-            if ( HttpContext.Current == null && ConfigChanged )
-                ConfigurationManager.RefreshSection ( NODENAME );
+            Configuration config = Singleton<Configuration>.Instance;
 
-            Configuration config = ConfigurationManager.GetSection ( NODENAME ) as Configuration;
-
-            if ( config == null )
+            if (config == null)
             {
-                // get from dummy data
-                if ( Singleton<Configuration>.Instance == null )
+                lock (_synclocker)
                 {
-                    config = new Configuration ( );
-                    XmlDocument doc = new XmlDocument ( );
-                    config.LoadValuesFromConfigurationXml ( doc.CreateElement ( "__dummyRoot__" ) );
+                    config = Singleton<Configuration>.Instance;
 
-                    Singleton<Configuration>.Instance = config;
+                    if (config == null)
+                    {
+                        config = new Configuration();
+                        config.Init();
+
+                        Singleton<Configuration>.Instance = config;
+                    }
                 }
-
-                config = Singleton<Configuration>.Instance;
             }
 
             return config;
         }
 
-        public void LoadValuesFromConfigurationXml ( XmlNode node )
+        private void Init()
         {
-            root = node;
+            // 合并kiss.local.config和kiss.config
+            string rootpath = AppDomain.CurrentDomain.BaseDirectory;
 
-            EmptyNode = node.OwnerDocument.CreateElement ( "__empty__" );
+            if (HttpContext.Current != null)
+                rootpath = Path.Combine(rootpath, "App_Data");
+
+            using (XmlTransformableDocument x = new XmlTransformableDocument())
+            {
+                x.Load(Path.Combine(rootpath, "kiss.config"));
+
+                string localfile = FileUtil.FormatDirectory(XmlUtil.GetStringAttribute(x.DocumentElement, "local", HttpContext.Current == null ? ".kiss.local.config" : Path.Combine(".App_Data", "kiss.local.config")));
+
+                if (File.Exists(localfile))
+                {
+                    using (XmlTransformation t = new XmlTransformation(localfile))
+                    {
+                        t.Apply(x);
+                    }
+                }
+
+                root = x.DocumentElement;
+
+                _EmptyNode = x.CreateElement("__empty__");
+            }
         }
 
-        public XmlNode GetSection ( string nodePath )
+        public XmlNode GetSection(string nodePath)
         {
-            return root.SelectSingleNode ( nodePath );
+            return root.SelectSingleNode(nodePath) ?? _EmptyNode;
         }
 
         #endregion
