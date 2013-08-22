@@ -76,14 +76,7 @@ namespace Kiss
         {
             get
             {
-                try
-                {
-                    return ServiceLocator.Instance.Resolve<ILoggerFactory>();
-                }
-                catch
-                {
-                    return null;
-                }
+                return ServiceLocator.Instance.SafeResolve<ILoggerFactory>();
             }
         }
     }

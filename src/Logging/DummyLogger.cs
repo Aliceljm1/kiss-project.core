@@ -1,5 +1,5 @@
-﻿using System;
-using Kiss.Utils;
+﻿using Kiss.Utils;
+using System;
 
 namespace Kiss.Logging
 {
@@ -9,45 +9,66 @@ namespace Kiss.Logging
 
         public void Debug(string message)
         {
+#if(DEBUG)
             TxtLogger.Append(message);
+#endif
         }
 
         public void Debug(string message, Exception exception)
         {
+#if(DEBUG)
             TxtLogger.Append(message);
             TxtLogger.DumpException(exception);
+#endif
         }
 
         public void Debug(string format, params object[] args)
         {
+#if(DEBUG)
             TxtLogger.Append(format, args);
+#endif
         }
 
         public void DebugFormat(string format, params object[] args)
         {
+#if(DEBUG)
             TxtLogger.Append(format, args);
+#endif
         }
 
         public void DebugFormat(Exception exception, string format, params object[] args)
         {
+#if(DEBUG)
             TxtLogger.Append(format, args);
             TxtLogger.DumpException(exception);
+#endif
         }
 
         public void DebugFormat(IFormatProvider formatProvider, string format, params object[] args)
         {
+#if(DEBUG)
             TxtLogger.Append(format, args);
+#endif
         }
 
         public void DebugFormat(Exception exception, IFormatProvider formatProvider, string format, params object[] args)
         {
+#if(DEBUG)
             TxtLogger.Append(format, args);
             TxtLogger.DumpException(exception);
+#endif
         }
 
         public bool IsDebugEnabled
         {
-            get { return true; }
+            get
+            {
+#if(DEBUG)
+                return true;
+#else
+                return false;
+#endif
+            }
         }
 
         public void Info(string message)

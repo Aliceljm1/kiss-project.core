@@ -13,6 +13,7 @@ namespace Kiss.Ioc
         object Resolve(string key);
         object Resolve(Type contract);
         T Resolve<T>() where T : class;
+        T SafeResolve<T>() where T : class;
     }
 
     public class ComponentCreatedEventArgs : EventArgs

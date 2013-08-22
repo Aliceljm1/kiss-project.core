@@ -118,6 +118,11 @@ namespace Kiss
             return Container.Resolve<T>();
         }
 
+        public T SafeResolve<T>() where T : class
+        {
+            return Container.SafeResolve<T>();
+        }
+
         public object Resolve(Type serviceType)
         {
             return Container.Resolve(serviceType);

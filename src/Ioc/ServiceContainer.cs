@@ -76,6 +76,16 @@ namespace Kiss.Ioc
             return (T)Resolve(typeof(T));
         }
 
+        /// <summary>
+        /// 类型未注册时，不抛出异常，而是返回null
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public T SafeResolve<T>() where T : class
+        {
+            return (T)Resolve(typeof(T), false);
+        }
+
         /// <summary>Resolves a named service configured in the factory.</summary>
         /// <param name="key">The name of the service to resolve.</param>
         /// <returns>An instance of the resolved service.</returns>        
@@ -94,7 +104,7 @@ namespace Kiss.Ioc
 
                 Type implementation = types2[key];
 
-                object instance = CreateInstance(implementation);                
+                object instance = CreateInstance(implementation);
 
                 // fire component created event
                 OnComponentCreated(new ComponentCreatedEventArgs(instance));
@@ -106,6 +116,11 @@ namespace Kiss.Ioc
         }
 
         public object Resolve(Type contract)
+        {
+            return Resolve(contract, true);
+        }
+
+        public object Resolve(Type contract, bool throwException)
         {
             if (instances.ContainsKey(contract))
                 return instances[contract];
@@ -133,9 +148,13 @@ namespace Kiss.Ioc
                 }
 
                 if (implementation == null)
-                    throw new ArgumentException(string.Format("Type {0} is not registed!", contract.FullName));
+                {
+                    if (throwException)
+                        throw new ArgumentException(string.Format("Type {0} is not registed!", contract.FullName));
+                    return null;
+                }
 
-                object instance = CreateInstance(implementation);                
+                object instance = CreateInstance(implementation);
 
                 // fire component created event
                 OnComponentCreated(new ComponentCreatedEventArgs(instance));
