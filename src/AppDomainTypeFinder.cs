@@ -167,7 +167,7 @@ namespace Kiss
                 }
                 catch (BadImageFormatException)
                 {
-                    LogManager.GetLogger<AppDomainTypeFinder>().Warn("{0} is not a valid .net assembly.", dllPath);
+                    LogManager.GetLogger<AppDomainTypeFinder>().Debug("{0} is not a valid .net assembly.", dllPath);
                 }
             }
         }
