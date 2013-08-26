@@ -66,6 +66,7 @@
     <Compile Include="Credit\ICreditRule.cs" />
     <Compile Include="Ioc\IServiceContainer.cs" />
     <Compile Include="Ioc\ServiceContainer.cs" />
+    <Compile Include="ILicenceProvider.cs" />
     <Compile Include="Logging\DummyLogger.cs" />
     <Compile Include="Notice\ChannelAttribute.cs" />
     <Compile Include="Notice\INotice.cs" />
