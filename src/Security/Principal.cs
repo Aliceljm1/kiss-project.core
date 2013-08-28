@@ -205,7 +205,7 @@ namespace Kiss.Security
         string CreatorId { get; set; }
         int ResType { get; set; }
         int SecurityType { get; set; }
-        int Status { get; set; }
+        int? Status { get; set; }
 
         string C0 { get; set; }
         string C1 { get; set; }
