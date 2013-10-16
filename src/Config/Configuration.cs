@@ -1,7 +1,9 @@
 ﻿using Kiss.Utils;
 using Kiss.XmlTransform;
 using System;
+using System.Configuration;
 using System.IO;
+using System.Reflection;
 using System.Web;
 using System.Xml;
 
@@ -63,23 +65,78 @@ namespace Kiss.Config
             if (HttpContext.Current != null)
                 rootpath = Path.Combine(rootpath, "App_Data");
 
-            using (XmlTransformableDocument x = new XmlTransformableDocument())
+            if (File.Exists(Path.Combine(rootpath, "kiss.config")))
             {
-                x.Load(Path.Combine(rootpath, "kiss.config"));
-
-                string localfile = FileUtil.FormatDirectory(XmlUtil.GetStringAttribute(x.DocumentElement, "local", HttpContext.Current == null ? ".kiss.local.config" : Path.Combine(".App_Data", "kiss.local.config")));
-
-                if (File.Exists(localfile))
+                using (XmlTransformableDocument x = new XmlTransformableDocument())
                 {
-                    using (XmlTransformation t = new XmlTransformation(localfile))
+                    x.Load(Path.Combine(rootpath, "kiss.config"));
+
+                    string localfile = FileUtil.FormatDirectory(XmlUtil.GetStringAttribute(x.DocumentElement, "local", HttpContext.Current == null ? ".kiss.local.config" : Path.Combine(".App_Data", "kiss.local.config")));
+
+                    if (File.Exists(localfile))
                     {
-                        t.Apply(x);
+                        using (XmlTransformation t = new XmlTransformation(localfile))
+                        {
+                            t.Apply(x);
+                        }
                     }
+
+                    root = x.DocumentElement;
+
+                    _EmptyNode = x.CreateElement("__empty__");
                 }
+            }
+            else
+            {
+                XmlDocument xml = new XmlDocument();
 
-                root = x.DocumentElement;
+                root = xml;
 
-                _EmptyNode = x.CreateElement("__empty__");
+                _EmptyNode = xml.CreateElement("__empty__");
+            }
+
+            // 合并数据库连接字符串
+            XmlNode node_conn = root.SelectSingleNode("connectionStrings");
+
+            if (node_conn != null && node_conn.ChildNodes.Count > 0)
+            {
+                FieldInfo fi = typeof(ConfigurationElementCollection)
+                     .GetField("bReadOnly", BindingFlags.Instance | BindingFlags.NonPublic);
+
+                if (fi != null)
+                {
+                    fi.SetValue(ConfigurationManager.ConnectionStrings, false);
+
+                    foreach (XmlNode item in node_conn.ChildNodes)
+                    {
+                        if (item.Name == "clear")
+                        {
+                            ConfigurationManager.ConnectionStrings.Clear();
+                        }
+                        else if (item.Name == "add")
+                        {
+                            string name = XmlUtil.GetStringAttribute(item, "name", null);
+                            if (string.IsNullOrEmpty(name)) continue;
+
+                            string conn = XmlUtil.GetStringAttribute(item, "connectionString", null);
+                            if (string.IsNullOrEmpty(name)) continue;
+
+                            string provider = XmlUtil.GetStringAttribute(item, "providerName", null);
+                            if (string.IsNullOrEmpty(provider)) continue;
+
+                            if (ConfigurationManager.ConnectionStrings[name] != null)
+                                ConfigurationManager.ConnectionStrings.Remove(name);
+
+                            ConfigurationManager.ConnectionStrings.Add(new ConnectionStringSettings(name, conn, provider));
+                        }
+                    }
+
+                    fi.SetValue(ConfigurationManager.ConnectionStrings, true);
+                }
+                else
+                {
+                    LogManager.GetLogger<Configuration>().Warn("Can't modify ConfigurationManager.ConnectionStrings.");
+                }
             }
         }
 
