@@ -899,13 +899,41 @@ namespace Kiss.Utils
             return html;
         }
 
+        /// <summary>
+        /// will remove in version 4.7
+        /// </summary>
+        /// <param name="url1"></param>
+        /// <param name="url2"></param>
+        /// <returns></returns>
         public static string CombinUrl(string url1, string url2)
         {
-            url1 = url1 ?? string.Empty;
-            url2 = url2 ?? string.Empty;
-            return string.Format("{0}/{1}",
-                url1.TrimEnd('/'),
-                url2.TrimStart('/'));
+            return CombinUrl(url1, url2, string.Empty);
+        }
+
+        public static string CombinUrl(string url1, string url2, params string[] urls)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            List<string> list = new List<string>();
+
+            list.Add(url1);
+            list.Add(url2);
+
+            list.AddRange(urls);
+
+            list.RemoveAll((i) => { return string.IsNullOrEmpty(i); });
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (i == 0)
+                    list[i] = list[i].TrimEnd('/');
+                else if (i == list.Count - 1)
+                    list[i] = list[i].TrimStart('/');
+                else
+                    list[i] = list[i].TrimStart('/').TrimEnd('/');
+            }
+
+            return list.Join("/");
         }
 
         public static string GetExtension(string str)
