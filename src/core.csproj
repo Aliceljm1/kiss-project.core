@@ -60,6 +60,8 @@
     <Compile Include="Caching\CacheInitializer.cs" />
     <Compile Include="Caching\HierarchyCacheInitializer.cs" />
     <Compile Include="Caching\HierarchyCachePlugin.cs" />
+    <Compile Include="Caching\CachePluginSetting.cs" />
+    <Compile Include="Caching\WebCacheProvider.cs" />
     <Compile Include="Collection\HashSet.cs" />
     <Compile Include="Collection\ISet.cs" />
     <Compile Include="Credit\ICredit.cs" />
@@ -113,8 +115,6 @@
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Logging\ILoggerFactory.cs" />
     <Compile Include="Logging\LogManager.cs" />
-    <Compile Include="Repository\ObjGetter.cs" />
-    <Compile Include="Caching\CacheConfig.cs" />
     <Compile Include="Caching\CacheProvider.cs" />
     <Compile Include="Caching\JCache.cs" />
     <Compile Include="Config\Attribute.cs" />

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Kiss.Security;
+using Kiss.Utils;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Kiss.Security;
-using Kiss.Utils;
 
 namespace Kiss.Plugin
 {
@@ -56,7 +56,7 @@ namespace Kiss.Plugin
                     foundPlugins.Add(plugin);
                 }
             }
-            foundPlugins.Sort();
+            foundPlugins.Sort((a, b) => { return a.SortOrder.CompareTo(b.SortOrder); });
             return foundPlugins;
         }
 

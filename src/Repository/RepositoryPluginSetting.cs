@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Kiss.Plugin;
+using Kiss.Utils;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Xml;
-using Kiss.Plugin;
-using Kiss.Utils;
 
 namespace Kiss.Repository
 {

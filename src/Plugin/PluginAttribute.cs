@@ -26,13 +26,11 @@ namespace Kiss.Plugin
 
         #endregion
 
-        #region IComparable<IPlugin> Members
-
-        public int CompareTo(IPlugin other)
+        public bool Equals(IPlugin other)
         {
-            return SortOrder.CompareTo(other.SortOrder);
+            return Name.Equals(other.Name, StringComparison.InvariantCultureIgnoreCase)
+                && Decorates.Equals(other.Decorates)
+                && IsEnabled.Equals(other.IsEnabled);
         }
-
-        #endregion
     }
 }

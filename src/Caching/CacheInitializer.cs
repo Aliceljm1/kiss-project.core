@@ -1,6 +1,4 @@
-﻿using System;
-using Kiss.Plugin;
-using Kiss.Utils;
+﻿using Kiss.Plugin;
 
 namespace Kiss.Caching
 {
@@ -12,15 +10,17 @@ namespace Kiss.Caching
     {
         #region IPluginInitializer Members
 
-        public void Init(ServiceLocator sl, ref PluginSetting setting)
+        public void Init(ServiceLocator sl, ref PluginSetting s)
         {
-            if (!setting.Enable) return;
+            if (!s.Enable) return;
 
-            string type = setting["type"];
-            if (StringUtil.IsNullOrEmpty(type))
-                setting.Enable = false;
-            else
-                sl.AddComponent("kiss.cache", typeof(ICacheProvider), Type.GetType(type, true, true));
+            CachePluginSetting settings = new CachePluginSetting(s);
+            s = settings;
+
+            foreach (var item in Plugin.Plugins.GetPlugins<CacheProviderAttribute>())
+            {
+                sl.AddComponent(string.Format("kiss.cache.{0}", item.Name), typeof(ICacheProvider), item.Decorates);
+            }
         }
 
         #endregion

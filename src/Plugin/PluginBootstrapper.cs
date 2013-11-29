@@ -33,8 +33,7 @@ namespace Kiss.Plugin
                 }
             }
 
-            pluginDefinitions.Sort();
-            pluginDefinitions.Reverse();
+            pluginDefinitions.Sort((a, b) => { return b.Priority.CompareTo(a.Priority); });
             return pluginDefinitions;
         }
 
@@ -73,7 +72,7 @@ namespace Kiss.Plugin
                     message += Environment.NewLine + Environment.NewLine + "- " + ex.Message;
 
                 throw new PluginInitException(message, exceptions.ToArray());
-            }            
+            }
 
             log.AppendFormat("plugins initialized. {1} of {0} is enable.", count, enable_count);
 

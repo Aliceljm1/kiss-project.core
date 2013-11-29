@@ -6,7 +6,7 @@ namespace Kiss.Plugin
     /// <summary>
     /// 插件的接口，该接口定义了一个插件的基本属性
     /// </summary>
-    public interface IPlugin : IComparable<IPlugin>
+    public interface IPlugin : IEquatable<IPlugin>
     {
         /// <summary>
         /// 插件名称

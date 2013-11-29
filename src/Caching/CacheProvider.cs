@@ -1,8 +1,14 @@
-﻿using System;
+﻿using Kiss.Plugin;
+using System;
 using System.Collections.Generic;
 
 namespace Kiss.Caching
 {
+    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
+    public class CacheProviderAttribute : PluginAttribute
+    {
+    }
+
     /// <summary>
     /// abstract cache Provider
     /// </summary>
@@ -28,5 +34,27 @@ namespace Kiss.Caching
         /// </summary>
         /// <param name="key"></param>
         void Remove(string key);
+    }
+
+    [CacheProvider(Name = "nocache")]
+    public class NoCacheProvider : ICacheProvider
+    {
+        public void Insert(string key, object obj, TimeSpan validFor)
+        {
+        }
+
+        public object Get(string key)
+        {
+            return null;
+        }
+
+        public IDictionary<string, object> Get(IEnumerable<string> keys)
+        {
+            return new Dictionary<string, object>();
+        }
+
+        public void Remove(string key)
+        {
+        }
     }
 }

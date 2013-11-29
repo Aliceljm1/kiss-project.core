@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Kiss.Caching;
+﻿using Kiss.Caching;
+using Kiss.Plugin;
 using Kiss.Utils;
+using System;
+using System.Collections.Generic;
 
 namespace Kiss
 {
@@ -11,6 +12,33 @@ namespace Kiss
     public sealed class JCache
     {
         private static readonly ILogger _logger = LogManager.GetLogger<JCache>();
+        private static readonly CachePluginSetting setting = PluginSettings.Get<CacheInitializer>() as CachePluginSetting;
+
+        /// <summary>
+        /// 缓存provider
+        /// </summary>
+        public static ICacheProvider GetProvider(string cacheKey)
+        {
+            if (!setting.Enabled) return null;
+
+            string providerName = setting.DefaultProviderName;
+
+            foreach (string key in setting.Configs.Keys)
+            {
+                if (cacheKey.StartsWith(key, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    providerName = setting.Configs[key];
+                    break;
+                }
+            }
+
+            if (string.IsNullOrEmpty(providerName)) return null;
+
+            return ServiceLocator.Instance.Resolve(string.Format("kiss.cache.{0}", providerName)) as ICacheProvider;
+        }
+
+        public static readonly Dictionary<string, string> Config = new Dictionary<string, string>();
+
 
         private JCache()
         {
@@ -23,8 +51,7 @@ namespace Kiss
         /// <param name="obj"></param>
         public static void Insert(string key, object obj)
         {
-            if (CacheConfig.Enabled && CacheConfig.IsEnabled(key))
-                Insert(key, obj, CacheConfig.ValidFor);
+            Insert(key, obj, setting.ValidFor);
         }
 
         /// <summary>
@@ -35,8 +62,11 @@ namespace Kiss
         /// <param name="validFor"></param>
         public static void Insert(string key, object obj, TimeSpan validFor)
         {
-            if (CacheConfig.Enabled && CacheConfig.IsEnabled(key))
-                CacheConfig.Provider.Insert(GetCacheKey(key), obj, validFor);
+            ICacheProvider p = GetProvider(key);
+            if (p != null)
+            {
+                p.Insert(GetCacheKey(key), obj, validFor);
+            }
         }
 
         /// <summary>
@@ -46,8 +76,11 @@ namespace Kiss
         /// <returns></returns>
         public static object Get(string key)
         {
-            if (CacheConfig.Enabled && CacheConfig.IsEnabled(key))
-                return CacheConfig.Provider.Get(GetCacheKey(key));
+            ICacheProvider p = GetProvider(key);
+            if (p != null)
+            {
+                return p.Get(GetCacheKey(key));
+            }
 
             return null;
         }
@@ -59,8 +92,13 @@ namespace Kiss
         /// <returns></returns>
         public static IDictionary<string, object> Get(IEnumerable<string> keys)
         {
-            if (CacheConfig.Enabled)
-                return CacheConfig.Provider.Get(StringUtil.ToStringArray<string>(new List<string>(keys).ToArray(), delegate(string key) { return GetCacheKey(key); }));
+            List<string> keylist = new List<string>(keys);
+
+            if (keylist.Count == 0) return null;
+
+            ICacheProvider p = GetProvider(keylist[0]);
+            if (p != null)
+                return p.Get(StringUtil.ToStringArray<string>(new List<string>(keys).ToArray(), delegate(string key) { return GetCacheKey(key); }));
 
             return null;
         }
@@ -73,10 +111,7 @@ namespace Kiss
         /// <returns></returns>
         public static T Get<T>(string key)
         {
-            if (CacheConfig.Enabled)
-                return (T)Get(key);
-
-            return default(T);
+            return (T)Get(key);
         }
 
         /// <summary>
@@ -85,8 +120,9 @@ namespace Kiss
         /// <param name="key"></param>
         public static void Remove(string key)
         {
-            if (CacheConfig.Enabled && CacheConfig.IsEnabled(key))
-                CacheConfig.Provider.Remove(GetCacheKey(key));
+            ICacheProvider p = GetProvider(key);
+            if (p != null)
+                p.Remove(GetCacheKey(key));
         }
 
         public static string GetRootCacheKey(string model)
@@ -118,7 +154,7 @@ namespace Kiss
 
         private static string GetCacheKey(string key)
         {
-            return string.Format("{0}.{1}", CacheConfig.Namespace, key);
+            return string.Format("{0}.{1}", setting.Namespace, key);
         }
     }
 }

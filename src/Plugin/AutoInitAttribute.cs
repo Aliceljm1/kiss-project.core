@@ -37,10 +37,5 @@ namespace Kiss.Plugin
         public string Description { get; set; }
 
         public string Name { get { return InitializerType.Name; } }
-
-        public int CompareTo(IPluginDefinition other)
-        {
-            return Priority.CompareTo(other.Priority);
-        }
     }
 }

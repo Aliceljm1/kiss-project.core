@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Kiss.Utils;
+﻿using Kiss.Utils;
+using System.Collections.Generic;
 
 namespace Kiss.Caching
 {
@@ -50,15 +50,12 @@ namespace Kiss.Caching
 
         void Obj_PreQuery(object sender, QueryObject.QueryEventArgs e)
         {
-            if (!CacheConfig.Enabled)
-                return;
-
             e.Result = JCache.Get(e.Type.FullName + ".query:" + SecurityUtil.MD5_Hash(e.Sql));
         }
 
         void Obj_AfterQuery(object sender, QueryObject.QueryEventArgs e)
         {
-            if (!CacheConfig.Enabled || e.Result == null)
+            if (e.Result == null)
                 return;
 
             string typefullname = e.Type.FullName;

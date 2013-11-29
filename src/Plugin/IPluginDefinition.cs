@@ -3,7 +3,7 @@ using System;
 
 namespace Kiss.Plugin
 {
-    public interface IPluginDefinition : IComparable<IPluginDefinition>
+    public interface IPluginDefinition
     {
         void Init(ServiceLocator sl, ref PluginSetting setting);
         string Name { get; }
