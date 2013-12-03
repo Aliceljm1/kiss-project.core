@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Specialized;
+using System.Collections.Generic;
 
 namespace Kiss
 {
@@ -7,7 +7,9 @@ namespace Kiss
     {
         bool Check();
 
-        NameValueCollection GetLicenseDetail();
+        Dictionary<string, string> GetLicenseDetail();
+
+        string MachineCode { get; }
 
         /// <summary>
         /// 校验licence失败后的回调函数
