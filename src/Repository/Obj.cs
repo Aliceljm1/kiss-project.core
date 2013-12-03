@@ -117,7 +117,13 @@ namespace Kiss
         public string Title { get; set; }
         public string Category { get; set; }
         public string Description { get; set; }
+
         public int SortOrder { get; set; }
+        public int SortOrder1 { get; set; }
+        public int SortOrder2 { get; set; }
+        public int SortOrder3 { get; set; }
+        public int SortOrder4 { get; set; }
+
         public bool HasChild { get; set; }
         public bool IsValid { get; set; }
         public DateTime DateCreated { get; set; }
