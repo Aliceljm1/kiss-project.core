@@ -134,6 +134,23 @@ namespace Kiss
         public string Prop4 { get; set; }
         public string Prop5 { get; set; }
 
+        [Validation.Length(Int32.MaxValue)]
+        public string Text1 { get; set; }
+        [Validation.Length(Int32.MaxValue)]
+        public string Text2 { get; set; }
+        [Validation.Length(Int32.MaxValue)]
+        public string Text3 { get; set; }
+        [Validation.Length(Int32.MaxValue)]
+        public string Text4 { get; set; }
+        [Validation.Length(Int32.MaxValue)]
+        public string Text5 { get; set; }
+
+        public DateTime DateTime1 { get; set; }
+        public DateTime DateTime2 { get; set; }
+        public DateTime DateTime3 { get; set; }
+        public DateTime DateTime4 { get; set; }
+        public DateTime DateTime5 { get; set; }
+
         [Ignore]
         public DictSchema Parent { get; set; }
         [Ignore]
