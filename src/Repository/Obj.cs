@@ -119,10 +119,6 @@ namespace Kiss
         public string Description { get; set; }
 
         public int SortOrder { get; set; }
-        public int SortOrder1 { get; set; }
-        public int SortOrder2 { get; set; }
-        public int SortOrder3 { get; set; }
-        public int SortOrder4 { get; set; }
 
         public bool HasChild { get; set; }
         public bool IsValid { get; set; }
@@ -150,6 +146,12 @@ namespace Kiss
         public DateTime DateTime3 { get; set; }
         public DateTime DateTime4 { get; set; }
         public DateTime DateTime5 { get; set; }
+
+        public int Int1 { get; set; }
+        public int Int2 { get; set; }
+        public int Int3 { get; set; }
+        public int Int4 { get; set; }
+        public int Int5 { get; set; }
 
         [Ignore]
         public DictSchema Parent { get; set; }
