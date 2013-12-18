@@ -1,5 +1,6 @@
 ﻿using Kiss.Query;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Security.Principal;
 
@@ -64,8 +65,6 @@ namespace Kiss.Security
         IUser[] GetsUserByRoleId(string roleId);
         IUser[] GetsUserByDeptId(string deptId);
         IUser[] GetsUserByGroupId(string groupId);
-
-        DataTable QueryUser(QueryCondition qc);
 
         bool SaveUserAvator(string userId, byte[] content);
 
@@ -135,5 +134,10 @@ namespace Kiss.Security
         IWhere WhereUser { get; }
 
         IWhere WhereRelation { get; }
+
+        DataTable QueryUser(QueryCondition qc);
+        DataTable QueryGroup(QueryCondition qc);
+
+        ConnectionStringSettings ConectionStringSettings { get; }
     }
 }

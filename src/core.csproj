@@ -49,9 +49,7 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.OracleClient" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -169,7 +167,6 @@
     <Compile Include="Utils\Net\HttpPostItem.cs" />
     <Compile Include="Utils\Net\HttpRequest.cs" />
     <Compile Include="Utils\TypeResolver\ObjectUtils.cs" />
-    <Compile Include="Utils\OracleHelper.cs" />
     <Compile Include="Utils\Serializer.cs" />
     <Compile Include="Utils\ServerUtil.cs" />
     <Compile Include="Singleton.cs" />

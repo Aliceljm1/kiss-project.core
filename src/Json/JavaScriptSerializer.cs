@@ -55,6 +55,11 @@ namespace Kiss.Json
             return (T)Deserialize(this, input, typeof(T), this.RecursionLimit);
         }
 
+        public object Deserialize(Type type, string input)
+        {
+            return Deserialize(this, input, type, this.RecursionLimit);
+        }
+
         internal static object Deserialize(JavaScriptSerializer serializer, string input, Type type, int depthLimit)
         {
             if (input == null)
