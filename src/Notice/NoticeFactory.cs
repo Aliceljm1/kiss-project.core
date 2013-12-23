@@ -57,6 +57,13 @@ namespace Kiss.Notice
             }
         }
 
+        public static bool ResolverTemplate(string channel, string templateId, Dictionary<string, object> param, out string title, out string content)
+        {
+            string category = string.Empty;
+
+            return ResolverTemplate(channel, templateId, param, out title, out content, out category);
+        }
+
         /// <summary>
         /// 根据模板Id 和 doc 获得标题和内容
         /// </summary>
