@@ -60,9 +60,9 @@ namespace Kiss.Notice
         /// <summary>
         /// 根据模板Id 和 doc 获得标题和内容
         /// </summary>
-        public static bool ResolverTemplate(string channel, string templateId, Dictionary<string, object> param, out string title, out string content)
+        public static bool ResolverTemplate(string channel, string templateId, Dictionary<string, object> param, out string title, out string content, out string category)
         {
-            title = content = string.Empty;
+            title = content = category = string.Empty;
 
             DictSchema schema = (from q in DictSchema.CreateContext(true)
                                  where q.Type == "msg" && q.Name == "template" && q.Title == templateId
@@ -73,6 +73,8 @@ namespace Kiss.Notice
                 LogManager.GetLogger<NoticeFactory>().ErrorFormat("指定的模板：{0} 不存在。", templateId);
                 return false;
             }
+
+            category = schema.Category;
 
             ITemplateEngine te = ServiceLocator.Instance.Resolve<ITemplateEngine>();
 
