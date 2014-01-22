@@ -90,6 +90,8 @@ namespace Kiss.Security
         string Password { get; }
         string DefaultUrl { get; }
 
+        string OrgId { get; set; }
+
         int UserType { get; set; }
 
         string Prop1 { get; set; }
@@ -102,6 +104,11 @@ namespace Kiss.Security
         string Prop8 { get; set; }
         string Prop9 { get; set; }
         string Prop10 { get; set; }
+        string Prop11 { get; set; }
+        string Prop12 { get; set; }
+        string Prop13 { get; set; }
+        string Prop14 { get; set; }
+        string Prop15 { get; set; }
 
         string[] GetsRoleId();
         IRole[] GetsRole();
@@ -176,6 +183,7 @@ namespace Kiss.Security
     public interface IDept
     {
         string Id { get; }
+        string OrgId { get; set; }
         string SiteId { get; set; }
         string Title { get; }
         string ParentId { get; }
@@ -200,6 +208,7 @@ namespace Kiss.Security
     public interface IGroup
     {
         string Id { get; }
+        string OrgId { get; set; }
         string SiteId { get; set; }
         string Title { get; set; }
         string CreatorId { get; set; }
@@ -227,6 +236,7 @@ namespace Kiss.Security
     public interface ISite
     {
         string Id { get; }
+        string OrgId { get; set; }
         string CreatorId { get; set; }
         string Title { get; set; }
         string Authority { get; }
