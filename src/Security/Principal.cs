@@ -184,7 +184,6 @@ namespace Kiss.Security
     {
         string Id { get; }
         string OrgId { get; set; }
-        string SiteId { get; set; }
         string Title { get; }
         string ParentId { get; }
 
@@ -209,7 +208,6 @@ namespace Kiss.Security
     {
         string Id { get; }
         string OrgId { get; set; }
-        string SiteId { get; set; }
         string Title { get; set; }
         string CreatorId { get; set; }
         int ResType { get; set; }
@@ -269,6 +267,7 @@ namespace Kiss.Security
         bool IsDirect { get; set; }
         string RefTo { get; set; }
         int UserType { get; set; }
+        int UserType1 { get; set; }
     }
 
     /// <summary>
