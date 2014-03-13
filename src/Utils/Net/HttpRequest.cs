@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.IO;
 using System.Net;
 using System.Security;
@@ -216,5 +217,89 @@ namespace Kiss.Utils.Net
             }
         }
 
+        public static string UploadFile(string url, string contentType, string paramName, string file, NameValueCollection nvc)
+        {
+            return UploadFile(url, contentType, paramName, Path.GetFileName(file), File.ReadAllBytes(file), nvc);
+        }
+
+        public static string UploadFile(string url, string contentType, string paramName, string filename, byte[] buffer, NameValueCollection nvc)
+        {
+            string boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
+            byte[] boundarybytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
+            byte[] boundarybytesF = System.Text.Encoding.ASCII.GetBytes("--" + boundary + "\r\n");  // the first time it itereates, you need to make sure it doesn't put too many new paragraphs down or it completely messes up poor webbrick.  
+
+            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(url);
+            wr.Method = "POST";
+            wr.KeepAlive = true;
+            wr.Credentials = System.Net.CredentialCache.DefaultCredentials;
+            wr.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
+            wr.Headers.Add("Accepts-Language", "en-us,en;q=0.5");
+            wr.ContentType = "multipart/form-data; boundary=" + boundary;
+
+            using (Stream rs = wr.GetRequestStream())
+            {
+                bool firstLoop = true;
+                string formdataTemplate = "Content-Disposition: form-data; name=\"{0}\"\r\n\r\n{1}";
+                if (nvc != null)
+                {
+                    foreach (string key in nvc.Keys)
+                    {
+                        if (firstLoop)
+                        {
+                            rs.Write(boundarybytesF, 0, boundarybytesF.Length);
+                            firstLoop = false;
+                        }
+                        else
+                        {
+                            rs.Write(boundarybytes, 0, boundarybytes.Length);
+                        }
+                        string formitem = string.Format(formdataTemplate, key, nvc[key]);
+                        byte[] formitembytes = System.Text.Encoding.UTF8.GetBytes(formitem);
+                        rs.Write(formitembytes, 0, formitembytes.Length);
+                    }
+                }
+
+                rs.Write(boundarybytes, 0, boundarybytes.Length);
+
+                string headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: {2}\r\n\r\n";
+                string header = string.Format(headerTemplate, paramName, filename, contentType);
+                byte[] headerbytes = System.Text.Encoding.UTF8.GetBytes(header);
+                rs.Write(headerbytes, 0, headerbytes.Length);
+
+                rs.Write(buffer, 0, buffer.Length);
+
+                byte[] trailer = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "--\r\n");
+                rs.Write(trailer, 0, trailer.Length);
+            }
+
+            WebResponse wresp = null;
+            try
+            {
+                using (wresp = wr.GetResponse())
+                {
+                    using (Stream stream2 = wresp.GetResponseStream())
+                    {
+                        using (StreamReader reader2 = new StreamReader(stream2))
+                        {
+                            return reader2.ReadToEnd();
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                if (wresp != null)
+                {
+                    wresp.Close();
+                    wresp = null;
+                }
+            }
+            finally
+            {
+                wr = null;
+            }
+
+            return null;
+        }
     }
 }
