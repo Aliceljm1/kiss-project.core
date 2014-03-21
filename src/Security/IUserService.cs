@@ -139,5 +139,7 @@ namespace Kiss.Security
         DataTable QueryGroup(QueryCondition qc);
 
         ConnectionStringSettings ConectionStringSettings { get; }
+
+        bool CheckVerifyCode(string user_input, string encrypted_code);
     }
 }
