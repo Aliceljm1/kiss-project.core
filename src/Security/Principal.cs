@@ -197,6 +197,12 @@ namespace Kiss.Security
         string C7 { get; set; }
         string C8 { get; set; }
         string C9 { get; set; }
+        string C10 { get; set; }
+        string C11 { get; set; }
+        string C12 { get; set; }
+        string C13 { get; set; }
+        string C14 { get; set; }
+        string C15 { get; set; }
 
         string this[string prop] { get; set; }
         ExtendedAttributes ExtAttrs { get; }
@@ -224,6 +230,12 @@ namespace Kiss.Security
         string C7 { get; set; }
         string C8 { get; set; }
         string C9 { get; set; }
+        string C10 { get; set; }
+        string C11 { get; set; }
+        string C12 { get; set; }
+        string C13 { get; set; }
+        string C14 { get; set; }
+        string C15 { get; set; }
 
         string this[string prop] { get; set; }
         ExtendedAttributes ExtAttrs { get; }
@@ -249,6 +261,12 @@ namespace Kiss.Security
         string C7 { get; set; }
         string C8 { get; set; }
         string C9 { get; set; }
+        string C10 { get; set; }
+        string C11 { get; set; }
+        string C12 { get; set; }
+        string C13 { get; set; }
+        string C14 { get; set; }
+        string C15 { get; set; }
 
         string this[string prop] { get; set; }
 
