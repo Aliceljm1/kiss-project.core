@@ -26,6 +26,16 @@ namespace Kiss.Notice
 
         public static void Send(string templateId, Dictionary<string, object> param, IUser from, params IUser[] to)
         {
+            Send(templateId, param, from, to, new string[] { });
+        }
+
+        public static void Send(string templateId, Dictionary<string, object> param, string from, params string[] to)
+        {
+            Send(templateId, param, from, to, new string[] { });
+        }
+
+        public static void Send(string templateId, Dictionary<string, object> param, IUser from, IUser[] to, string[] msgKeys)
+        {
             if (to.Length == 0) return;
 
             List<IUser> list = new List<IUser>(to);
@@ -43,17 +53,17 @@ namespace Kiss.Notice
                     sendto.Add(user);
                 }
 
-                Create(item.Key).Send(templateId, param, from, sendto.ToArray());
+                Create(item.Key).Send(templateId, param, from, sendto.ToArray(), msgKeys);
             }
         }
 
-        public static void Send(string templateId, Dictionary<string, object> param, string from, params string[] to)
+        public static void Send(string templateId, Dictionary<string, object> param, string from, string[] to, string[] msgKeys)
         {
             if (to.Length == 0) return;
 
             foreach (var item in Config.GetsValidChannel(templateId, to))
             {
-                Create(item.Key).Send(templateId, param, from, item.Value.ToArray());
+                Create(item.Key).Send(templateId, param, from, item.Value.ToArray(), msgKeys);
             }
         }
 

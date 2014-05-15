@@ -38,9 +38,7 @@ namespace Kiss.Caching
                 key = (sender as Kiss.Obj<string>).Id;
 
             // update/add self cache
-            JCache.Insert(typefullname + ".obj:" + key ?? sender.ToString(), sender);
-
-            JCache.RemoveHierarchyCache(JCache.GetRootCacheKey(typefullname));
+            JCache.Insert(typefullname + ".obj:" + key ?? sender.ToString(), sender);           
         }
 
         void Obj_Batch(object sender, BatchEventArgs e)
