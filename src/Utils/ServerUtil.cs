@@ -378,12 +378,11 @@ namespace Kiss.Utils
             if (cahceMinutes > 0)
             {
                 TimeSpan cacheDuration = TimeSpan.FromMinutes(cahceMinutes);
-                response.Cache.SetCacheability(HttpCacheability.Public);
+                response.Cache.SetCacheability(HttpCacheability.Private);
                 response.Cache.SetExpires(DateTime.Now.AddMinutes(cahceMinutes));
                 response.Cache.SetMaxAge(cacheDuration);
                 response.Expires = cahceMinutes;
                 response.Cache.SetLastModified(DateTime.Now.AddMinutes(-cahceMinutes));
-                response.Cache.AppendCacheExtension("must-revalidate, proxy-revalidate");
             }
             else
             {
@@ -456,6 +455,6 @@ namespace Kiss.Utils
                 count == 0 ? baseUrl.TrimEnd('?') : baseUrl,
                 key,
                 value);
-        }               
+        }
     }
 }
