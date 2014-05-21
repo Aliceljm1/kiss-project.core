@@ -20,7 +20,7 @@ namespace Kiss.Notice
         {
             get
             {
-                return ServiceLocator.Instance.Resolve<INoticeConfig>();
+                return ServiceLocator.Instance.SafeResolve<INoticeConfig>();
             }
         }
 
@@ -36,7 +36,7 @@ namespace Kiss.Notice
 
         public static void Send(string templateId, Dictionary<string, object> param, IUser from, IUser[] to, string[] msgKeys)
         {
-            if (to.Length == 0) return;
+            if (to.Length == 0 || Config == null) return;
 
             List<IUser> list = new List<IUser>(to);
 
@@ -59,7 +59,7 @@ namespace Kiss.Notice
 
         public static void Send(string templateId, Dictionary<string, object> param, string from, string[] to, string[] msgKeys)
         {
-            if (to.Length == 0) return;
+            if (to.Length == 0 || Config == null) return;
 
             foreach (var item in Config.GetsValidChannel(templateId, to))
             {
