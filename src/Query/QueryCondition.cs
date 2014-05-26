@@ -207,6 +207,19 @@ namespace Kiss.Query
             AppendOrderby(column, asc);
         }
 
+        public void InsertOrderby(int index, string column)
+        {
+            InsertOrderby(index, column, false);
+        }
+
+        public void InsertOrderby(int index, string column, bool asc)
+        {
+            if (!AllowedOrderbyColumns.Contains(column))
+                AllowedOrderbyColumns.Add(column);
+
+            AppendOrderby(index, column, asc);
+        }
+
         /// <summary>
         /// add sort column
         /// </summary>
@@ -214,6 +227,12 @@ namespace Kiss.Query
         {
             if (!_orderbyItems.Exists(delegate(KeyValuePair<string, bool> p) { return string.Equals(p.Key, column, StringComparison.InvariantCultureIgnoreCase); }))
                 _orderbyItems.Add(new KeyValuePair<string, bool>(column, asc));
+        }
+
+        public void AppendOrderby(int index, string column, bool asc)
+        {
+            if (!_orderbyItems.Exists(delegate(KeyValuePair<string, bool> p) { return string.Equals(p.Key, column, StringComparison.InvariantCultureIgnoreCase); }))
+                _orderbyItems.Insert(index, new KeyValuePair<string, bool>(column, asc));
         }
 
         #endregion
