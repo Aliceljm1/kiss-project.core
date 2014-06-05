@@ -87,6 +87,10 @@ namespace Kiss.Security
         string DisplayName { get; set; }
         string Email { get; set; }
         string Mobile { get; set; }
+        /// <summary>
+        /// 身份证
+        /// </summary>
+        string CitizenID { get; set; }
         string Password { get; }
         string DefaultUrl { get; }
 
@@ -203,6 +207,11 @@ namespace Kiss.Security
         string C13 { get; set; }
         string C14 { get; set; }
         string C15 { get; set; }
+        string C16 { get; set; }
+        string C17 { get; set; }
+        string C18 { get; set; }
+        string C19 { get; set; }
+        string C20 { get; set; }
 
         string this[string prop] { get; set; }
         ExtendedAttributes ExtAttrs { get; }
@@ -236,6 +245,11 @@ namespace Kiss.Security
         string C13 { get; set; }
         string C14 { get; set; }
         string C15 { get; set; }
+        string C16 { get; set; }
+        string C17 { get; set; }
+        string C18 { get; set; }
+        string C19 { get; set; }
+        string C20 { get; set; }
 
         string this[string prop] { get; set; }
         ExtendedAttributes ExtAttrs { get; }
@@ -267,6 +281,11 @@ namespace Kiss.Security
         string C13 { get; set; }
         string C14 { get; set; }
         string C15 { get; set; }
+        string C16 { get; set; }
+        string C17 { get; set; }
+        string C18 { get; set; }
+        string C19 { get; set; }
+        string C20 { get; set; }
 
         string this[string prop] { get; set; }
 
