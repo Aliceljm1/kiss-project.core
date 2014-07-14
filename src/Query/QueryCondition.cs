@@ -183,6 +183,11 @@ namespace Kiss.Query
             set { tableField = value; }
         }
 
+        /// <summary>
+        /// 是否将默认的orderby 放在排序最前
+        /// </summary>
+        public bool IsAddOrderBy2First { get; set; }
+
         private List<KeyValuePair<string, bool>> _orderbyItems = new List<KeyValuePair<string, bool>>();
 
         /// <summary>
