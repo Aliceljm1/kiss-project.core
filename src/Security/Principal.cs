@@ -181,6 +181,8 @@ namespace Kiss.Security
         string Title { get; }
         string DefaultUrl { get; }
 
+        int SortOrder { get; }
+
         void SerializeExtAttrs();
     }
 
