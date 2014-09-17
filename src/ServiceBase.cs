@@ -11,6 +11,7 @@ namespace Kiss
     public abstract class ServiceBase
     {
         public abstract void Run();
+        public abstract void Stop();
 
         public static List<ServiceBase> GetsAll()
         {

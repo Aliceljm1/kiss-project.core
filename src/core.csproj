@@ -84,7 +84,6 @@
     <Compile Include="Plugin\Plugins.cs" />
     <Compile Include="Plugin\PluginSetting.cs" />
     <Compile Include="DbProviderAttribute.cs" />
-    <Compile Include="Properties\CommonAssemblyInfo.cs" />
     <Compile Include="Repository\ILinqContext.cs" />
     <Compile Include="Repository\IWhere.cs" />
     <Compile Include="Repository\QueryObject.cs" />

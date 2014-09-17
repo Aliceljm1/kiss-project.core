@@ -650,7 +650,7 @@ namespace Kiss.Utils
                     }
                 }
             }
-            catch (WebException ex)
+            catch (WebException)
             {
             }
             return false;

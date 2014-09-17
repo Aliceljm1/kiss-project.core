@@ -87,6 +87,7 @@ namespace Kiss.Security
         string DisplayName { get; set; }
         string Email { get; set; }
         string Mobile { get; set; }
+        bool IsValid { get; set; }
         /// <summary>
         /// 身份证
         /// </summary>
