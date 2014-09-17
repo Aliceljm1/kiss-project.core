@@ -1,0 +1,8 @@
+glob:build
+glob:*.cache
+glob:*.suo
+glob:bin
+glob:obj
+glob:*user
+syntax: glob
+*.docstates

@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{066B549B-9803-4FA5-9A90-718AB9F07946}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kiss</RootNamespace>
+    <AssemblyName>Kiss</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DelaySign>false</DelaySign>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Kiss.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppDomainTypeFinder.cs" />
+    <Compile Include="Caching\CacheInitializer.cs" />
+    <Compile Include="Caching\HierarchyCacheInitializer.cs" />
+    <Compile Include="Caching\HierarchyCachePlugin.cs" />
+    <Compile Include="Caching\CachePluginSetting.cs" />
+    <Compile Include="Caching\WebCacheProvider.cs" />
+    <Compile Include="Collection\HashSet.cs" />
+    <Compile Include="Collection\ISet.cs" />
+    <Compile Include="Credit\ICredit.cs" />
+    <Compile Include="Credit\ICreditRule.cs" />
+    <Compile Include="Ioc\IServiceContainer.cs" />
+    <Compile Include="Ioc\ServiceContainer.cs" />
+    <Compile Include="ILicenceProvider.cs" />
+    <Compile Include="Logging\DummyLogger.cs" />
+    <Compile Include="Notice\ChannelAttribute.cs" />
+    <Compile Include="Notice\INotice.cs" />
+    <Compile Include="Notice\NoticeFactory.cs" />
+    <Compile Include="Plugin\AutoInitAttribute.cs" />
+    <Compile Include="Plugin\IPlugin.cs" />
+    <Compile Include="Plugin\IPluginDefinition.cs" />
+    <Compile Include="Plugin\IPluginInitializer.cs" />
+    <Compile Include="Plugin\PluginAttribute.cs" />
+    <Compile Include="Plugin\PluginBootstrapper.cs" />
+    <Compile Include="Plugin\PluginConfig.cs" />
+    <Compile Include="Plugin\PluginInitializationException.cs" />
+    <Compile Include="Plugin\Plugins.cs" />
+    <Compile Include="Plugin\PluginSetting.cs" />
+    <Compile Include="DbProviderAttribute.cs" />
+    <Compile Include="Repository\ILinqContext.cs" />
+    <Compile Include="Repository\IWhere.cs" />
+    <Compile Include="Repository\QueryObject.cs" />
+    <Compile Include="Repository\RepositoryInitalizer.cs" />
+    <Compile Include="Repository\RepositoryPluginSetting.cs" />
+    <Compile Include="Security\IUserService.cs" />
+    <Compile Include="Security\PermissionAttribute.cs" />
+    <Compile Include="Security\Principal.cs" />
+    <Compile Include="Json\JavaScriptConverter.cs" />
+    <Compile Include="Json\JavaScriptObjectDeserializer.cs" />
+    <Compile Include="Json\JavaScriptSerializer.cs" />
+    <Compile Include="Json\JavaScriptString.cs" />
+    <Compile Include="Json\JavaScriptTypeResolver.cs" />
+    <Compile Include="Json\ObjectConverter.cs" />
+    <Compile Include="Json\ScriptIgnoreAttribute.cs" />
+    <Compile Include="Json\SimpleTypeResolver.cs" />
+    <Compile Include="ServiceBase.cs" />
+    <Compile Include="Task\ITask.cs" />
+    <Compile Include="Task\TaskExecutor.cs" />
+    <Compile Include="Task\Tasks.cs" />
+    <Compile Include="Transaction.cs" />
+    <Compile Include="Utils\CrossDomain.cs" />
+    <Compile Include="IAutoStart.cs" />
+    <Compile Include="Repository\IRepository.cs" />
+    <Compile Include="ITemplateEngine.cs" />
+    <Compile Include="ITypeFinder.cs" />
+    <Compile Include="Logging\AbstractLoggerFactory.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\ILoggerFactory.cs" />
+    <Compile Include="Logging\LogManager.cs" />
+    <Compile Include="Caching\CacheProvider.cs" />
+    <Compile Include="Caching\JCache.cs" />
+    <Compile Include="Config\Attribute.cs" />
+    <Compile Include="Config\ConfigException.cs" />
+    <Compile Include="Config\ConfigBase.cs" />
+    <Compile Include="Config\ConfigWithProviders.cs" />
+    <Compile Include="Config\Configuration.cs" />
+    <Compile Include="KissException.cs" />
+    <Compile Include="Repository\IQueryObject.cs" />
+    <Compile Include="Repository\Obj.cs" />
+    <Compile Include="ProviderHelper.cs" />
+    <Compile Include="Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Query\QueryCondition.cs" />
+    <Compile Include="Query\QueryException.cs" />
+    <Compile Include="Query\IQuery.cs" />
+    <Compile Include="Query\QueryFactory.cs" />
+    <Compile Include="ServiceLocator.cs" />
+    <Compile Include="SingleEntryGate.cs" />
+    <Compile Include="Repository\ExtendedAttributes.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\AssertUtils.cs" />
+    <Compile Include="Utils\FTPClient.cs" />
+    <Compile Include="Utils\Imaging\AnimatedGifDecoder.cs" />
+    <Compile Include="Utils\Imaging\BaseImage.cs" />
+    <Compile Include="Utils\Imaging\ExifProperty.cs" />
+    <Compile Include="Utils\Imaging\ExifReader.cs" />
+    <Compile Include="Utils\Imaging\GifFrame.cs" />
+    <Compile Include="Utils\Imaging\IImage.cs" />
+    <Compile Include="Utils\Imaging\IImageTransform.cs" />
+    <Compile Include="Utils\Imaging\ImageUtil.cs" />
+    <Compile Include="Utils\Imaging\ImpScaleTransform.cs" />
+    <Compile Include="Utils\Imaging\ImpSquareScaleTransform.cs" />
+    <Compile Include="Utils\Imaging\WatermarkPosition.cs" />
+    <Compile Include="Utils\KeyWordFilter.cs" />
+    <Compile Include="Utils\Pinyin.cs" />
+    <Compile Include="Utils\PropertiesParser.cs" />
+    <Compile Include="Utils\ResourceUtil.cs" />
+    <Compile Include="Utils\SecurityUtil.cs" />
+    <Compile Include="Utils\StreamUtil.cs" />
+    <Compile Include="Utils\TypeResolver\CachedTypeResolver.cs" />
+    <Compile Include="Utils\DataUtil.cs" />
+    <Compile Include="Utils\Enum\EnumerationExtensions.cs" />
+    <Compile Include="Utils\Enum\StringEnum.cs" />
+    <Compile Include="Utils\ExceptionUtils.cs" />
+    <Compile Include="Utils\TypeResolver\FatalObjectException.cs" />
+    <Compile Include="Utils\FileUtil.cs" />
+    <Compile Include="Utils\GZipUtil.cs" />
+    <Compile Include="Utils\TypeResolver\ITypeResolver.cs" />
+    <Compile Include="Utils\Net\HttpPostItem.cs" />
+    <Compile Include="Utils\Net\HttpRequest.cs" />
+    <Compile Include="Utils\TypeResolver\ObjectUtils.cs" />
+    <Compile Include="Utils\Serializer.cs" />
+    <Compile Include="Utils\ServerUtil.cs" />
+    <Compile Include="Singleton.cs" />
+    <Compile Include="Utils\SqlHelper.cs" />
+    <Compile Include="Utils\StringUtil.cs" />
+    <Compile Include="Utils\StringWrapper.cs" />
+    <Compile Include="Utils\TxtLogger.cs" />
+    <Compile Include="Utils\TypeConvertUtil.cs" />
+    <Compile Include="Utils\TypeResolver\TypeRegistry.cs" />
+    <Compile Include="Utils\TypeResolver\TypeResolver.cs" />
+    <Compile Include="Utils\XmlUtil.cs" />
+    <Compile Include="Utils\StringUtilExtended.cs" />
+    <Compile Include="Validation\Attributes\CompareValidatorAttribute.cs" />
+    <Compile Include="Validation\Attributes\CustomValidatorAttribute.cs" />
+    <Compile Include="Validation\Attributes\LengthValidatorAttribute.cs" />
+    <Compile Include="Validation\Attributes\RangeValidatorAttribute.cs" />
+    <Compile Include="Validation\Attributes\RegexValidatorAttribute.cs" />
+    <Compile Include="Validation\Attributes\RequiredValidatorAttribute.cs" />
+    <Compile Include="Validation\Attributes\ValidatorAttribute.cs" />
+    <Compile Include="Validation\Attributes\NotNullValidatorAttribute.cs" />
+    <Compile Include="Validation\ValidationException.cs" />
+    <Compile Include="Validation\ValidationManager.cs" />
+    <Compile Include="Validation\Validators\CompareValidator.cs" />
+    <Compile Include="Validation\Validators\CustomValidator.cs" />
+    <Compile Include="Validation\Validators\LengthValidator.cs" />
+    <Compile Include="Validation\Validators\RangeValidator.cs" />
+    <Compile Include="Validation\Validators\RegexValidator.cs" />
+    <Compile Include="Validation\Validators\RequiredValidator.cs" />
+    <Compile Include="Validation\Validators\Validator.cs" />
+    <Compile Include="Validation\Validators\NotNullValidator.cs" />
+    <Compile Include="XmlTransform\IXmlOriginalDocumentService.cs" />
+    <Compile Include="XmlTransform\IXmlTransformationLogger.cs" />
+    <Compile Include="XmlTransform\NamedTypeFactory.cs" />
+    <Compile Include="XmlTransform\PositionTrackingTextReaders.cs" />
+    <Compile Include="XmlTransform\SR1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SR.resx</DependentUpon>
+    </Compile>
+    <Compile Include="XmlTransform\XmlArgumentUtility.cs" />
+    <Compile Include="XmlTransform\XmlAttributePreservationDict.cs" />
+    <Compile Include="XmlTransform\XmlAttributePreservationProvider.cs" />
+    <Compile Include="XmlTransform\XmlAttributePreservingWriter.cs" />
+    <Compile Include="XmlTransform\XmlAttributeTransform.cs" />
+    <Compile Include="XmlTransform\XmlElementContext.cs" />
+    <Compile Include="XmlTransform\XmlFileInfoDocument.cs" />
+    <Compile Include="XmlTransform\XmlFormatter.cs" />
+    <Compile Include="XmlTransform\XmlLocator.cs" />
+    <Compile Include="XmlTransform\XmlLocators.cs" />
+    <Compile Include="XmlTransform\XmlNodeContext.cs" />
+    <Compile Include="XmlTransform\XmlNodeException.cs" />
+    <Compile Include="XmlTransform\XmlTransform.cs" />
+    <Compile Include="XmlTransform\XmlTransformableDocument.cs" />
+    <Compile Include="XmlTransform\XmlTransformation.cs" />
+    <Compile Include="XmlTransform\XmlTransformationException.cs" />
+    <Compile Include="XmlTransform\XmlTransformationLogger.cs" />
+    <Compile Include="XmlTransform\XmlTransforms.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XmlTransform\SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SR1.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>Kiss.XmlTransform</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
