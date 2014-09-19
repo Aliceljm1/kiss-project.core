@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Kiss.Utils.Server
 {
-    class ByteString
+    public class ByteString
     {
         byte[] _bytes;
         int _offset;

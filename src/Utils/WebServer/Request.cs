@@ -12,7 +12,7 @@ using Microsoft.Win32.SafeHandles;
 namespace Kiss.Utils.Server
 {
 
-    class Request : SimpleWorkerRequest
+    public class Request : SimpleWorkerRequest
     {
         static char[] badPathChars = new char[] { '%', '>', '<', ':', '\\' };
         static string[] defaultFileNames = new string[] { "default.aspx", "default.htm", "default.html" };

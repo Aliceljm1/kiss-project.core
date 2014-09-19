@@ -10,7 +10,7 @@ using System.Web.Hosting;
 
 namespace Kiss.Utils.Server
 {
-    class Server : MarshalByRefObject
+    public class Server : MarshalByRefObject
     {
         int _port;
         string _virtualPath;

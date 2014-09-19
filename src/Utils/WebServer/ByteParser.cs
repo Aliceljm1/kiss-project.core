@@ -1,7 +1,7 @@
 
 namespace Kiss.Utils.Server
 {
-    class ByteParser
+    public class ByteParser
     {
         byte[] _bytes;
         int _pos;
