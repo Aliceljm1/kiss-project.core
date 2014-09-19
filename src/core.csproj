@@ -179,6 +179,13 @@
     <Compile Include="Utils\TypeConvertUtil.cs" />
     <Compile Include="Utils\TypeResolver\TypeRegistry.cs" />
     <Compile Include="Utils\TypeResolver\TypeResolver.cs" />
+    <Compile Include="Utils\WebServer\ByteParser.cs" />
+    <Compile Include="Utils\WebServer\ByteString.cs" />
+    <Compile Include="Utils\WebServer\Connection.cs" />
+    <Compile Include="Utils\WebServer\Host.cs" />
+    <Compile Include="Utils\WebServer\Messages.cs" />
+    <Compile Include="Utils\WebServer\Request.cs" />
+    <Compile Include="Utils\WebServer\Server.cs" />
     <Compile Include="Utils\XmlUtil.cs" />
     <Compile Include="Utils\StringUtilExtended.cs" />
     <Compile Include="Validation\Attributes\CompareValidatorAttribute.cs" />
