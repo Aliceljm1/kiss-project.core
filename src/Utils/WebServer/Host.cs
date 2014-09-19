@@ -6,7 +6,7 @@ using System.Web.Hosting;
 
 namespace Kiss.Utils.Server
 {
-    class Host : MarshalByRefObject, IRegisteredObject
+    public class Host : MarshalByRefObject, IRegisteredObject
     {
         Server _server;
 
