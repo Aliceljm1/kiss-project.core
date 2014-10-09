@@ -366,7 +366,7 @@ namespace Kiss.Json
             if (long.TryParse(match.Groups["ticks"].Value, out num))
             {
                 this._s.MoveNext(match.Length);
-                return new DateTime((num * 0x2710L) + JavaScriptSerializer.DatetimeMinTimeTicks, DateTimeKind.Utc);
+                return new DateTime((num * 0x2710L) + JavaScriptSerializer.DatetimeMinTimeTicks, DateTimeKind.Utc).ToLocalTime();
             }
             return this.DeserializeString();
         }
